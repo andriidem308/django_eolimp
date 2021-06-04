@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% include 'students/_header.html' with active='taken' %}
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Task</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for taken_task in taken_tasks %}
+          <tr>
+            <td>{{ taken_task.task.title }}</td>
+            <td>{{ taken_task.task.condition }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="bg-light text-center font-italic" colspan="3">You haven't completed any quiz yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

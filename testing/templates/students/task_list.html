@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% include 'students/_header.html' with active='new' %}
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Quiz</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td class="align-middle">{{ task.title }}</td>
+            <td class="text-right">
+              <a href="{% url 'students:take_task' task.pk %}" class="btn btn-primary">Load Solution</a>
+            </td>
+          </tr>
+        {% empty %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
