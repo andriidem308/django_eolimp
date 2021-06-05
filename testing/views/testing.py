@@ -1,7 +1,6 @@
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from django.contrib.auth import logout as _logout
 from django.contrib.auth.decorators import login_required
 from ..models import User
 

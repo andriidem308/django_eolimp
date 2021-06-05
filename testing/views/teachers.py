@@ -1,16 +1,12 @@
-from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
-from django.db.models import Avg, Count
-from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
-from ..decorators import teacher_required, log_highlight
+from ..decorators import teacher_required
 from ..forms import TeacherSignUpForm, TaskCreateForm, MaterialCreateForm
 from ..models import Task, User, Material, Student, TakenTask
 
@@ -52,7 +48,6 @@ def task_add(request):
             return HttpResponseRedirect('../../')
     else:
         form = TaskCreateForm()
-        log_highlight('NOT LOADED!')
     return render(request, 'teachers/task_add_form.html', {'form': form})
 
 

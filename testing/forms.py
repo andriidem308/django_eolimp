@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from django.forms.utils import ValidationError
 
 from django_eolimp.settings import SECRET_KEY_TEACHER
 from .models import Student, User, Task, Solution, Material
@@ -13,7 +12,6 @@ class TeacherSignUpForm(UserCreationForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Прізвище'}),
                                 max_length=32, label='')
 
-    # username = forms.CharField(forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Пошта'}),
                              max_length=64, label='')
 
@@ -55,7 +53,6 @@ class StudentSignUpForm(UserCreationForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Прізвище'}),
                                 max_length=32, label='')
 
-    # username = forms.CharField(forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Пошта'}),
                              max_length=64, label='')
 
