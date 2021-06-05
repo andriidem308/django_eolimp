@@ -4,11 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView
 
 from ..decorators import student_required
 from ..forms import StudentSignUpForm, TakeTaskForm
-from ..models import Task, Student, User, TakenTask, Material
+from ..models import Task, User, TakenTask, Material
 
 from ..services.code_solver import inp_out_cmd, inp_out_file
 

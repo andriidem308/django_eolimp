@@ -1,6 +1,0 @@
-a = int(input())
-b = int(input())
-c = int(input())
-print(1)
-print(1)
-print(13)
