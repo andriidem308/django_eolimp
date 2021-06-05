@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2 class="mb-3">Студенти</h2>
+  <div class="card">
+    <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>Прізвище</th>
+                    <th>Ім'я</th>
+                    <th>Середній бал</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for k, v in data.items %}
+                <tr>
+                    <td class="align-middle">{{ v.last_name }}</td>
+                    <td class="align-middle">{{ v.first_name }}</td>
+                    <td class="align-middle">{{ v.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+  </div>
+{% endblock %}

@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from django.forms.utils import ValidationError
 
+from django_eolimp.settings import SECRET_KEY_TEACHER
 from .models import Student, User, Task, Solution, Material
 
 
@@ -12,7 +12,6 @@ class TeacherSignUpForm(UserCreationForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Прізвище'}),
                                 max_length=32, label='')
 
-    # username = forms.CharField(forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Пошта'}),
                              max_length=64, label='')
 
@@ -23,9 +22,12 @@ class TeacherSignUpForm(UserCreationForm):
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Підтвердження паролю'}), label='')
 
+    secret_key = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Код доступу'}), label='')
+
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'email',) + UserCreationForm.Meta.fields
+        fields = ('first_name', 'last_name', 'email',) + UserCreationForm.Meta.fields + ('secret_key', )
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -34,6 +36,16 @@ class TeacherSignUpForm(UserCreationForm):
             user.save()
         return user
 
+    def clean(self):
+        super().clean()
+        secret_key = self.cleaned_data.get('secret_key')
+        if secret_key:
+            if secret_key != SECRET_KEY_TEACHER:
+                raise forms.ValidationError(
+                    'You must be a teacher to sign up as a teacher!',
+                    code='password_mismatch',
+                )
+
 
 class StudentSignUpForm(UserCreationForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Ім'я"}),
@@ -41,7 +53,6 @@ class StudentSignUpForm(UserCreationForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Прізвище'}),
                                 max_length=32, label='')
 
-    # username = forms.CharField(forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Пошта'}),
                              max_length=64, label='')
 
@@ -65,10 +76,11 @@ class StudentSignUpForm(UserCreationForm):
 
 class TakeTaskForm(forms.ModelForm):
     text = forms.CharField(widget=forms.Textarea(), label='')
+    use_files = forms.BooleanField(required=False, label='Код використовує файли введення/виведення')
 
     class Meta:
         model = Solution
-        fields = ['text']
+        fields = ['text', 'use_files']
 
 
 class TaskCreateForm(forms.ModelForm):

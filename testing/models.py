@@ -1,9 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from django.utils.html import escape, mark_safe
-# Create your models here.
-
 
 class User(AbstractUser):
     is_student = models.BooleanField(default=False)
@@ -21,11 +18,6 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     tasks = models.ManyToManyField(Task, through='TakenTask')
 
-    # def get_unsolved_tasks(self, all_tasks):
-    #     taken_tasks = self.taken_tasks
-    #     unsolved_tasks = all_tasks.exclude(pk__in=taken_tasks).order_by('title')
-    #     return unsolved_tasks
-
     def __str__(self):
         return self.user.username
 
@@ -40,6 +32,7 @@ class Solution(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='task_solutions')
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='solutions')
     text = models.TextField(default='')
+    use_files = models.BooleanField(default=False)
 
 
 class Material(models.Model):

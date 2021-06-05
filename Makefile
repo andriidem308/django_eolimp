@@ -13,5 +13,5 @@ migrate:
 createsuperuser:
 	$(MANAGE) createsuperuser
 
-lint:
-	flake8 .
+requirements:
+	pip install -r requirements.txt

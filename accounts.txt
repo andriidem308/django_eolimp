@@ -1,0 +1,16 @@
+# Teacher secret key
+TEACHER_SECRET_KEY
+
+# Password (common for all users)
+qazwsxokmijn1020
+
+# Teacher
+artur_min
+qazwsxokmijn1020
+
+# Students
+user01
+user02
+user03
+user04
+

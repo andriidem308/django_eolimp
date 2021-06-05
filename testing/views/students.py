@@ -2,17 +2,15 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView
 
-from ..decorators import student_required, log_highlight
+from ..decorators import student_required
 from ..forms import StudentSignUpForm, TakeTaskForm
-from ..models import Task, Student, User, TakenTask, Material
+from ..models import Task, User, TakenTask, Material
 
-from ..services.code_solver import inp_out_cmd
+from ..services.code_solver import inp_out_cmd, inp_out_file
 
 
 class StudentSignUpView(CreateView):
@@ -71,12 +69,24 @@ def take_task(request, pk):
                 student_solution = form.save(commit=False)
                 student_solution.student = student
                 student_solution.task = task
+                use_files = student_solution.use_files
                 student_solution.save()
 
                 input_file = student_solution.task.input_file.path
                 output_file = student_solution.task.output_file.path
 
-                score = inp_out_cmd(student_solution.text, input_file, output_file)
+                if use_files:
+                    try:
+                        score = inp_out_file(student_solution.text, input_file, output_file)
+                    except AssertionError:
+                        messages.warning(request, 'Файл використовує стандартні потоки введення/виведення!')
+                        return render(request, 'students/take_task_form.html', {
+                            'task': task,
+                            'form': form,
+                        })
+
+                else:
+                    score = inp_out_cmd(student_solution.text, input_file, output_file)
 
                 if student.taken_tasks.filter(task=task).exists():
                     student.taken_tasks.filter(task=task).update(score=score)
