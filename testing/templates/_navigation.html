@@ -1,0 +1,14 @@
+<ul class="nav nav-tabs mb-3" style="margin-top: 30px">
+    <li class="nav-item">
+        <a class="nav-link" href="{% if user.is_student %}{% url 'students:material_list' %}
+                {% else %}{% url 'teachers:material_change_list' %}{% endif %}">Матеріали</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link"
+            href="{% if user.is_student %}{% url 'students:task_list' %}
+                {% else %}{% url 'teachers:task_change_list' %}{% endif %}">Задачі</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'my_account' %}">Профіль</a>
+    </li>
+</ul>

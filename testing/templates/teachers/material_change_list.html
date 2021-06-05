@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page"></li>
+    </ol>
+  </nav>
+  <h2 class="mb-3">Усі Матеріали</h2>
+  <a href="{% url 'teachers:material_add' %}" class="btn btn-primary mb-3" role="button">Додати матеріал</a>
+  <div class="card">
+    <div class="card">
+        <ul class="card-body">
+            {% for material in materials %}
+            <h4 class="card-title"><a href="{% url 'teachers:material_change' material.pk %}">{{ material.title }}</a></h4>
+            <li class="row">
+                <span class="grey summary card-subtitle p-3">{{ material.description }}</span>
+            </li>
+
+            <a href="{{ material.attachment.url }}" download>Завантажити додаток</a>
+            <hr>
+            {% endfor %}
+        </ul>
+    </div>
+  </div>
+{% endblock %}

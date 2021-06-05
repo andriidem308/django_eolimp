@@ -4,15 +4,15 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Avg, Count
 from django.forms import inlineformset_factory
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, ListView, UpdateView
 
-from ..decorators import teacher_required
-from ..forms import TeacherSignUpForm
-from ..models import Task, User
+from ..decorators import teacher_required, log_highlight
+from ..forms import TeacherSignUpForm, TaskCreateForm, MaterialCreateForm
+from ..models import Task, User, Material
 
 
 class TeacherSignUpView(CreateView):
@@ -42,38 +42,68 @@ class TasksListView(ListView):
         return queryset
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class TaskCreateView(CreateView):
-    model = Task
-
-    # input_text = ''
-    # output_text = ''
-    fields = ('title', 'condition')
-    template_name = 'teachers/task_add_form.html'
-
-    def form_valid(self, form):
-        task = form.save(commit=False)
-        task.owner = self.request.user
-        task.save()
-        messages.success(self.request, 'Завдання було створено!.')
-        return redirect('teachers:task_change', task.pk)
+@login_required
+@teacher_required
+def task_add(request):
+    if request.method == 'POST':
+        form = TaskCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('../../')
+    else:
+        form = TaskCreateForm()
+        log_highlight('NOT LOADED!')
+    return render(request, 'teachers/task_add_form.html', {'form': form})
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
 class TaskUpdateView(UpdateView):
     model = Task
-    fields = ('title', 'condition', )
+    fields = ('title', 'condition', 'input_file', 'output_file')
     context_object_name = 'task'
     template_name = 'teachers/task_change_form.html'
 
     def get_queryset(self):
-        """
-        This method is an implicit object-level permission management
-        This view will only match the ids of existing quizzes that belongs
-        to the logged in user.
-        """
         return Task.objects.all()
 
     def get_success_url(self):
         return reverse('teachers:task_change', kwargs={'pk': self.object.pk})
 
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class MaterialsListView(ListView):
+    model = Material
+    ordering = ('date', )
+    context_object_name = 'materials'
+    template_name = 'teachers/material_change_list.html'
+
+    def get_queryset(self):
+        queryset = Material.objects.all()
+        return queryset
+
+
+@login_required
+@teacher_required
+def material_add(request):
+    if request.method == 'POST':
+        form = MaterialCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('../../')
+    else:
+        form = MaterialCreateForm()
+    return render(request, 'teachers/material_add_form.html', {'form': form})
+
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class MaterialUpdateView(UpdateView):
+    model = Material
+    fields = ('title', 'description', 'attachment',)
+    context_object_name = 'material'
+    template_name = 'teachers/material_change_form.html'
+
+    def get_queryset(self):
+        return Material.objects.all()
+
+    def get_success_url(self):
+        return reverse('teachers:material_change', kwargs={'pk': self.object.pk})

@@ -30,3 +30,9 @@ def teacher_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, log
     if function:
         return actual_decorator(function)
     return actual_decorator
+
+
+def log_highlight(*logs):
+    print('*' * 50)
+    print(*logs, sep='\n')
+    print('*' * 50)
