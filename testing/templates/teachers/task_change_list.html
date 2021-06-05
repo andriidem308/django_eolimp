@@ -1,11 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Усі задачі</li>
-        </ol>
-    </nav>
     <h2 class="mb-3">Задачі</h2>
     <a href="{% url 'teachers:task_add' %}" class="btn btn-primary mb-3" role="button">Нова задача</a>
     <div class="card">
@@ -13,18 +8,16 @@
             <thead>
                 <tr>
                     <th>Задача</th>
-                    <th>Середній бал</th>
                 </tr>
             </thead>
             <tbody>
                 {% for task in tasks %}
                 <tr>
                     <td class="align-middle"><a href="{% url 'teachers:task_change' task.pk %}">{{ task.title }}</a></td>
-                    <td class="align-middle">{{ task.title }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td class="bg-light text-center font-italic" colspan="5">You haven't created any quiz yet.</td>
+                    <td class="bg-light text-center font-italic" colspan="5">Ви не додали ще ні одної задачі.</td>
                 </tr>
                 {% endfor %}
             </tbody>

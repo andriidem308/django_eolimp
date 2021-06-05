@@ -3,24 +3,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'teachers:task_change_list' %}">Усі задачі</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{{ task.title }}</li>
-    </ol>
-  </nav>
-  <h2 class="mb-3">
-    Задача {{ task.title }}
-  </h2>
-  <div class="row mb-3">
-    <div class="col-md-6 col-sm-8 col-12">
-      <form method="post" novalidate>
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Зберегти зміни</button>
-        <a href="{% url 'teachers:task_change_list' %}" class="btn btn-outline-secondary" role="button">Відмінити</a>
-{#        <a href="{% url 'teachers:task_delete' quiz.pk %}" class="btn btn-danger float-right">Delete</a>#}
-      </form>
+    <h2 class="mb-3">Задача {{ task.title }}</h2>
+    <div class="row mb-3">
+        <div class="col-md-6 col-sm-8 col-12">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-success">Зберегти зміни</button>
+                <a href="{% url 'teachers:task_change_list' %}" class="btn btn-outline-secondary" role="button">Відмінити</a>
+                {#        <a href="{% url 'teachers:task_delete' quiz.pk %}" class="btn btn-danger float-right">Delete</a>#}
+            </form>
+        </div>
     </div>
-  </div>
 {% endblock %}

@@ -12,7 +12,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from ..decorators import teacher_required, log_highlight
 from ..forms import TeacherSignUpForm, TaskCreateForm, MaterialCreateForm
-from ..models import Task, User, Material
+from ..models import Task, User, Material, Student, TakenTask
 
 
 class TeacherSignUpView(CreateView):
@@ -107,3 +107,35 @@ class MaterialUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('teachers:material_change', kwargs={'pk': self.object.pk})
+
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class StudentsListView(ListView):
+    model = Student
+    ordering = ('first_name', )
+    context_object_name = 'students'
+    template_name = 'teachers/students_list.html'
+
+    def get_queryset(self):
+        return Student.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        students = Student.objects.all()
+        data = {}
+        n = Task.objects.all().count()
+        for i, st in enumerate(students):
+            taken_tasks = TakenTask.objects.filter(student_id=st)
+            if n == 0:
+                s = 0
+            else:
+                s = round(sum([tt.score for tt in taken_tasks]) / n, 2)
+            st.user.score = s
+            data[st.user.username] = st.user
+
+        context['data'] = data
+        return context
+
+
+
+

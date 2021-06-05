@@ -7,8 +7,10 @@
     <p class="lead">{{ task.condition }}</p>
     <form method="post" novalidate>
         {% csrf_token %}
-{#        {{ form}}#}
         {{ form | crispy }}
-        <button type="submit" class="btn btn-primary">Next →</button>
+{#        <input type="checkbox" id="use_files" name="use_files">#}
+{#        <label for="use_files">Код використовує файли введення/виведення</label>#}
+{#        <br><br>#}
+        <button type="submit" class="btn btn-primary">Відправити розв'язок</button>
     </form>
 {% endblock %}

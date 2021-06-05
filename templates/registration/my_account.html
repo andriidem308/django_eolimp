@@ -14,7 +14,7 @@
           <p><b>Пошта:</b> {{ user.email }}</p>
           <p><b>username:</b> {{ user.username }}</p>
         {{ form | crispy }}
-        <button type="submit" class="btn btn-success">Sign up</button>
+        <a href="{% url 'logout' %}" class="btn btn-warning" role="button">Вийти з акаунту</a>
       </form>
     </div>
   </div>

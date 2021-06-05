@@ -24,7 +24,7 @@ urlpatterns = [
         path('materials/', teachers.MaterialsListView.as_view(), name='material_change_list'),
         path('materials/add/', teachers.material_add, name='material_add'),
         path('materials/<int:pk>/', teachers.MaterialUpdateView.as_view(), name='material_change'),
-
+        path('students/', teachers.StudentsListView.as_view(), name='students_list')
         # path('task/<int:pk>/delete/', teachers.QuizDeleteView.as_view(), name='task_delete'),
     ], 'testing'), namespace='teachers')),
 

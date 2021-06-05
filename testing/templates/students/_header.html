@@ -2,9 +2,9 @@
 
 <ul class="nav nav-tabs mb-3" style="margin-top: 20px">
   <li class="nav-item">
-    <a class="nav-link{% if active_tab == 'task' %} active {% endif %}" href="{% url 'students:task_list' %}">New</a>
+    <a class="nav-link{% if active_tab == 'task' %} active {% endif %}" href="{% url 'students:task_list' %}">Треба здати</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link{% if active_tab == 'taken' %} active {% endif %}" href="{% url 'students:taken_task_list' %}">Taken</a>
+    <a class="nav-link{% if active_tab == 'taken' %} active {% endif %}" href="{% url 'students:taken_task_list' %}">Виконані</a>
   </li>
 </ul>

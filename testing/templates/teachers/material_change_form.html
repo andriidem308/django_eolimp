@@ -3,12 +3,6 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'teachers:material_change_list' %}">Усі Матеріали</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ material.title }}</li>
-        </ol>
-    </nav>
         <h2 class="mb-3">Матеріал {{ material.title }}</h2>
     <div class="left-side row mb-3">
         <div class="col-md-6 col-sm-8 col-12">
@@ -24,20 +18,6 @@
     <div class="right-side">
 
     </div>
-    <style>
-        .left-side {
-            width: 70%;
-            min-height: 150px;
-            background: #ccc;
-            float: left;
-        }
-        .right-side {
-            width: 30%;
-            min-height: 150px;
-            background: #84c43f;
-            float: right;
-        }
-    </style>
 
 
 
