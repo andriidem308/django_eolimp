@@ -10,15 +10,17 @@ class User(AbstractUser):
 
 
 class Task(models.Model):
-    title = models.CharField('Назва', max_length=30)
+    title = models.CharField('Назва:', max_length=30)
     condition = models.TextField('Умова')
-    input_file = models.FileField('Вхідні дані')
-    output_file = models.FileField('Розвязок')
+    input_file = models.FileField('Вхідні дані', upload_to='test_files/')
+    output_file = models.FileField('Вихідні дані', upload_to='test_files/')
+    # input_text = models.TextField()
+    # output_text = models.TextField()
 
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    tasks = models.ManyToManyField(Task)
+    tasks = models.ManyToManyField(Task, through='TakenTask')
 
     # def get_unsolved_tasks(self, all_tasks):
     #     taken_tasks = self.taken_tasks
@@ -32,16 +34,11 @@ class Student(models.Model):
 class TakenTask(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='taken_tasks')
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='taken_tasks')
-    score = models.FloatField()
-    # date = models.DateTimeField(auto_now_add=True)
-
-
-class Solution(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='solutions')
-    text = models.TextField()
     score = models.FloatField(default=0)
 
 
-class StudentSolution(models.Model):
+class Solution(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='task_solutions')
-    solution = models.ForeignKey(Solution, on_delete=models.CASCADE, related_name='task_solutions')
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='solutions')
+    text = models.TextField(default='')
+

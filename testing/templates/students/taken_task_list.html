@@ -7,13 +7,14 @@
       <thead>
         <tr>
           <th>Task</th>
+          <th>Score</th>
         </tr>
       </thead>
       <tbody>
         {% for taken_task in taken_tasks %}
           <tr>
             <td>{{ taken_task.task.title }}</td>
-            <td>{{ taken_task.task.condition }}</td>
+            <td>{{ taken_task.score }}</td>
           </tr>
         {% empty %}
           <tr>

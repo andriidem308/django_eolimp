@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 from testing.views import testing, students, teachers
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import auth_logout
 
 
 urlpatterns = [
@@ -28,6 +29,8 @@ urlpatterns = [
     #                                             redirect_authenticated_user=True), name='login'),
     # path('accounts/logout/', auth_views.LogoutView.as_view(template_name='home.html'), name='logout'),
     # path('accounts/logout/', testing.logout, name='logout'),
+
+    path('accounts/my_account/', testing.AccountView.as_view(), name='my_account'),
     path('accounts/signup/', testing.SignUpView.as_view(), name='signup'),
     path('accounts/signup/student/', students.StudentSignUpView.as_view(), name='student_signup'),
     path('accounts/signup/teacher/', teachers.TeacherSignUpView.as_view(), name='teacher_signup'),
