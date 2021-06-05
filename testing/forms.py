@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 from django.forms.utils import ValidationError
 
-from .models import Student, User, Task, Solution, TakenTask
+from .models import Student, User, Task, Solution, Material
 
 
 class TeacherSignUpForm(UserCreationForm):
@@ -75,5 +75,11 @@ class TaskCreateForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['title', 'condition', 'input_file', 'output_file']
+
+
+class MaterialCreateForm(forms.ModelForm):
+    class Meta:
+        model = Material
+        fields = ['title', 'description', 'attachment']
 
 

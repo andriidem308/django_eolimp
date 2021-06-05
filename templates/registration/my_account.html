@@ -11,6 +11,7 @@
       <form method="post" novalidate>
         {% csrf_token %}
           <p><b>Прізвище, Імя:</b> {{ user.first_name }} {{ user.last_name }}</p>
+          <p><b>Пошта:</b> {{ user.email }}</p>
           <p><b>username:</b> {{ user.username }}</p>
         {{ form | crispy }}
         <button type="submit" class="btn btn-success">Sign up</button>

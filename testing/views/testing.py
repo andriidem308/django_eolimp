@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.contrib.auth import logout as _logout
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,7 @@ class SignUpView(TemplateView):
     template_name = 'registration/signup.html'
 
 
+@method_decorator([login_required], name='dispatch')
 class AccountView(TemplateView):
     model = User
     context_object_name = 'user'
@@ -17,21 +19,5 @@ class AccountView(TemplateView):
 
 def home(request):
     if request.user.is_authenticated:
-        if request.user.is_teacher:
-            return redirect('home')
-        else:
-            return redirect('home')
+        return redirect('my_account')
     return render(request, 'home.html')
-
-
-@login_required
-def my_account(request):
-    user = request.user
-    return render(request, 'registration/my_account.html', context={'user': user})
-
-def signup(request):
-    return render(request, 'registration/signup.html')
-
-
-def signup_form(request):
-    return render(request, 'registration/signup_form.html')

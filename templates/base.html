@@ -8,13 +8,8 @@
     <link rel="icon" href="{% static 'img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-2f186091/css/fontello.css' %}">
-    <link rel="stylesheet" type='text/css' href="{% static 'css/app.css' %}">
-    {% if user.is_authenticated and user.is_teacher %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
-    {% else %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/students.css' %}">
-    {% endif %}
+    <link rel="stylesheet" type='text/css' href="{% static 'css/style.css' %}">
+
   </head>
   <body>
     <div class="container my-4">
@@ -22,46 +17,26 @@
         <div class="col-md-10 col-sm-12">
           <div class="row">
             <div class="col-6">
-              <h1 class="logo">
-                <a href="{% url 'home' %}">
-                  Testing Service
-                  {% if user.is_authenticated %}
-                    {% if user.is_teacher %}
-                      <span class="icon-feather" data-toggle="tooltip" data-placement="right" title="Teacher profile"></span>
-                    {% else %}
-                      <span class="icon-graduation-cap" data-toggle="tooltip" data-placement="right" title="Student profile"></span>
-                    {% endif %}
-                  {% endif %}
-                </a>
+              <h1 class="">
+                <a href="{% url 'home' %}">Testing Service</a>
               </h1>
             </div>
             <div class="col-6 text-right">
               {% if user.is_authenticated %}
                 <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>
-                    <a href="{% url 'logout' %}">Log out</a>.
+                    <a href="{% url 'logout' %}"> | Вийти</a>.
                 </p>
               {% else %}
-                <a href="{% url 'login' %}" class="btn btn-light" role="button">Log in</a>
-                <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Sign up</a>
+                <a href="{% url 'login' %}" class="btn btn-light" role="button">Увійти</a>
+                <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Зареєструватись</a>
               {% endif %}
             </div>
           </div>
         {% if user.is_authenticated %}
-            <ul class="nav nav-tabs mb-3" style="margin-top: 30px">
-                <li class="nav-item">
-                    <a class="nav-link{% if active == 'new' %} active {% endif %}" href="{% url 'students:task_list' %}">Матеріали</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if active == 'taken' %} active {% endif %}" href="{% url 'students:task_list' %}">Задачі</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if active == 'taken' %} active {% endif %}" href="{% url 'my_account' %}">Профіль</a>
-                </li>
-            </ul>
+            {% include '_navigation.html' with user=user%}
         {% endif %}
           <div class="card mb-3" style="margin-top: 15px">
             <div class="card-body">
-
               {% block content %}
               {% endblock %}
             </div>
@@ -69,13 +44,7 @@
         </div>
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      })
-    </script>
   </body>
 </html>

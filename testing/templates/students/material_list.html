@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<ul>
+    {% for material in materials %}
+    <h4 class="card-title"><a href="{% url 'teachers:material_change' material.pk %}">{{ material.title }}</a></h4>
+    <li class="row">
+        <span class="grey summary card-subtitle">{{ material.description }}</span>
+    </li>
+        <a href="{{ material.attachment.url }}" download>Завантажити додаток</a>
+    <hr>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -6,8 +6,9 @@
     <table class="table mb-0">
       <thead>
         <tr>
-          <th>Task</th>
-          <th>Score</th>
+          <th>Задача</th>
+          <th>Бали</th>
+          <th>Перездати</th>
         </tr>
       </thead>
       <tbody>
@@ -15,10 +16,11 @@
           <tr>
             <td>{{ taken_task.task.title }}</td>
             <td>{{ taken_task.score }}</td>
+            <td><a href="{% url 'students:take_task' taken_task.task.pk %}" class="btn btn-warning">Так</a></td>
           </tr>
         {% empty %}
           <tr>
-            <td class="bg-light text-center font-italic" colspan="3">You haven't completed any quiz yet.</td>
+            <td class="bg-light text-center font-italic" colspan="3">Ви ще не вирішили жодної задачі.</td>
           </tr>
         {% endfor %}
       </tbody>

@@ -10,7 +10,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from ..decorators import student_required, log_highlight
 from ..forms import StudentSignUpForm, TakeTaskForm
-from ..models import Task, Student, User, TakenTask
+from ..models import Task, Student, User, TakenTask, Material
 
 from ..services.code_solver import inp_out_cmd
 
@@ -62,12 +62,8 @@ def take_task(request, pk):
     task = get_object_or_404(Task, pk=pk)
     student = request.user.student
 
-    if student.tasks.filter(pk=pk).exists():
-        return render(request, 'students/taken_task_list.html')
-
     if request.method == 'POST':
         form = TakeTaskForm(data=request.POST)
-        print('aboba aboba')
 
         if form.is_valid():
 
@@ -82,7 +78,11 @@ def take_task(request, pk):
 
                 score = inp_out_cmd(student_solution.text, input_file, output_file)
 
-                TakenTask.objects.create(student=student, task=task, score=score)
+                if student.taken_tasks.filter(task=task).exists():
+                    student.taken_tasks.filter(task=task).update(score=score)
+
+                else:
+                    TakenTask.objects.create(student=student, task=task, score=score)
 
                 if score > 75.0:
                     messages.success(request, 'Чудово! Ви пройшли %d відсотків тестів.' % score)
@@ -97,3 +97,15 @@ def take_task(request, pk):
         'task': task,
         'form': form,
     })
+
+
+@method_decorator([login_required, student_required], name='dispatch')
+class MaterialListView(ListView):
+    model = Material
+    ordering = ('date', )
+    context_object_name = 'materials'
+    template_name = 'students/material_list.html'
+
+    def get_queryset(self):
+        queryset = Material.objects.all()
+        return queryset

@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% include 'students/_header.html' with active='new' %}
+  {% include 'students/_header.html' with active_tab='new' %}
   <div class="card">
     <table class="table mb-0">
       <thead>
         <tr>
-          <th>Quiz</th>
+          <th>Задача</th>
           <th></th>
         </tr>
       </thead>
@@ -15,7 +15,7 @@
           <tr>
             <td class="align-middle">{{ task.title }}</td>
             <td class="text-right">
-              <a href="{% url 'students:take_task' task.pk %}" class="btn btn-primary">Load Solution</a>
+              <a href="{% url 'students:take_task' task.pk %}" class="btn btn-primary">Розв'язати</a>
             </td>
           </tr>
         {% empty %}
