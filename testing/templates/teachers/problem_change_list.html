@@ -5,11 +5,6 @@
     <a href="{% url 'teachers:task_add' %}" class="btn btn-primary mb-3" role="button">Нова задача</a>
     <div class="card">
         <table class="table mb-0">
-            <thead>
-                <tr>
-                    <th>Задача</th>
-                </tr>
-            </thead>
             <tbody>
                 {% for problem in problems %}
                 <tr>
