@@ -1,14 +1,10 @@
-MANAGE = python3 manage.py
-PROJECT_DIR = $(shell pwd)
+MANAGE = python manage.py
 
 run:
 	$(MANAGE) runserver
 
-migrations:
-	$(MANAGE)  makemigrations
-
 migrate:
-	$(MANAGE) migrate
+	$(MANAGE) makemigrations && $(MANAGE) migrate
 
 createsuperuser:
 	$(MANAGE) createsuperuser
