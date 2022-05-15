@@ -6,9 +6,9 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
-from ..decorators import teacher_required
-from ..forms import TeacherSignUpForm, TaskCreateForm, MaterialCreateForm
-from ..models import Task, User, Material, Student, TakenTask
+from testing.decorators import teacher_required
+from testing.forms import TeacherSignUpForm, CreateProblemForm, LectureCreateForm
+from testing.models import Problem, User, Lecture, Student, Solution
 
 
 class TeacherSignUpView(CreateView):
@@ -28,77 +28,77 @@ class TeacherSignUpView(CreateView):
 
 @method_decorator([login_required, teacher_required], name='dispatch')
 class TasksListView(ListView):
-    model = Task
+    model = Problem
     ordering = ('title', )
-    context_object_name = 'tasks'
-    template_name = 'teachers/task_change_list.html'
+    context_object_name = 'problems'
+    template_name = 'teachers/problem_change_list.html'
 
     def get_queryset(self):
-        queryset = Task.objects.all()
+        queryset = Problem.objects.all()
         return queryset
 
 
 @login_required
 @teacher_required
-def task_add(request):
+def problem_add(request):
     if request.method == 'POST':
-        form = TaskCreateForm(request.POST, request.FILES)
+        form = CreateProblemForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            form.save(user=request.user, commit=False)
             return HttpResponseRedirect('../../')
     else:
-        form = TaskCreateForm()
-    return render(request, 'teachers/task_add_form.html', {'form': form})
+        form = CreateProblemForm()
+    return render(request, 'teachers/problem_add_form.html', {'form': form})
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
 class TaskUpdateView(UpdateView):
-    model = Task
-    fields = ('title', 'condition', 'input_file', 'output_file')
+    model = Problem
+    fields = ('groups', 'title', 'description', 'problem_value', 'deadline')
     context_object_name = 'task'
-    template_name = 'teachers/task_change_form.html'
+    template_name = 'teachers/problem_change_form.html'
 
     def get_queryset(self):
-        return Task.objects.all()
+        return Problem.objects.all()
 
     def get_success_url(self):
         return reverse('teachers:task_change', kwargs={'pk': self.object.pk})
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
-class MaterialsListView(ListView):
-    model = Material
+class LectureListView(ListView):
+    model = Lecture
     ordering = ('date', )
-    context_object_name = 'materials'
-    template_name = 'teachers/material_change_list.html'
+    context_object_name = 'lectures'
+    template_name = 'teachers/lecture_change_list.html'
 
     def get_queryset(self):
-        queryset = Material.objects.all()
+        queryset = Lecture.objects.all()
         return queryset
 
 
 @login_required
 @teacher_required
-def material_add(request):
+def lecture_add(request):
     if request.method == 'POST':
-        form = MaterialCreateForm(request.POST, request.FILES)
+        form = LectureCreateForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            form.save(user=request.user, commit=False)
             return HttpResponseRedirect('../../')
     else:
-        form = MaterialCreateForm()
-    return render(request, 'teachers/material_add_form.html', {'form': form})
+        form = LectureCreateForm()
+    return render(request, 'teachers/lecture_add_form.html', {'form': form})
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
-class MaterialUpdateView(UpdateView):
-    model = Material
-    fields = ('title', 'description', 'attachment',)
-    context_object_name = 'material'
-    template_name = 'teachers/material_change_form.html'
+class LectureUpdateView(UpdateView):
+    model = Lecture
+    fields = ('title', 'description')
+    context_object_name = 'lectures'
+    template_name = 'teachers/lecture_change_form.html'
 
     def get_queryset(self):
-        return Material.objects.all()
+        return Lecture.objects.all()
 
     def get_success_url(self):
         return reverse('teachers:material_change', kwargs={'pk': self.object.pk})
@@ -118,15 +118,15 @@ class StudentsListView(ListView):
         context = super().get_context_data(**kwargs)
         students = Student.objects.all()
         data = {}
-        n = Task.objects.all().count()
+        n = Problem.objects.all().count()
         for i, st in enumerate(students):
-            taken_tasks = TakenTask.objects.filter(student_id=st)
+            solutions = Solution.objects.filter(student_id=st.pk)
             if n == 0:
                 s = 0
             else:
-                s = round(sum([tt.score for tt in taken_tasks]) / n, 2)
+                s = round(sum([tt.score for tt in solutions]) / n, 2)
             st.user.score = s
-            data[st.user.username] = st.user
+            data[st.user.email] = st.user
 
         context['data'] = data
         return context

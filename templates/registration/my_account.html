@@ -12,7 +12,6 @@
         {% csrf_token %}
           <p><b>Прізвище, Імя:</b> {{ user.first_name }} {{ user.last_name }}</p>
           <p><b>Пошта:</b> {{ user.email }}</p>
-          <p><b>username:</b> {{ user.username }}</p>
         {{ form | crispy }}
         <a href="{% url 'logout' %}" class="btn btn-warning" role="button">Вийти з акаунту</a>
       </form>

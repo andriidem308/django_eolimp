@@ -6,11 +6,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView
 
-from ..decorators import student_required
-from ..forms import StudentSignUpForm, TakeTaskForm
-from ..models import Task, User, TakenTask, Material
-
-from ..services.code_solver import inp_out_cmd, inp_out_file
+from testing.decorators import student_required
+from testing.forms import StudentSignUpForm, CreateSolutionForm
+from testing.models import Problem, User, Solution, Lecture
+from testing.services.code_solver import inp_out_cmd, inp_out_file
 
 
 class StudentSignUpView(CreateView):
@@ -30,23 +29,23 @@ class StudentSignUpView(CreateView):
 
 @method_decorator([login_required, student_required], name='dispatch')
 class TaskListView(ListView):
-    model = Task
+    model = Problem
     ordering = ('title', )
     context_object_name = 'tasks'
-    template_name = 'students/task_list.html'
+    template_name = 'students/problem_list.html'
 
     def get_queryset(self):
         student = self.request.user.student
         taken_tasks = student.tasks.values_list('pk', flat=True)
-        queryset = Task.objects.exclude(pk__in=taken_tasks)
+        queryset = Problem.objects.exclude(pk__in=taken_tasks)
         return queryset
 
 
 @method_decorator([login_required, student_required], name='dispatch')
-class TakenTaskListView(ListView):
-    model = TakenTask
-    context_object_name = 'taken_tasks'
-    template_name = 'students/taken_task_list.html'
+class SolutionListView(ListView):
+    model = Solution
+    context_object_name = 'solutions'
+    template_name = 'students/solution_list.html'
 
     def get_queryset(self):
         queryset = self.request.user.student.taken_tasks \
@@ -57,18 +56,18 @@ class TakenTaskListView(ListView):
 @login_required
 @student_required
 def take_task(request, pk):
-    task = get_object_or_404(Task, pk=pk)
+    problem = get_object_or_404(Problem, pk=pk)
     student = request.user.student
 
     if request.method == 'POST':
-        form = TakeTaskForm(data=request.POST)
+        form = CreateSolutionForm(data=request.POST)
 
         if form.is_valid():
 
             with transaction.atomic():
                 student_solution = form.save(commit=False)
                 student_solution.student = student
-                student_solution.task = task
+                student_solution.task = problem
                 use_files = student_solution.use_files
                 student_solution.save()
 
@@ -80,42 +79,42 @@ def take_task(request, pk):
                         score = inp_out_file(student_solution.text, input_file, output_file)
                     except AssertionError:
                         messages.warning(request, 'Файл використовує стандартні потоки введення/виведення!')
-                        return render(request, 'students/take_task_form.html', {
-                            'task': task,
+                        return render(request, 'students/solution_form.html', {
+                            'task': problem,
                             'form': form,
                         })
 
                 else:
                     score = inp_out_cmd(student_solution.text, input_file, output_file)
 
-                if student.taken_tasks.filter(task=task).exists():
-                    student.taken_tasks.filter(task=task).update(score=score)
-
+                student_solution = Solution.objects.filter(student_id=student.pk)
+                if student_solution.exists():
+                    student_solution.update(score=score)
                 else:
-                    TakenTask.objects.create(student=student, task=task, score=score)
+                    Solution.objects.create(problem_id=problem.pk, student_id=student.pk, task=problem, score=score)
 
-                if score > 75.0:
+                if score >= 75.0:
                     messages.success(request, 'Чудово! Ви пройшли %d відсотків тестів.' % score)
                 else:
                     messages.warning(request, 'На жаль ви пройшли лише %d відсотків тестів.' % score)
 
                 return redirect('students:task_list')
     else:
-        form = TakeTaskForm()
+        form = CreateSolutionForm()
 
-    return render(request, 'students/take_task_form.html', {
-        'task': task,
+    return render(request, 'students/solution_form.html', {
+        'task': problem,
         'form': form,
     })
 
 
 @method_decorator([login_required, student_required], name='dispatch')
-class MaterialListView(ListView):
-    model = Material
+class LectureListView(ListView):
+    model = Lecture
     ordering = ('date', )
-    context_object_name = 'materials'
-    template_name = 'students/material_list.html'
+    context_object_name = 'lectures'
+    template_name = 'students/lecture_list.html'
 
     def get_queryset(self):
-        queryset = Material.objects.all()
+        queryset = Lecture.objects.all()
         return queryset
