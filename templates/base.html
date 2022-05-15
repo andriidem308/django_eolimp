@@ -21,7 +21,7 @@
             </div>
             <div class="col-6 text-right">
               {% if user.is_authenticated %}
-                <p class="pt-3">Logged in as <strong>{{ user.username }}</strong>
+                <p class="pt-3">Logged in as <strong>{{ user.email }}</strong>
                     <a href="{% url 'logout' %}"> | Вийти</a>.
                 </p>
               {% else %}

@@ -6,13 +6,11 @@
   <div class="card">
     <div class="card">
         <ul class="card-body">
-            {% for material in materials %}
-            <h4 class="card-title"><a href="{% url 'teachers:material_change' material.pk %}">{{ material.title }}</a></h4>
+            {% for lecture in lectures %}
+            <h4 class="card-title"><a href="{% url 'teachers:material_change' lecture.pk %}">{{ lecture.title }}</a></h4>
             <li class="row">
-                <span class="grey summary card-subtitle p-3">{{ material.description }}</span>
+                <span class="grey summary card-subtitle p-3">{{ lecture.description }}</span>
             </li>
-
-            <a href="{{ material.attachment.url }}" download>Завантажити додаток</a>
             <hr>
             {% endfor %}
         </ul>

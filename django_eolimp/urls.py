@@ -23,10 +23,10 @@ from django.contrib.auth.views import auth_logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', include('testing.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/login/', auth_views.LoginView.as_view(template_name="registration/login.html",
-    #                                             redirect_authenticated_user=True), name='login'),
+
     # path('accounts/logout/', auth_views.LogoutView.as_view(template_name='home.html'), name='logout'),
     # path('accounts/logout/', testing.logout, name='logout'),
 

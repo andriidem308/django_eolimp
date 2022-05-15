@@ -11,9 +11,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for task in tasks %}
+                {% for problem in problems %}
                 <tr>
-                    <td class="align-middle"><a href="{% url 'teachers:task_change' task.pk %}">{{ task.title }}</a></td>
+                    <td class="align-middle"><a href="{% url 'teachers:task_change' problem.pk %}">{{ problem.title }}</a></td>
                 </tr>
                 {% empty %}
                 <tr>

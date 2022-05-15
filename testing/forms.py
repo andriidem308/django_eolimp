@@ -1,9 +1,12 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
 from django_eolimp.settings import SECRET_KEY_TEACHER
-from .models import Student, User, Task, Solution, Material
+from testing.models import Student, Teacher, ProblemTest, Group, Solution, Lecture, Problem
+
+User = get_user_model()
 
 
 class TeacherSignUpForm(UserCreationForm):
@@ -14,9 +17,8 @@ class TeacherSignUpForm(UserCreationForm):
 
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Пошта'}),
                              max_length=64, label='')
-
-    username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}), label='')
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}),
+                               max_length=32, label='')
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}),
                                 label='')
     password2 = forms.CharField(
@@ -27,13 +29,14 @@ class TeacherSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'email',) + UserCreationForm.Meta.fields + ('secret_key', )
+        fields = ('first_name', 'last_name', 'email') + UserCreationForm.Meta.fields + ('secret_key', )
 
-    def save(self, commit=True):
+    @transaction.atomic
+    def save(self):
         user = super().save(commit=False)
-        user.is_teacher = True
-        if commit:
-            user.save()
+        user._teacher = True
+        user.save()
+        teacher = Teacher.objects.create(user=user)
         return user
 
     def clean(self):
@@ -52,46 +55,69 @@ class StudentSignUpForm(UserCreationForm):
                                  max_length=32, label='')
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Прізвище'}),
                                 max_length=32, label='')
-
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}),
+                                max_length=32, label='')
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Пошта'}),
                              max_length=64, label='')
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), label="Група")
 
-    username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}), label='')
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}), label='')
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Підтвердження паролю'}), label='')
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'email',) + UserCreationForm.Meta.fields
+        fields = ('first_name', 'last_name', 'email') + UserCreationForm.Meta.fields
 
     @transaction.atomic
     def save(self):
         user = super().save(commit=False)
-        user.is_student = True
+        user._student = True
         user.save()
         student = Student.objects.create(user=user)
         return user
 
 
-class TakeTaskForm(forms.ModelForm):
+class CreateSolutionForm(forms.ModelForm):
     text = forms.CharField(widget=forms.Textarea(), label='')
     use_files = forms.BooleanField(required=False, label='Код використовує файли введення/виведення')
 
     class Meta:
         model = Solution
-        fields = ['text', 'use_files']
+        fields = ['solution_code']
 
 
-class TaskCreateForm(forms.ModelForm):
+class CreateProblemForm(forms.ModelForm):
+    groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all())
+    title = forms.CharField(max_length=255)
+    description = forms.Textarea()
+    problem_value = forms.FloatField()
+    deadline = forms.DateField()
+
     class Meta:
-        model = Task
-        fields = ['title', 'condition', 'input_file', 'output_file']
+        model = Problem
+        fields = ['groups', 'title', 'description', 'problem_value', 'deadline']
+
+    def save(self, **kwargs):
+        user = kwargs.pop('user')
+        instance = super(CreateProblemForm, self).save(**kwargs)
+        instance.teacher_id = Teacher.objects.get(user=user)
+        instance.save()
+        return instance
 
 
-class MaterialCreateForm(forms.ModelForm):
+class LectureCreateForm(forms.ModelForm):
+    groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all())
+    title = forms.CharField(max_length=255)
+    description = forms.Textarea()
+
     class Meta:
-        model = Material
-        fields = ['title', 'description', 'attachment']
+        model = Lecture
+        fields = ['groups', 'title', 'description']
 
+    def save(self, **kwargs):
+        user = kwargs.pop('user')
+        instance = super(LectureCreateForm, self).save(**kwargs)
+        instance.teacher_id = Teacher.objects.get(user=user)
+        instance.save()
+        return instance
 

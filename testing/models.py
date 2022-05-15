@@ -1,43 +1,115 @@
-from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from django.db import models
+from django.forms import TextInput
 
 
-class User(AbstractUser):
-    is_student = models.BooleanField(default=False)
-    is_teacher = models.BooleanField(default=False)
+User = settings.AUTH_USER_MODEL
 
 
-class Task(models.Model):
-    title = models.CharField('Назва:', max_length=30)
-    condition = models.TextField('Умова')
-    input_file = models.FileField('Вхідні дані', upload_to='files_uploaded/test_files')
-    output_file = models.FileField('Вихідні дані', upload_to='files_uploaded/test_files')
+class Teacher(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user._teacher = True
+
+    class Meta:
+        ordering = ['user__last_name', 'user__first_name']
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+
+class Group(models.Model):
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    group_name = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ['group_name']
+
+    def __str__(self):
+        return self.group_name
+
+
+class Problem(models.Model):
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    groups = models.ManyToManyField(Group)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+
+    problem_value = models.FloatField()
+    # max_execution_time = models.FloatField()
+
+    deadline = models.DateTimeField()
+    date_created = models.DateTimeField(auto_now=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    need_to_check = models.BooleanField(null=True)
+
+    class Meta:
+        ordering = ['date_created']
 
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    tasks = models.ManyToManyField(Task, through='TakenTask')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user._student = True
+    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['user__last_name', 'user__first_name']
 
     def __str__(self):
-        return self.user.username
+        return self.user.get_full_name()
 
+    def get_group(self):
+        return self.group_id
 
-class TakenTask(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='taken_tasks')
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='taken_tasks')
-    score = models.FloatField(default=0)
+    def get_group_name(self):
+        return self.group_id.group_name
 
 
 class Solution(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='task_solutions')
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='solutions')
-    text = models.TextField(default='')
-    use_files = models.BooleanField(default=False)
+    problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
+    solution_code = models.TextField()
+    score = models.FloatField()
+    date_solved = models.DateTimeField(auto_now=True)
+    checked = models.BooleanField(default=False, null=True)
+
+    class Meta:
+        ordering = ['date_solved']
+
+    def get_owner(self):
+        return self.student_id
+
+    def get_owner_name(self):
+        return self.student_id.user.get_full_name()
 
 
-class Material(models.Model):
-    title = models.CharField('Тема', max_length=30)
-    description = models.TextField('Короткий опис')
-    attachment = models.FileField('Додаток', upload_to='files_uploaded/material_files/', null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
+class Lecture(models.Model):
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    groups = models.ManyToManyField(Group)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    date_created = models.DateTimeField(auto_now=True)
+    date_updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['date_created']
+
+    def __str__(self):
+        return self.title
+
+
+class Attachment(models.Model):
+    lecture_id = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    attachment_file = models.FileField(null=True)
+
+    class Meta:
+        ordering = ['pk']
+
+
+class ProblemTest(models.Model):
+    problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    input_data = models.FileField(null=True)
+    output_data = models.FileField(null=True)
+
+    class Meta:
+        ordering = ['pk']
