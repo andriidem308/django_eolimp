@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2 class="mb-3">Студенти</h2>
+  <h2 class="mb-3">Студенти групи {{ group_title }}</h2>
   <div class="card">
     <table class="table mb-0">
             <thead>
                 <tr>
                     <th>Прізвище</th>
                     <th>Ім'я</th>
-                    <th>Середній бал</th>
+                    <th>Сума балів</th>
                 </tr>
             </thead>
             <tbody>
@@ -16,7 +16,7 @@
                 <tr>
                     <td class="align-middle">{{ v.last_name }}</td>
                     <td class="align-middle">{{ v.first_name }}</td>
-                    <td class="align-middle">{{ v.score }}</td>
+                    <td class="align-middle">{{ v.total_solutions_score }} / {{ v.total_problems_points }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

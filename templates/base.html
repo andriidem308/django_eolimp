@@ -2,20 +2,34 @@
 <!doctype html>
 <html lang="en">
   <head>
-   <style>
-          body {
-              background-image: url({% static 'images/im.jpg' %});
-              background-repeat: no-repeat;
-              background-attachment: fixed;
-              background-size: cover;
-          }
-      </style>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Testing Service{% endblock %}</title>
     <link rel="icon" href="{% static 'img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+          body {
+              background-color: #82b5d5;
+              {#background-image: url({% static 'images/im.jpg' %});#}
+              background-repeat: no-repeat;
+              background-attachment: fixed;
+              background-size: cover;
+              font-family: "Courier New";
+          }
+
+          .card {
+              background-color: #37c44a;
+          }
+          a {
+              color: #e9efef;
+          }
+
+          .nav-link {
+              color: white;
+          }
+   </style>
   </head>
   <body>
     <div class="container my-4">
@@ -29,8 +43,8 @@
             </div>
             <div class="col-6 text-right">
               {% if user.is_authenticated %}
-                <p class="pt-3">Logged in as <strong>{{ user.email }}</strong>
-                    <a href="{% url 'logout' %}"> | Вийти</a>.
+                <p class="pt-3" style="color: #151d2f"><strong>{{ user.email }}</strong>
+                    <a href="{% url 'logout' %}"> | Вийти</a>
                 </p>
               {% else %}
                 <a href="{% url 'login' %}" class="btn btn-light" role="button">Увійти</a>
