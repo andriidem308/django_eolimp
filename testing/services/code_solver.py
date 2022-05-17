@@ -9,21 +9,25 @@ def inp_out_cmd(code, file_in, file_out):
     test_file = 'solution.py'
     open(test_file, 'w').write(code)
 
-    file_outputs = open(file_out, 'r').read().split('\n')
+    try:
+        file_outputs = open(file_out.path, 'r').read().split('\n')
 
-    tests = open(file_in, 'r').readlines()
-    buffer = ''
-    for line in tests:
-        file_inputs = line.rstrip().split(SEPARATOR)
+        tests = open(file_in.path, 'r').readlines()
+        code_out = []
+        for line in tests:
+            file_inputs = line.rstrip().split(SEPARATOR)
+            command = ['python3 ' + test_file]
+            p = Popen(command, stdin=PIPE, stdout=PIPE, shell=True)
+            buffer = p.communicate(input=bytes('\n'.join(file_inputs), encoding='utf-8'))[0]
+            code_out.append(buffer.rstrip().decode('utf-8').split('\n'))
 
-        command = ['python3 ' + test_file]
-        p = Popen(command, stdin=PIPE, stdout=PIPE, shell=True)
-        buffer = p.communicate(input=bytes('\n'.join(file_inputs), encoding='utf-8'))[0]
+        result_arr = [co[0] == fo for co, fo in zip(code_out, file_outputs)]
+        score = result_arr.count(True) / len(result_arr)
+    except Exception as e:
+        os.remove(test_file)
+        raise e
 
-    code_out = buffer.rstrip().decode('utf-8').split('\n')
-    result_arr = [co == fo for co, fo in zip(code_out, file_outputs)]
-    score = round(100 * result_arr.count(True) / len(result_arr), 2)
-
+    os.remove(test_file)
     return score
 
 
@@ -49,6 +53,6 @@ def inp_out_file(code, file_in, file_out):
         result_file = open(outp_name, 'r').read().split('\n')
         code_out.append(' '.join(result_file))
     result_arr = [co == fo for co, fo in zip(code_out, file_outputs)]
-    score = round(100 * result_arr.count(True) / len(result_arr), 2)
+    score = result_arr.count(True) / len(result_arr)
 
     return score

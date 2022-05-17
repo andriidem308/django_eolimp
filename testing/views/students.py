@@ -1,3 +1,4 @@
+import solution as solution
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -8,7 +9,7 @@ from django.views.generic import CreateView, ListView
 
 from testing.decorators import student_required
 from testing.forms import StudentSignUpForm, CreateSolutionForm
-from testing.models import Problem, User, Solution, Lecture
+from testing.models import Problem, User, Solution, Lecture, Student
 from testing.services.code_solver import inp_out_cmd, inp_out_file
 
 
@@ -35,9 +36,10 @@ class TaskListView(ListView):
     template_name = 'students/problem_list.html'
 
     def get_queryset(self):
-        student = self.request.user.student
-        taken_tasks = student.tasks.values_list('pk', flat=True)
-        queryset = Problem.objects.exclude(pk__in=taken_tasks)
+        student = Student.objects.get(user=self.request.user)
+        taken_tasks = Solution.objects.filter(student_id=student)
+        problem_id_list = [taken_task.problem_id.id for taken_task in taken_tasks]
+        queryset = Problem.objects.filter(groups__id=student.group_id).exclude(pk__in=problem_id_list)
         return queryset
 
 
@@ -48,55 +50,50 @@ class SolutionListView(ListView):
     template_name = 'students/solution_list.html'
 
     def get_queryset(self):
-        queryset = self.request.user.student.taken_tasks \
-            .select_related('task').order_by('task__title')
+        student = Student.objects.get(user=self.request.user)
+        queryset = Solution.objects.filter(student_id=student)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        student = Student.objects.get(user=self.request.user)
+        solutions = Solution.objects.filter(student_id=student)
+
+        context['points_sum'] = sum([sol.score for sol in solutions])
+        context['points_total'] = sum([sol.problem_id.problem_value for sol in solutions])
+
+        return context
 
 @login_required
 @student_required
 def take_task(request, pk):
     problem = get_object_or_404(Problem, pk=pk)
-    student = request.user.student
+    student = Student.objects.get(user=request.user)
 
     if request.method == 'POST':
         form = CreateSolutionForm(data=request.POST)
 
         if form.is_valid():
-
             with transaction.atomic():
                 student_solution = form.save(commit=False)
-                student_solution.student = student
-                student_solution.task = problem
-                use_files = student_solution.use_files
-                student_solution.save()
+                student_solution.student_id = student
+                student_solution.problem_id = problem
 
-                input_file = student_solution.task.input_file.path
-                output_file = student_solution.task.output_file.path
+                input_file = Problem.objects.get(id=student_solution.problem_id.id).input_data
+                output_file = Problem.objects.get(id=student_solution.problem_id.id).output_data
 
-                if use_files:
-                    try:
-                        score = inp_out_file(student_solution.text, input_file, output_file)
-                    except AssertionError:
-                        messages.warning(request, 'Файл використовує стандартні потоки введення/виведення!')
-                        return render(request, 'students/solution_form.html', {
-                            'task': problem,
-                            'form': form,
-                        })
+                test_score_percentage = inp_out_cmd(student_solution.solution_code, input_file, output_file)
 
+                score = round(test_score_percentage * problem.problem_value, 1)
+
+                previous_solution = Solution.objects.filter(student_id=student)
+                if previous_solution:
+                    if score > previous_solution[0].score:
+                        student_solution.score = score
+                        student_solution.save()
                 else:
-                    score = inp_out_cmd(student_solution.text, input_file, output_file)
-
-                student_solution = Solution.objects.filter(student_id=student.pk)
-                if student_solution.exists():
-                    student_solution.update(score=score)
-                else:
-                    Solution.objects.create(problem_id=problem.pk, student_id=student.pk, task=problem, score=score)
-
-                if score >= 75.0:
-                    messages.success(request, 'Чудово! Ви пройшли %d відсотків тестів.' % score)
-                else:
-                    messages.warning(request, 'На жаль ви пройшли лише %d відсотків тестів.' % score)
+                    student_solution.score = score
+                    student_solution.save()
 
                 return redirect('students:task_list')
     else:

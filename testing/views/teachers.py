@@ -54,8 +54,8 @@ def problem_add(request):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class TaskUpdateView(UpdateView):
     model = Problem
-    fields = ('groups', 'title', 'description', 'problem_value', 'deadline')
-    context_object_name = 'task'
+    fields = ('groups', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data')
+    context_object_name = 'problem'
     template_name = 'teachers/problem_change_form.html'
 
     def get_queryset(self):

@@ -12,11 +12,11 @@
         </tr>
       </thead>
       <tbody>
-        {% for taken_task in taken_tasks %}
+        {% for solution in solutions %}
           <tr>
-            <td>{{ taken_task.task.title }}</td>
-            <td>{{ taken_task.score }}</td>
-            <td><a href="{% url 'students:take_task' taken_task.task.pk %}" class="btn btn-warning">Так</a></td>
+            <td>{{ solution.problem_id.title }}</td>
+            <td>{{ solution.score }} / {{ solution.problem_id.problem_value }}</td>
+            <td><a href="{% url 'students:take_task' solution.problem_id.pk %}" class="btn btn-warning">Так</a></td>
           </tr>
         {% empty %}
           <tr>
@@ -24,6 +24,13 @@
           </tr>
         {% endfor %}
       </tbody>
+      <tfoot>
+        <tr>
+          <th>Сума</th>
+          <th>{{ points_sum }} / {{ points_total }}</th>
+          <th></th>
+        </tr>
+      </tfoot>
     </table>
   </div>
 {% endblock %}

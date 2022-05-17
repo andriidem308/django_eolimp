@@ -41,6 +41,9 @@ class Problem(models.Model):
     date_created = models.DateTimeField(auto_now=True)
     date_updated = models.DateTimeField(auto_now=True)
 
+    input_data = models.FileField(null=True)
+    output_data = models.FileField(null=True)
+
     need_to_check = models.BooleanField(null=True)
 
     class Meta:
@@ -50,7 +53,7 @@ class Problem(models.Model):
 class Student(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user._student = True
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['user__last_name', 'user__first_name']
@@ -59,10 +62,10 @@ class Student(models.Model):
         return self.user.get_full_name()
 
     def get_group(self):
-        return self.group_id
+        return self.group
 
     def get_group_name(self):
-        return self.group_id.group_name
+        return self.group.group_name
 
 
 class Solution(models.Model):
