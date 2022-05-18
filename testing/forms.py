@@ -93,10 +93,10 @@ class CreateProblemForm(forms.ModelForm):
     # groups = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=))
     title = forms.CharField(max_length=255)
     description = forms.Textarea()
-    problem_value = forms.FloatField()
+    problem_value = forms.FloatField(widget=forms.NumberInput(attrs={'min': 0}))
     deadline = forms.DateTimeField(
         input_formats=['%Y-%m-%d %H:00:00'],
-        widget=BootstrapDateTimePickerInput()
+        widget=BootstrapDateTimePickerInput
     )
     input_data = forms.FileField()
     output_data = forms.FileField()
@@ -111,10 +111,8 @@ class CreateProblemForm(forms.ModelForm):
 
     def save(self, **kwargs):
         user = kwargs.pop('user')
-        print('self:', self)
         instance = super(CreateProblemForm, self).save(**kwargs)
         instance.teacher = Teacher.objects.get(user=user)
-        print(instance)
         instance.save()
         return instance
 

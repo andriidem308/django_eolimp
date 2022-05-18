@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <h2 class="mb-3 text-light">Задача {{ problem.title }}</h2>
+    <h2 class="mb-3 text-dark">Розв'язок студента <span class="text-warning">{{ student.user.last_name }} {{ student.user.first_name }}</span></h2>
+    <pre><code class="card python bg-white m-2 p-5">{{ code | safe }}</code></pre>
+
+{% endblock %}

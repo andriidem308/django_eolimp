@@ -48,8 +48,6 @@ def problem_add(request):
         if form.is_valid():
             form.save(user=request.user, commit=False)
             return HttpResponseRedirect('../../')
-        else:
-            print(form.errors.as_data())
     else:
         form = CreateProblemForm(teacher)
     return render(request, 'teachers/problem_add_form.html', {'form': form})
@@ -198,7 +196,7 @@ class StudentSolutionsListView(ListView):
 
             if solution:
                 data[student]['grade'] = f'{solution[0].score} / {problem.problem_value}'
-                data[student]['solution'] = f'<a href="problems/{problem.pk}/solutions/{solution[0].pk}">Подивитись розв\'язок</a>'
+                data[student]['solution'] = f'<a href="../../../solutions/{solution[0].pk}">Подивитись розв\'язок</a>'
             else:
                 data[student]['grade'] = f'Немає оцінки'
                 data[student]['solution'] = 'Немає розв\'язку'
@@ -210,4 +208,15 @@ class StudentSolutionsListView(ListView):
     def get_success_url(self):
         return reverse('teachers:group', kwargs={'pk': self.object.pk})
 
+@login_required
+@teacher_required
+def view_solution(request, pk):
+    solution = Solution.objects.get(pk=pk)
+    context = {
+        'solution': solution,
+        'problem': Problem.objects.get(pk=solution.problem.id),
+        'student': Student.objects.get(pk=solution.student.id),
+        'code': solution.solution_code.replace('\r\n', '<br>').replace('    ', '&emsp;')
+    }
 
+    return render(request, 'teachers/view_solution.html', context=context)

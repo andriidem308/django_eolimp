@@ -26,7 +26,7 @@ urlpatterns = [
         path('groups/', teachers.GroupsListView.as_view(), name='groups_list'),
         path('groups/<int:pk>/', teachers.StudentsListView.as_view(), name='group'),
         path('problems/<int:pk>/solutions/', teachers.StudentSolutionsListView.as_view(), name='solution_list'),
-        # path('problems/<int:pk>/solutions/<int:pk>', teachers.StudentSolutionsListView.as_view(), name='solution_list'),
+        path('solutions/<int:pk>', teachers.view_solution, name='view_solution'),
         # path('students/', teachers.StudentsListView.as_view(), name='students_list')
     ], 'testing'), namespace='teachers')),
 

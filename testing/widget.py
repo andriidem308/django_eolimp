@@ -5,7 +5,7 @@ class BootstrapDateTimePickerInput(DateTimeInput):
     template_name = 'teachers/bootstrap_datetimepicker.html'
 
     def get_context(self, name, value, attrs):
-        datetimepicker_id = 'datetimepicker'.format(name=name)
+        datetimepicker_id = 'id_{name}'.format(name=name)
         if attrs is None:
             attrs = dict()
         attrs['data-target'] = '#{id}'.format(id=datetimepicker_id)
