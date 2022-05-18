@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% include 'students/problems_list_header.html' with active='taken' %}
+  {% include 'students/problems_list_header.html' with active_tab='solution' %}
   <div class="card">
     <table class="table mb-0">
       <thead>
@@ -14,13 +14,13 @@
       <tbody>
         {% for solution in solutions %}
           <tr>
-            <td>{{ solution.problem_id.title }}</td>
-            <td>{{ solution.score }} / {{ solution.problem_id.problem_value }}</td>
-            <td><a href="{% url 'students:take_task' solution.problem_id.pk %}" class="btn btn-warning">Так</a></td>
+            <td>{{ solution.problem.title }}</td>
+            <td>{{ solution.score }} / {{ solution.problem.problem_value }}</td>
+            <td><a href="{% url 'students:take_problem' solution.problem.pk %}" class="btn btn-warning">Так</a></td>
           </tr>
         {% empty %}
           <tr>
-            <td class="bg-light text-center font-italic" colspan="3">Ви ще не вирішили жодної задачі.</td>
+            <td class="text-center font-italic" colspan="3">Ви ще не вирішили жодної задачі.</td>
           </tr>
         {% endfor %}
       </tbody>

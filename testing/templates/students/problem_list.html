@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% include 'students/problems_list_header.html' with active_tab='new' %}
+  {% include 'students/problems_list_header.html' with active_tab='problem' %}
   <div class="card">
     <table class="table mb-0">
       <thead>
@@ -11,11 +11,11 @@
         </tr>
       </thead>
       <tbody>
-        {% for task in tasks %}
+        {% for problem in problems %}
           <tr>
-            <td class="align-middle">{{ task.title }}</td>
+            <td class="align-middle">{{ problem.title }}</td>
             <td class="text-right">
-              <a href="{% url 'students:take_task' task.pk %}" class="btn btn-primary">Розв'язати</a>
+              <a href="{% url 'students:take_problem' problem.pk %}" class="btn btn-primary">Розв'язати</a>
             </td>
           </tr>
         {% empty %}
