@@ -25,21 +25,21 @@ class StudentSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('students:task_list')
+        return redirect('students:problem_list')
 
 
 @method_decorator([login_required, student_required], name='dispatch')
 class TaskListView(ListView):
     model = Problem
     ordering = ('title', )
-    context_object_name = 'tasks'
+    context_object_name = 'problems'
     template_name = 'students/problem_list.html'
 
     def get_queryset(self):
         student = Student.objects.get(user=self.request.user)
-        taken_tasks = Solution.objects.filter(student_id=student)
-        problem_id_list = [taken_task.problem_id.id for taken_task in taken_tasks]
-        queryset = Problem.objects.filter(groups__id=student.group_id).exclude(pk__in=problem_id_list)
+        solutions = Solution.objects.filter(student=student)
+        problem_list = [solution.problem.id for solution in solutions]
+        queryset = Problem.objects.filter(group=student.group).exclude(pk__in=problem_list)
         return queryset
 
 
@@ -51,22 +51,22 @@ class SolutionListView(ListView):
 
     def get_queryset(self):
         student = Student.objects.get(user=self.request.user)
-        queryset = Solution.objects.filter(student_id=student)
+        queryset = Solution.objects.filter(student=student)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         student = Student.objects.get(user=self.request.user)
-        solutions = Solution.objects.filter(student_id=student)
+        solutions = Solution.objects.filter(student=student)
 
         context['points_sum'] = sum([sol.score for sol in solutions])
-        context['points_total'] = sum([sol.problem_id.problem_value for sol in solutions])
+        context['points_total'] = sum([sol.problem.problem_value for sol in solutions])
 
         return context
 
 @login_required
 @student_required
-def take_task(request, pk):
+def take_problem(request, pk):
     problem = get_object_or_404(Problem, pk=pk)
     student = Student.objects.get(user=request.user)
 
@@ -76,17 +76,17 @@ def take_task(request, pk):
         if form.is_valid():
             with transaction.atomic():
                 student_solution = form.save(commit=False)
-                student_solution.student_id = student
-                student_solution.problem_id = problem
+                student_solution.student = student
+                student_solution.problem = problem
 
-                input_file = Problem.objects.get(id=student_solution.problem_id.id).input_data
-                output_file = Problem.objects.get(id=student_solution.problem_id.id).output_data
+                input_file = Problem.objects.get(id=student_solution.problem.id).input_data
+                output_file = Problem.objects.get(id=student_solution.problem.id).output_data
 
                 test_score_percentage = inp_out_cmd(student_solution.solution_code, input_file, output_file)
 
                 score = round(test_score_percentage * problem.problem_value, 1)
 
-                previous_solution = Solution.objects.filter(student_id=student)
+                previous_solution = Solution.objects.filter(student=student)
                 if previous_solution:
                     if score > previous_solution[0].score:
                         student_solution.score = score
@@ -95,12 +95,12 @@ def take_task(request, pk):
                     student_solution.score = score
                     student_solution.save()
 
-                return redirect('students:task_list')
+                return redirect('students:problem_list')
     else:
         form = CreateSolutionForm()
 
     return render(request, 'students/solution_form.html', {
-        'task': problem,
+        'problem': problem,
         'form': form,
     })
 

@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+    {% include 'teachers/problem_header.html' with active_tab='change_problem' %}
     <h2 class="mb-3">Задача {{ problem.title }}</h2>
     <div class="row mb-3">
         <div class="col-md-6 col-sm-8 col-12">
@@ -10,7 +11,7 @@
                 {% csrf_token %}
                 {{ form|crispy }}
                 <button type="submit" class="btn btn-success">Зберегти зміни</button>
-                <a href="{% url 'teachers:task_change_list' %}" class="btn btn-outline-secondary" role="button">Відмінити</a>
+                <a href="{% url 'teachers:problem_change_list' %}" class="btn btn-outline-secondary" role="button">Відмінити</a>
             </form>
         </div>
     </div>

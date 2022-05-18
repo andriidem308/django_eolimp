@@ -18,7 +18,7 @@ class Teacher(models.Model):
 
 
 class Group(models.Model):
-    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     group_name = models.CharField(max_length=255)
 
     class Meta:
@@ -29,8 +29,8 @@ class Group(models.Model):
 
 
 class Problem(models.Model):
-    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    groups = models.ManyToManyField(Group)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
 
@@ -69,8 +69,8 @@ class Student(models.Model):
 
 
 class Solution(models.Model):
-    problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     solution_code = models.TextField()
     score = models.FloatField()
     date_solved = models.DateTimeField(auto_now=True)
@@ -80,15 +80,15 @@ class Solution(models.Model):
         ordering = ['date_solved']
 
     def get_owner(self):
-        return self.student_id
+        return self.student
 
     def get_owner_name(self):
-        return self.student_id.user.get_full_name()
+        return self.student.user.get_full_name()
 
 
 class Lecture(models.Model):
-    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    groups = models.ManyToManyField(Group)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
     date_created = models.DateTimeField(auto_now=True)
@@ -102,7 +102,7 @@ class Lecture(models.Model):
 
 
 class Attachment(models.Model):
-    lecture_id = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
     attachment_file = models.FileField(null=True)
 
     class Meta:
@@ -110,7 +110,7 @@ class Attachment(models.Model):
 
 
 class ProblemTest(models.Model):
-    problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     input_data = models.FileField(null=True)
     output_data = models.FileField(null=True)
 

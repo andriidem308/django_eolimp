@@ -3,12 +3,12 @@
 {% block content %}
 
 <ul>
-    {% for material in materials %}
-    <h4 class="card-title"><a href="{% url 'teachers:material_change' material.pk %}">{{ material.title }}</a></h4>
+    {% for lecture in lectures %}
+    <h4 class="card-title"><a href="{% url 'teachers:lecture_change' lecture.pk %}">{{ lecture.title }}</a></h4>
     <li class="row">
-        <span class="grey summary card-subtitle">{{ material.description }}</span>
+        <span class="grey summary card-subtitle">{{ lecture.description }}</span>
     </li>
-        <a href="{{ material.attachment.url }}" download>Завантажити додаток</a>
+        <a href="{{ lecture.attachment.url }}" download>Завантажити додаток</a>
     <hr>
     {% endfor %}
 </ul>

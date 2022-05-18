@@ -1,3 +1,5 @@
+import kwargs as kwargs
+import teacher as teacher
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
@@ -87,7 +89,7 @@ class CreateSolutionForm(forms.ModelForm):
 
 
 class CreateProblemForm(forms.ModelForm):
-    groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all())
+    # groups = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=))
     title = forms.CharField(max_length=255)
     description = forms.Textarea()
     problem_value = forms.FloatField()
@@ -95,31 +97,40 @@ class CreateProblemForm(forms.ModelForm):
     input_data = forms.FileField()
     output_data = forms.FileField()
 
+    def __init__(self, teacher, *args, **kwargs):
+        super(CreateProblemForm, self).__init__(*args, **kwargs)
+        self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
+
+
     class Meta:
         model = Problem
-        fields = ['groups', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data']
+        fields = ['group', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data']
 
     def save(self, **kwargs):
         user = kwargs.pop('user')
         instance = super(CreateProblemForm, self).save(**kwargs)
-        instance.teacher_id = Teacher.objects.get(user=user)
+        instance.teacher = Teacher.objects.get(user=user)
         instance.save()
         return instance
 
 
 class LectureCreateForm(forms.ModelForm):
-    groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all())
     title = forms.CharField(max_length=255)
     description = forms.Textarea()
 
+    def __init__(self, teacher, *args, **kwargs):
+        super(LectureCreateForm, self).__init__(*args, **kwargs)
+        self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
+
+
     class Meta:
         model = Lecture
-        fields = ['groups', 'title', 'description']
+        fields = ['group', 'title', 'description']
 
     def save(self, **kwargs):
         user = kwargs.pop('user')
         instance = super(LectureCreateForm, self).save(**kwargs)
-        instance.teacher_id = Teacher.objects.get(user=user)
+        instance.teacher = Teacher.objects.get(user=user)
         instance.save()
         return instance
 

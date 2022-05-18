@@ -8,7 +8,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, LectureCreateForm
-from testing.models import Problem, User, Lecture, Student, Solution, Group
+from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher
 
 
 class TeacherSignUpView(CreateView):
@@ -23,11 +23,11 @@ class TeacherSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('teachers:task_change_list')
+        return redirect('teachers:problem_change_list')
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
-class TasksListView(ListView):
+class ProblemsListView(ListView):
     model = Problem
     ordering = ('title', )
     context_object_name = 'problems'
@@ -41,20 +41,22 @@ class TasksListView(ListView):
 @login_required
 @teacher_required
 def problem_add(request):
+    teacher = Teacher.objects.get(user=request.user)
+
     if request.method == 'POST':
-        form = CreateProblemForm(request.POST, request.FILES)
+        form = CreateProblemForm(teacher, request.POST, request.FILES)
         if form.is_valid():
             form.save(user=request.user, commit=False)
             return HttpResponseRedirect('../../')
     else:
-        form = CreateProblemForm()
+        form = CreateProblemForm(teacher)
     return render(request, 'teachers/problem_add_form.html', {'form': form})
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
-class TaskUpdateView(UpdateView):
+class ProblemUpdateView(UpdateView):
     model = Problem
-    fields = ('groups', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data')
+    fields = ('group', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data')
     context_object_name = 'problem'
     template_name = 'teachers/problem_change_form.html'
 
@@ -62,7 +64,12 @@ class TaskUpdateView(UpdateView):
         return Problem.objects.all()
 
     def get_success_url(self):
-        return reverse('teachers:task_change', kwargs={'pk': self.object.pk})
+        return reverse('teachers:problem_change', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['problem'] = Problem.objects.get(pk=self.kwargs['pk'])
+        return context
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
@@ -80,13 +87,15 @@ class LectureListView(ListView):
 @login_required
 @teacher_required
 def lecture_add(request):
+    teacher = Teacher.objects.get(user=request.user)
+
     if request.method == 'POST':
-        form = LectureCreateForm(request.POST, request.FILES)
+        form = LectureCreateForm(teacher, request.POST, request.FILES)
         if form.is_valid():
             form.save(user=request.user, commit=False)
             return HttpResponseRedirect('../../')
     else:
-        form = LectureCreateForm()
+        form = LectureCreateForm(teacher)
     return render(request, 'teachers/lecture_add_form.html', {'form': form})
 
 
@@ -101,7 +110,7 @@ class LectureUpdateView(UpdateView):
         return Lecture.objects.all()
 
     def get_success_url(self):
-        return reverse('teachers:material_change', kwargs={'pk': self.object.pk})
+        return reverse('teachers:lecture_change', kwargs={'pk': self.object.pk})
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
@@ -113,7 +122,7 @@ class GroupsListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Group.objects.filter(teacher_id__user_id=user.pk)
+        queryset = Group.objects.filter(teacher__user_id=user.pk)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -122,9 +131,9 @@ class GroupsListView(ListView):
         data = {student: {} for student in students}
 
         for i, student in enumerate(students):
-            solutions = Solution.objects.filter(student_id=student.pk)
+            solutions = Solution.objects.filter(student=student.pk)
             data[student]['total_solutions_score'] = sum([solution.score for solution in solutions])
-            data[student]['total_problems_points'] = sum([solution.problem_id.problem_value for solution in solutions])
+            data[student]['total_problems_points'] = sum([solution.problem.problem_value for solution in solutions])
             data[student]['first_name'] = student.user.first_name
             data[student]['last_name'] = student.user.last_name
 
@@ -135,7 +144,7 @@ class GroupsListView(ListView):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class StudentsListView(ListView):
     model = Student
-    ordering = ('first_name', )
+    ordering = ('last_name', 'first_name')
     context_object_name = 'students'
     template_name = 'teachers/students_list.html'
 
@@ -148,9 +157,9 @@ class StudentsListView(ListView):
         data = {student: {} for student in students}
 
         for i, student in enumerate(students):
-            solutions = Solution.objects.filter(student_id=student.pk)
+            solutions = Solution.objects.filter(student=student.pk)
             data[student]['total_solutions_score'] = sum([solution.score for solution in solutions])
-            data[student]['total_problems_points'] = sum([solution.problem_id.problem_value for solution in solutions])
+            data[student]['total_problems_points'] = sum([solution.problem.problem_value for solution in solutions])
             data[student]['first_name'] = student.user.first_name
             data[student]['last_name'] = student.user.last_name
 
@@ -161,5 +170,42 @@ class StudentsListView(ListView):
     def get_success_url(self):
         return reverse('teachers:group', kwargs={'pk': self.object.pk})
 
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class StudentSolutionsListView(ListView):
+    context_object_name = 'students'
+    template_name = 'teachers/solution_list.html'
+
+    def get_queryset(self, **kwargs):
+        problem = Problem.objects.get(pk=self.kwargs['pk'])
+        group = Group.objects.get(pk=problem.group.id)
+        students = Student.objects.filter(group=group)
+        return students
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        problem = Problem.objects.get(pk=self.kwargs['pk'])
+        context['problem'] = problem
+
+        students = self.get_queryset(**kwargs)
+
+        data = {student: {} for student in students}
+
+        for i, student in enumerate(students):
+            solution = Solution.objects.filter(student=student).filter(problem=problem)
+
+            if solution:
+                data[student]['grade'] = f'{solution[0].score} / {problem.problem_value}'
+                data[student]['solution'] = f'<a href="problems/{problem.pk}/solutions/{solution[0].pk}">Подивитись розв\'язок</a>'
+            else:
+                data[student]['grade'] = f'Немає оцінки'
+                data[student]['solution'] = 'Немає розв\'язку'
+
+        context['data'] = data
+
+        return context
+
+    def get_success_url(self):
+        return reverse('teachers:group', kwargs={'pk': self.object.pk})
 
 
