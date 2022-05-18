@@ -48,6 +48,8 @@ def problem_add(request):
         if form.is_valid():
             form.save(user=request.user, commit=False)
             return HttpResponseRedirect('../../')
+        else:
+            print(form.errors.as_data())
     else:
         form = CreateProblemForm(teacher)
     return render(request, 'teachers/problem_add_form.html', {'form': form})

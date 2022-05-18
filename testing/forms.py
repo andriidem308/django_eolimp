@@ -1,5 +1,3 @@
-import kwargs as kwargs
-import teacher as teacher
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
@@ -91,14 +89,13 @@ class CreateSolutionForm(forms.ModelForm):
         fields = ['solution_code']
 
 
-
 class CreateProblemForm(forms.ModelForm):
     # groups = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=))
     title = forms.CharField(max_length=255)
     description = forms.Textarea()
     problem_value = forms.FloatField()
     deadline = forms.DateTimeField(
-        input_formats=['%d/%m/%Y %H:%M'],
+        input_formats=['%Y-%m-%d %H:00:00'],
         widget=BootstrapDateTimePickerInput()
     )
     input_data = forms.FileField()
@@ -108,15 +105,16 @@ class CreateProblemForm(forms.ModelForm):
         super(CreateProblemForm, self).__init__(*args, **kwargs)
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
 
-
     class Meta:
         model = Problem
         fields = ['group', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data']
 
     def save(self, **kwargs):
         user = kwargs.pop('user')
+        print('self:', self)
         instance = super(CreateProblemForm, self).save(**kwargs)
         instance.teacher = Teacher.objects.get(user=user)
+        print(instance)
         instance.save()
         return instance
 

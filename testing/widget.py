@@ -1,8 +1,11 @@
 from django.forms import DateTimeInput
+
+
 class BootstrapDateTimePickerInput(DateTimeInput):
     template_name = 'teachers/bootstrap_datetimepicker.html'
+
     def get_context(self, name, value, attrs):
-        datetimepicker_id = 'datetimepicker_{name}'.format(name=name)
+        datetimepicker_id = 'datetimepicker'.format(name=name)
         if attrs is None:
             attrs = dict()
         attrs['data-target'] = '#{id}'.format(id=datetimepicker_id)
