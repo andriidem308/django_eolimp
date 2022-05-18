@@ -2,27 +2,31 @@ from django.shortcuts import redirect
 from django.urls import include, path
 
 from .views import testing, students, teachers
+
 urlpatterns = [
     path('', testing.home, name='home'),
 
     path('students/', include(([
         path('', lambda request: redirect('my_account', permanent=True)),
-        path('tasks/', students.TaskListView.as_view(), name='task_list'),
-        path('taken/', students.SolutionListView.as_view(), name='taken_task_list'),
-        path('tasks/<int:pk>/', students.take_task, name='take_task'),
-        path('materials/', students.LectureListView.as_view(), name='material_list'),
+        path('problems/', students.TaskListView.as_view(), name='problem_list'),
+        path('problems/<int:pk>/', students.take_problem, name='take_problem'),
+        path('solutions/', students.SolutionListView.as_view(), name='solution_list'),
+        path('lectures/', students.LectureListView.as_view(), name='lecture_list'),
+        # path('lectures/<int:pk>/', students.LectureListView.as_view(), name='lecture_list'),
     ], 'testing'), namespace='students')),
 
     path('teachers/', include(([
         path('', lambda request: redirect('my_account', permanent=True)),
-        path('tasks/', teachers.TasksListView.as_view(), name='task_change_list'),
-        path('tasks/add/', teachers.problem_add, name='task_add'),
-        path('tasks/<int:pk>/', teachers.TaskUpdateView.as_view(), name='task_change'),
-        path('materials/', teachers.LectureListView.as_view(), name='material_change_list'),
-        path('materials/add/', teachers.lecture_add, name='material_add'),
-        path('materials/<int:pk>/', teachers.LectureUpdateView.as_view(), name='material_change'),
+        path('problems/', teachers.ProblemsListView.as_view(), name='problem_change_list'),
+        path('problems/add/', teachers.problem_add, name='problem_add'),
+        path('problems/<int:pk>/', teachers.ProblemUpdateView.as_view(), name='problem_change'),
+        path('lectures/', teachers.LectureListView.as_view(), name='lecture_change_list'),
+        path('lectures/add/', teachers.lecture_add, name='lecture_add'),
+        path('lectures/<int:pk>/', teachers.LectureUpdateView.as_view(), name='lecture_change'),
         path('groups/', teachers.GroupsListView.as_view(), name='groups_list'),
         path('groups/<int:pk>/', teachers.StudentsListView.as_view(), name='group'),
+        path('problems/<int:pk>/solutions/', teachers.StudentSolutionsListView.as_view(), name='solution_list'),
+        # path('problems/<int:pk>/solutions/<int:pk>', teachers.StudentSolutionsListView.as_view(), name='solution_list'),
         # path('students/', teachers.StudentsListView.as_view(), name='students_list')
     ], 'testing'), namespace='teachers')),
 

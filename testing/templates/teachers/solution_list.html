@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% include 'teachers/problem_header.html' with active_tab='solutions' %}
+  <h2 class="mb-3">Розв'язки задачі {{ problem.title }}</h2>
+  <div class="card">
+    <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>Студент</th>
+                    <th>Бал за задачу</th>
+                    <th>Розв'язок</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td class="align-middle">{{ student.user.last_name }} {{ student.user.first_name }}</td>
+                    {% for k, v in data.items %}
+                        {% if k == student %}
+                            <td class="align-middle">{{ v.grade }}</td>
+                            <td class="align-middle">{{ v.solution | safe }}</td>
+                        {% endif %}
+                    {% endfor %}
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+  </div>
+{% endblock %}

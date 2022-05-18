@@ -2,13 +2,13 @@
 
 {% block content %}
     <h2 class="mb-3">Задачі</h2>
-    <a href="{% url 'teachers:task_add' %}" class="btn btn-primary mb-3" role="button">Нова задача</a>
+    <a href="{% url 'teachers:problem_add' %}" class="btn btn-primary mb-3" role="button">Нова задача</a>
     <div class="card">
         <table class="table mb-0">
             <tbody>
                 {% for problem in problems %}
                 <tr>
-                    <td class="align-middle"><a href="{% url 'teachers:task_change' problem.pk %}">{{ problem.title }}</a></td>
+                    <td class="align-middle"><a href="{% url 'teachers:problem_change' problem.pk %}">{{ problem.title }}</a></td>
                 </tr>
                 {% empty %}
                 <tr>

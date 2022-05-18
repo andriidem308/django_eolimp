@@ -2,12 +2,12 @@
 
 {% block content %}
   <h2 class="mb-3">Усі Матеріали</h2>
-  <a href="{% url 'teachers:material_add' %}" class="btn btn-primary mb-3" role="button">Додати матеріал</a>
+  <a href="{% url 'teachers:lecture_add' %}" class="btn btn-primary mb-3" role="button">Додати матеріал</a>
   <div class="card">
     <div class="card">
         <ul class="card-body">
             {% for lecture in lectures %}
-            <h4 class="card-title"><a href="{% url 'teachers:material_change' lecture.pk %}">{{ lecture.title }}</a></h4>
+            <h4 class="card-title"><a href="{% url 'teachers:lecture_change' lecture.pk %}">{{ lecture.title }}</a></h4>
             <li class="row">
                 <span class="grey summary card-subtitle p-3">{{ lecture.description }}</span>
             </li>
