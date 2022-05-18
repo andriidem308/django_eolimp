@@ -6,7 +6,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
 from django_eolimp.settings import SECRET_KEY_TEACHER
-from testing.models import Student, Teacher, ProblemTest, Group, Solution, Lecture, Problem
+from testing.models import Student, Teacher, Group, Solution, Lecture, Problem
+
+from testing.widget import BootstrapDateTimePickerInput
+
 
 User = get_user_model()
 
@@ -88,12 +91,16 @@ class CreateSolutionForm(forms.ModelForm):
         fields = ['solution_code']
 
 
+
 class CreateProblemForm(forms.ModelForm):
     # groups = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=))
     title = forms.CharField(max_length=255)
     description = forms.Textarea()
     problem_value = forms.FloatField()
-    deadline = forms.DateField()
+    deadline = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=BootstrapDateTimePickerInput()
+    )
     input_data = forms.FileField()
     output_data = forms.FileField()
 

@@ -1,0 +1,8 @@
+{% include "input.html" %}
+<script>
+    $(function () {
+        $("#{{ widget.datetimepicker_id }}").datetimepicker({
+            format: 'DD/MM/YYYY HH:mm',
+        });
+    });
+</script>
