@@ -16,9 +16,11 @@ Including another URLconf
 import debug_toolbar
 from django.contrib import admin
 from django.urls import include, path
-from testing.views import testing, students, teachers
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import auth_logout
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+
+from testing.views import testing, students, teachers
 
 
 urlpatterns = [
@@ -26,6 +28,9 @@ urlpatterns = [
 
     path('', include('testing.urls')),
     path('api/', include('testing.api_urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/my_account/', testing.AccountView.as_view(), name='my_account'),
