@@ -1,16 +1,15 @@
-import solution as solution
-from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView
 
 from testing.decorators import student_required
 from testing.forms import StudentSignUpForm, CreateSolutionForm
 from testing.models import Problem, User, Solution, Lecture, Student
-from testing.services.code_solver import inp_out_cmd, inp_out_file
+from testing.services.code_solver import test_student_solution
 
 
 class StudentSignUpView(CreateView):
@@ -82,13 +81,29 @@ def take_problem(request, pk):
                 input_file = Problem.objects.get(id=student_solution.problem.id).input_data
                 output_file = Problem.objects.get(id=student_solution.problem.id).output_data
 
-                test_score_percentage = inp_out_cmd(student_solution.solution_code, input_file, output_file)
+                solution_code = student_solution.solution_code
+                max_execution_time = student_solution.problem.max_execution_time
+
+                test_score_percentage = test_student_solution(
+                    code=solution_code,
+                    exec_time=max_execution_time,
+                    file_in=input_file,
+                    file_out=output_file
+                )
 
                 score = round(test_score_percentage * problem.problem_value, 1)
 
-                previous_solution = Solution.objects.filter(student=student)
+                print(timezone.now() > problem.deadline)
+                if timezone.now() > problem.deadline:
+                    print(score)
+                    score = round(score / 2, 1)
+                    print(score)
+
+                previous_solution = Solution.objects.filter(student=student).filter(problem=problem)
+                print(previous_solution)
                 if previous_solution:
                     if score > previous_solution[0].score:
+                        previous_solution.delete()
                         student_solution.score = score
                         student_solution.save()
                 else:

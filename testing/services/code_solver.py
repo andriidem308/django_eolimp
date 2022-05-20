@@ -1,11 +1,12 @@
 import os
+import time
 from subprocess import PIPE, Popen
 
 
 SEPARATOR = '!'
 
 
-def inp_out_cmd(code, file_in, file_out):
+def test_student_solution(code, exec_time, file_in, file_out):
     temporary_file = 'test_solution.py'
     open(temporary_file, 'w').write(code)
 
@@ -19,15 +20,24 @@ def inp_out_cmd(code, file_in, file_out):
             inputs_list = curr_test_inputs.rstrip().split(SEPARATOR)
 
             command = [f'python3 {temporary_file}']
+
+            start_time = time.time()
             p = Popen(command, stdin=PIPE, stdout=PIPE, shell=True)
             buffer = p.communicate(input=bytes('\n'.join(inputs_list), encoding='utf-8'))[0]
+            end_time = time.time()
 
-            code_outputs.append(buffer.rstrip().decode('utf-8').split('\n'))
+            if (end_time - start_time) * 1000 > exec_time:
+                code_outputs.append(None)
+            else:
+                code_outputs.append(buffer.rstrip().decode('utf-8').split('\n'))
 
-        result_arr = [code_output[0] == test_output for code_output, test_output in zip(code_outputs, test_outputs)]
+        test_success = 0
+        test_total = len(test_outputs)
 
-        test_success = result_arr.count(True)
-        test_total = len(result_arr)
+        for code_output, test_output in zip(code_outputs, test_outputs):
+            if code_output:
+                if code_output[0] == test_output:
+                    test_success += 1
 
         score = test_success / test_total
     except Exception as e:

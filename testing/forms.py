@@ -93,6 +93,7 @@ class CreateProblemForm(forms.ModelForm):
     title = forms.CharField(max_length=255, widget=forms.TextInput())
     description = forms.Textarea()
     problem_value = forms.FloatField(widget=forms.NumberInput(attrs={'min': 0}))
+    max_execution_time = forms.FloatField(widget=forms.NumberInput(attrs={'min': 0, 'step': 100}))
     deadline = forms.DateTimeField(
         input_formats=['%Y-%m-%d %H:00:00'],
         widget=BootstrapDateTimePickerInput(attrs={'autocomplete': 'off'})
@@ -108,13 +109,14 @@ class CreateProblemForm(forms.ModelForm):
         self.fields['title'].label = 'Назва задачі'
         self.fields['description'].label = 'Умова задачі'
         self.fields['problem_value'].label = 'Бал за задачу'
+        self.fields['max_execution_time'].label = 'Максимальний час (у мс)'
         self.fields['deadline'].label = 'Дедлайн'
         self.fields['input_data'].label = 'Вхідні тести'
         self.fields['output_data'].label = 'Вихідні тести'
 
     class Meta:
         model = Problem
-        fields = ['group', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data']
+        fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
 
     def save(self, **kwargs):
         user = kwargs.pop('user')

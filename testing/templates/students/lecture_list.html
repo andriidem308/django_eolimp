@@ -2,14 +2,18 @@
 
 {% block content %}
     <h2>Лекції</h2>
-    <ul>
+    <div class="card">
+    <ul class="p-2 m-3">
         {% for lecture in lectures %}
-        <h4 class="card-title"><a href="{% url 'teachers:lecture_change' lecture.pk %}">{{ lecture.title }}</a></h4>
-        <li class="row">
-            <span class="grey summary card-subtitle">{{ lecture.description }}</span>
-        </li>
-            <a href="{{ lecture.attachment.url }}" download>Завантажити додаток</a>
-        <hr>
+            <h4 class="card-title"><a href="{% url 'teachers:lecture_change' lecture.pk %}">{{ lecture.title }}</a></h4>
+            <h5 class="grey summary card-subtitle">{{ lecture.description }}</h5>
+            <h5 class="grey summary card-subtitle pt-3"><a href="{{ lecture.attachment.url }}" download>Завантажити додаток</a></h5>
+            <hr>
+        {% empty %}
+            <li class="row">
+                <span class="grey summary card-subtitle">Поки що лекцій немає</span>
+            </li>
         {% endfor %}
     </ul>
+    </div>
 {% endblock %}

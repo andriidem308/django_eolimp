@@ -35,7 +35,7 @@ class Problem(models.Model):
     description = models.TextField()
 
     problem_value = models.FloatField()
-    # max_execution_time = models.FloatField()
+    max_execution_time = models.FloatField()  # ms
 
     deadline = models.DateTimeField()
     date_created = models.DateTimeField(auto_now=True)
