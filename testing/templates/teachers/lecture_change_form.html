@@ -9,8 +9,8 @@
             <form method="post" novalidate>
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-success">Зберегти зміни</button>
-                <a href="{% url 'teachers:lecture_change_list' %}" class="btn btn-outline-secondary" role="button">Відмінити</a>
+                <button type="submit" class="btn btn-success" style="background-color: #efc702; color: #000000">Зберегти зміни</button>
+                <a href="{% url 'teachers:lecture_change_list' %}" class="btn btn-outline-secondary" role="button" style="background-color: #058ef1; color: #ffffff">Відмінити</a>
             </form>
         </div>
     </div>
