@@ -10,6 +10,7 @@ class BootstrapDateTimePickerInput(DateTimeInput):
             attrs = dict()
         attrs['data-target'] = '#{id}'.format(id=datetimepicker_id)
         attrs['class'] = 'form-control datetimepicker-input'
+        attrs['placeholder'] = 'Дедлайн'
         context = super().get_context(name, value, attrs)
         context['widget']['datetimepicker_id'] = datetimepicker_id
         return context

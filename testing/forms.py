@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
 from django_eolimp.settings import SECRET_KEY_TEACHER
+from testing import widget
 from testing.models import Student, Teacher, Group, Solution, Lecture, Problem
 
 from testing.widget import BootstrapDateTimePickerInput
@@ -90,8 +91,7 @@ class CreateSolutionForm(forms.ModelForm):
 
 
 class CreateProblemForm(forms.ModelForm):
-    # groups = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=))
-    title = forms.CharField(max_length=255)
+    title = forms.CharField(max_length=255, widget=forms.TextInput())
     description = forms.Textarea()
     problem_value = forms.FloatField(widget=forms.NumberInput(attrs={'min': 0}))
     deadline = forms.DateTimeField(
@@ -104,10 +104,19 @@ class CreateProblemForm(forms.ModelForm):
     def __init__(self, teacher, *args, **kwargs):
         super(CreateProblemForm, self).__init__(*args, **kwargs)
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
+        self.fields['group'].label = ''
+        self.fields['group'].empty_label = 'Оберіть групу'
+        self.fields['title'].label = 'Назва задачі'
+        self.fields['description'].label = 'Умова задачі'
+        self.fields['problem_value'].label = 'Бал за задачу'
+        self.fields['deadline'].label = 'Дедлайн'
+        self.fields['input_data'].label = 'Вхідні тести'
+        self.fields['output_data'].label = 'Вихідні тести'
 
     class Meta:
         model = Problem
         fields = ['group', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data']
+
 
     def save(self, **kwargs):
         user = kwargs.pop('user')
@@ -124,6 +133,9 @@ class LectureCreateForm(forms.ModelForm):
     def __init__(self, teacher, *args, **kwargs):
         super(LectureCreateForm, self).__init__(*args, **kwargs)
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
+        self.fields['group'].empty_label = 'Оберіть групу'
+        for field_key in self.fields:
+            self.fields[field_key]['widget']['attrs']['label'] = ''
 
     class Meta:
         model = Lecture
