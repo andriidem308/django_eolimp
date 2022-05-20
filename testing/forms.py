@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
 from django_eolimp.settings import SECRET_KEY_TEACHER
-from testing import widget
 from testing.models import Student, Teacher, Group, Solution, Lecture, Problem
 
 from testing.widget import BootstrapDateTimePickerInput

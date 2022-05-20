@@ -6,24 +6,33 @@ SEPARATOR = '!'
 
 
 def inp_out_cmd(code, file_in, file_out):
-    test_file = 'solution.py'
-    open(test_file, 'w').write(code)
+    temporary_file = 'test_solution.py'
+    open(temporary_file, 'w').write(code)
 
     try:
-        file_outputs = open(file_out.path, 'r').read().split('\n')
-        tests = open(file_in.path, 'r').readlines()
-        code_out = []
-        for line in tests:
-            file_inputs = line.rstrip().split(SEPARATOR)
-            command = ['python3 ' + test_file]
-            p = Popen(command, stdin=PIPE, stdout=PIPE, shell=True)
-            buffer = p.communicate(input=bytes('\n'.join(file_inputs), encoding='utf-8'))[0]
-            code_out.append(buffer.rstrip().decode('utf-8').split('\n'))
+        test_outputs = open(file_out.path, 'r').read().split('\n')
+        test_inputs = open(file_in.path, 'r').readlines()
 
-        result_arr = [co[0] == fo for co, fo in zip(code_out, file_outputs)]
-        score = result_arr.count(True) / len(result_arr)
+        code_outputs = []
+
+        for curr_test_inputs in test_inputs:
+            inputs_list = curr_test_inputs.rstrip().split(SEPARATOR)
+
+            command = [f'python3 {temporary_file}']
+            p = Popen(command, stdin=PIPE, stdout=PIPE, shell=True)
+            buffer = p.communicate(input=bytes('\n'.join(inputs_list), encoding='utf-8'))[0]
+
+            code_outputs.append(buffer.rstrip().decode('utf-8').split('\n'))
+
+        result_arr = [code_output[0] == test_output for code_output, test_output in zip(code_outputs, test_outputs)]
+
+        test_success = result_arr.count(True)
+        test_total = len(result_arr)
+
+        score = test_success / test_total
     except Exception as e:
+        # If Student's code return some exception, his score of this problem becomes equal to zero
         score = 0
 
-    os.remove(test_file)
+    os.remove(temporary_file)
     return score
