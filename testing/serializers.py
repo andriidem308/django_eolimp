@@ -1,15 +1,16 @@
 from rest_framework import serializers
-from .models import *
-from django.contrib.auth.models import User
+from testing.models import *
+from accounts.models import User
+# from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['email', 'first_name', 'last_name']
 
 
-class TeacherSerializer(serializers.Serializer):
+class TeacherSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
     class Meta:
@@ -17,13 +18,13 @@ class TeacherSerializer(serializers.Serializer):
         fields = '__all__'
 
 
-class CreateTeacherSerializer(serializers.Serializer):
+class CreateTeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
         fields = '__all__'
 
 
-class StudentSerializer(serializers.Serializer):
+class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
     class Meta:
@@ -31,72 +32,73 @@ class StudentSerializer(serializers.Serializer):
         fields = '__all__'
 
 
-class CreateStudentSerializer(serializers.Serializer):
+class CreateStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = '__all__'
 
 
-class GroupSerializer(serializers.Serializer):
-    teacher_id = TeacherSerializer()
+class GroupSerializer(serializers.ModelSerializer):
+    teacher = TeacherSerializer()
 
     class Meta:
         model = Group
         fields = '__all__'
 
-class CreateGroupSerializer(serializers.Serializer):
+
+class CreateGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = '__all__'
 
 
-class ProblemSerializer(serializers.Serializer):
-    teacher_id = TeacherSerializer()
-    groups = GroupSerializer()
+class ProblemSerializer(serializers.ModelSerializer):
+    teacher = TeacherSerializer()
+    group = GroupSerializer()
 
     class Meta:
         model = Problem
         fields = '__all__'
 
-class CreateProblemSerializer(serializers.Serializer):
+
+class CreateProblemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Problem
         fields = '__all__'
 
 
-class SolutionSerializer(serializers.Serializer):
-    problem_id = ProblemSerializer()
-    student_id = StudentSerializer()
+class SolutionSerializer(serializers.ModelSerializer):
+    problem = ProblemSerializer()
+    student = StudentSerializer()
 
     class Meta:
         model = Solution
-        fields = ['student_id', 'problem_id', 'date_solved']
+        fields = ['student', 'problem', 'score', 'checked']
 
 
-
-class LectureSerializer(serializers.Serializer):
-    teacher_id = TeacherSerializer()
+class LectureSerializer(serializers.ModelSerializer):
+    teacher = TeacherSerializer()
 
     class Meta:
         model = Lecture
         fields = '__all__'
 
 
-class CreateLectureSerializer(serializers.Serializer):
+class CreateLectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lecture
         fields = '__all__'
 
 
-class AttachmentSerializer(serializers.Serializer):
-    lecture_id = LectureSerializer()
-
-    class Meta:
-        model = Attachment
-        fields = '__all__'
-
-
-class CreateAttachmentSerializer(serializers.Serializer):
-    class Meta:
-        model = Attachment
-        fields = '__all__'
+# class AttachmentSerializer(serializers.ModelSerializer):
+#     lecture_id = LectureSerializer()
+#
+#     class Meta:
+#         model = Attachment
+#         fields = '__all__'
+#
+#
+# class CreateAttachmentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Attachment
+#         fields = '__all__'

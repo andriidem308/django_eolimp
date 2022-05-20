@@ -25,11 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include('testing.urls')),
+    path('api/', include('testing.api_urls')),
+
     path('accounts/', include('django.contrib.auth.urls')),
-
-    # path('accounts/logout/', auth_views.LogoutView.as_view(template_name='home.html'), name='logout'),
-    # path('accounts/logout/', testing.logout, name='logout'),
-
     path('accounts/my_account/', testing.AccountView.as_view(), name='my_account'),
     path('accounts/signup/', testing.SignUpView.as_view(), name='signup'),
     path('accounts/signup/student/', students.StudentSignUpView.as_view(), name='student_signup'),

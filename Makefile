@@ -23,3 +23,6 @@ createsuperuser:
 
 requirements:
 	pip install -r requirements.txt
+
+startapp:
+	$(MANAGE) startapp $(app)
