@@ -117,7 +117,6 @@ class CreateProblemForm(forms.ModelForm):
         model = Problem
         fields = ['group', 'title', 'description', 'problem_value', 'deadline', 'input_data', 'output_data']
 
-
     def save(self, **kwargs):
         user = kwargs.pop('user')
         instance = super(CreateProblemForm, self).save(**kwargs)
@@ -134,8 +133,9 @@ class LectureCreateForm(forms.ModelForm):
         super(LectureCreateForm, self).__init__(*args, **kwargs)
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
         self.fields['group'].empty_label = 'Оберіть групу'
-        for field_key in self.fields:
-            self.fields[field_key]['widget']['attrs']['label'] = ''
+        self.fields['group'].label = ''
+        self.fields['title'].label = 'Тема лекції'
+        self.fields['description'].label = 'Вміст лекції'
 
     class Meta:
         model = Lecture
