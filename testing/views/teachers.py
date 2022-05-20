@@ -47,7 +47,7 @@ def problem_add(request):
         form = CreateProblemForm(teacher, request.POST, request.FILES)
         if form.is_valid():
             form.save(user=request.user, commit=False)
-            return HttpResponseRedirect('../../')
+            return HttpResponseRedirect('../')
     else:
         form = CreateProblemForm(teacher)
     return render(request, 'teachers/problem_add_form.html', {'form': form})
@@ -93,7 +93,7 @@ def lecture_add(request):
         form = LectureCreateForm(teacher, request.POST, request.FILES)
         if form.is_valid():
             form.save(user=request.user, commit=False)
-            return HttpResponseRedirect('../../')
+            return HttpResponseRedirect('../')
     else:
         form = LectureCreateForm(teacher)
     return render(request, 'teachers/lecture_add_form.html', {'form': form})

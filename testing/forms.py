@@ -96,7 +96,7 @@ class CreateProblemForm(forms.ModelForm):
     problem_value = forms.FloatField(widget=forms.NumberInput(attrs={'min': 0}))
     deadline = forms.DateTimeField(
         input_formats=['%Y-%m-%d %H:00:00'],
-        widget=BootstrapDateTimePickerInput
+        widget=BootstrapDateTimePickerInput(attrs={'autocomplete': 'off'})
     )
     input_data = forms.FileField()
     output_data = forms.FileField()
@@ -118,13 +118,12 @@ class CreateProblemForm(forms.ModelForm):
 
 
 class LectureCreateForm(forms.ModelForm):
-    title = forms.CharField(max_length=255)
+    title = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'autocomplete': 'off'}))
     description = forms.Textarea()
 
     def __init__(self, teacher, *args, **kwargs):
         super(LectureCreateForm, self).__init__(*args, **kwargs)
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
-
 
     class Meta:
         model = Lecture

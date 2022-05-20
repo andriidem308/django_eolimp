@@ -14,33 +14,6 @@
   </head>
   <body>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-{#  <style>#}
-{#          body {#}
-{#              background-color: #82b5d5;#}
-              {#background-image: url({% static 'images/im.jpg' %});#}
-{#              background-repeat: no-repeat;#}
-{#              background-attachment: fixed;#}
-{#              background-size: cover;#}
-{#              font-family: "Courier New";#}
-{#          }#}
-{##}
-{#          .card {#}
-{#              background-color: #37c44a;#}
-{#          }#}
-{#          a {#}
-{#              color: #e9efef;#}
-{#          }#}
-{##}
-{#          .nav-link {#}
-{#              color: white;#}
-{#          }#}
-{##}
-{#          .active {#}
-{#              background-color: #efc702;#}
-{#              color: #000000#}
-{#          }#}
-{##}
-{#   </style>#}
     <div class="container my-4">
       <div class="row justify-content-center">
         <div class="col-md-10 col-sm-12">
@@ -73,5 +46,12 @@
         </div>
       </div>
     </div>
+    <script>
+        var some_input=document.getElementsByTagName('input');
+
+        for(var i = 0; i < some_input.length; i++){
+            some_input[i].setAttribute('autocomplete','off');
+        }
+    </script>
   </body>
 </html>
