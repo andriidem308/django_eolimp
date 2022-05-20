@@ -12,7 +12,7 @@ urlpatterns = [
         path('problems/<int:pk>/', students.take_problem, name='take_problem'),
         path('solutions/', students.SolutionListView.as_view(), name='solution_list'),
         path('lectures/', students.LectureListView.as_view(), name='lecture_list'),
-        # path('lectures/<int:pk>/', students.LectureListView.as_view(), name='lecture_list'),
+        path('lectures/<int:pk>/', students.lecture_view, name='lecture_view'),
     ], 'testing'), namespace='students')),
 
     path('teachers/', include(([
@@ -26,7 +26,7 @@ urlpatterns = [
         path('groups/', teachers.GroupsListView.as_view(), name='groups_list'),
         path('groups/<int:pk>/', teachers.StudentsListView.as_view(), name='group'),
         path('problems/<int:pk>/solutions/', teachers.StudentSolutionsListView.as_view(), name='solution_list'),
-        path('solutions/<int:pk>', teachers.view_solution, name='view_solution'),
+        path('solutions/<int:pk>', teachers.solution_view, name='solution_view'),
         # path('students/', teachers.StudentsListView.as_view(), name='students_list')
     ], 'testing'), namespace='teachers')),
 

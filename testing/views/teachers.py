@@ -213,7 +213,7 @@ class StudentSolutionsListView(ListView):
 
 @login_required
 @teacher_required
-def view_solution(request, pk):
+def solution_view(request, pk):
     solution = Solution.objects.get(pk=pk)
     context = {
         'solution': solution,
@@ -222,4 +222,4 @@ def view_solution(request, pk):
         'code': solution.solution_code.replace('\r\n', '<br>').replace('    ', '&emsp;')
     }
 
-    return render(request, 'teachers/view_solution.html', context=context)
+    return render(request, 'teachers/solution_view.html', context=context)

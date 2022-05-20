@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from django.forms import TextInput
 
 
 User = settings.AUTH_USER_MODEL

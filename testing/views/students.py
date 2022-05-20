@@ -93,14 +93,10 @@ def take_problem(request, pk):
 
                 score = round(test_score_percentage * problem.problem_value, 1)
 
-                print(timezone.now() > problem.deadline)
                 if timezone.now() > problem.deadline:
-                    print(score)
                     score = round(score / 2, 1)
-                    print(score)
 
                 previous_solution = Solution.objects.filter(student=student).filter(problem=problem)
-                print(previous_solution)
                 if previous_solution:
                     if score > previous_solution[0].score:
                         previous_solution.delete()
@@ -130,3 +126,10 @@ class LectureListView(ListView):
     def get_queryset(self):
         queryset = Lecture.objects.all()
         return queryset
+
+
+@login_required
+@student_required
+def lecture_view(request, pk):
+    lecture = get_object_or_404(Lecture, pk=pk)
+    return render(request, 'students/lecture_view.html', context={'lecture': lecture})
