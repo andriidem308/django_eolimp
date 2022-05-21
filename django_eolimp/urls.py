@@ -25,17 +25,20 @@ from testing.views import testing, students, teachers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('', include('testing.urls')),
+
+    # API urls
     path('api/', include('testing.api_urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
+    # Accounts urls
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/my_account/', testing.AccountView.as_view(), name='my_account'),
     path('accounts/signup/', testing.SignUpView.as_view(), name='signup'),
     path('accounts/signup/student/', students.StudentSignUpView.as_view(), name='student_signup'),
     path('accounts/signup/teacher/', teachers.TeacherSignUpView.as_view(), name='teacher_signup'),
+
     path('__debug__/', include(debug_toolbar.urls))
 ]
