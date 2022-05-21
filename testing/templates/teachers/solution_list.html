@@ -10,16 +10,18 @@
                     <th>Студент</th>
                     <th>Бал за задачу</th>
                     <th>Розв'язок</th>
+                    <th>Перевірено</th>
                 </tr>
             </thead>
             <tbody>
-                {% for student in students %}
+                {% for k, v in data.items %}
                 <tr>
-                    <td class="align-middle">{{ student.user.last_name }} {{ student.user.first_name }}</td>
-                    {% for k, v in data.items %}
+                    {% for student in students %}
                         {% if k == student %}
+                        <td class="align-middle">{{ student.user.first_name }} {{ student.user.last_name }}</td>
                             <td class="align-middle">{{ v.grade }}</td>
                             <td class="align-middle">{{ v.solution | safe }}</td>
+                            <td class="align-middle">{{ v.checked }}</td>
                         {% endif %}
                     {% endfor %}
 

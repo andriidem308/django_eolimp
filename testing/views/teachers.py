@@ -1,10 +1,13 @@
+import os
+
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, FileResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
+from urllib.parse import quote_plus
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, LectureCreateForm
@@ -178,19 +181,25 @@ class StudentsListView(ListView):
 class StudentSolutionsListView(ListView):
     context_object_name = 'students'
     template_name = 'teachers/solution_list.html'
+    # ordering: Чи є розв'язок (solution is not None) -> Неперевірені (checked=False) -> Дата здачі (date_solved)
 
     def get_queryset(self, **kwargs):
         problem = Problem.objects.get(pk=self.kwargs['pk'])
         group = Group.objects.get(pk=problem.group.id)
         students = Student.objects.filter(group=group)
-        return students
+        return students.order_by('user')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         problem = Problem.objects.get(pk=self.kwargs['pk'])
         context['problem'] = problem
 
-        students = self.get_queryset(**kwargs)
+        solutions = Solution.objects.filter(problem=problem).order_by('checked', 'date_solved')
+        students = [solution.student for solution in solutions]
+
+        for student in self.get_queryset(**kwargs):
+            if student not in students:
+                students.append(student)
 
         data = {student: {} for student in students}
 
@@ -200,9 +209,11 @@ class StudentSolutionsListView(ListView):
             if solution:
                 data[student]['grade'] = f'{solution[0].score} / {problem.problem_value}'
                 data[student]['solution'] = f'<a href="../../../solutions/{solution[0].pk}">Подивитись розв\'язок</a>'
+                data[student]['checked'] = f'{"Так" if solution[0].checked else "Ні"}'
             else:
                 data[student]['grade'] = f'Немає оцінки'
                 data[student]['solution'] = 'Немає розв\'язку'
+                data[student]['checked'] = 'Немає розв\'язку'
 
         context['data'] = data
 
@@ -210,6 +221,7 @@ class StudentSolutionsListView(ListView):
 
     def get_success_url(self):
         return reverse('teachers:group', kwargs={'pk': self.object.pk})
+
 
 @login_required
 @teacher_required
@@ -223,3 +235,30 @@ def solution_view(request, pk):
     }
 
     return render(request, 'teachers/solution_view.html', context=context)
+
+
+@login_required
+@teacher_required
+def solution_check(request, pk):
+    solution = Solution.objects.get(pk=pk)
+    solution.checked = True
+    solution.save()
+    return redirect(f'../../../problems/{solution.problem.id}/solutions/')
+
+@login_required
+@teacher_required
+def solution_download(request, pk):
+    solution = Solution.objects.get(pk=pk)
+
+    filename = '_'.join([
+        solution.student.user.first_name.replace(' ', '_'),
+        solution.student.user.last_name.replace(' ', '_'),
+        'problem',
+        str(solution.problem.id),
+    ]) + '.py'
+
+    open(filename, 'w').write(solution.solution_code)
+    file_response = open(filename, 'rb')
+    os.remove(filename)
+
+    return FileResponse(file_response)

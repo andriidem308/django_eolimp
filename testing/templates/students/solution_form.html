@@ -3,8 +3,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h2 class="mb-3">{{ task.title }}</h2>
-    <p class="lead">{{ task.condition }}</p>
+    <h2 class="mb-3">{{ problem.title }}</h2>
+    <p class="lead">{{ problem.description }}</p>
     <form method="post" novalidate>
         {% csrf_token %}
         {{ form | crispy }}

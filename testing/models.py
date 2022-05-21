@@ -43,8 +43,6 @@ class Problem(models.Model):
     input_data = models.FileField(upload_to='files_uploaded/test_files/', null=True)
     output_data = models.FileField(upload_to='files_uploaded/test_files/', null=True)
 
-    need_to_check = models.BooleanField(null=True)
-
     class Meta:
         ordering = ['date_created']
 
