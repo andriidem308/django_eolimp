@@ -89,6 +89,25 @@ class CreateSolutionForm(forms.ModelForm):
         fields = ['solution_code']
 
 
+class CreateGroupForm(forms.ModelForm):
+    group_name = forms.CharField(max_length=255, widget=forms.TextInput())
+
+    def __init__(self, teacher, *args, **kwargs):
+        super(CreateGroupForm, self).__init__(*args, **kwargs)
+        self.fields['group_name'].label = 'Назва групи'
+
+    class Meta:
+        model = Group
+        fields = ['group_name']
+
+    def save(self, **kwargs):
+        user = kwargs.pop('user')
+        instance = super(CreateGroupForm, self).save(**kwargs)
+        instance.teacher = Teacher.objects.get(user=user)
+        instance.save()
+        return instance
+
+
 class CreateProblemForm(forms.ModelForm):
     title = forms.CharField(max_length=255, widget=forms.TextInput())
     description = forms.Textarea()

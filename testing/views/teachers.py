@@ -7,10 +7,9 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
-from urllib.parse import quote_plus
 
 from testing.decorators import teacher_required
-from testing.forms import TeacherSignUpForm, CreateProblemForm, LectureCreateForm
+from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm
 from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher
 
 
@@ -27,6 +26,21 @@ class TeacherSignUpView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('teachers:problem_change_list')
+
+
+@login_required
+@teacher_required
+def group_add(request):
+    teacher = Teacher.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = CreateGroupForm(teacher, request.POST, request.FILES)
+        if form.is_valid():
+            form.save(user=request.user, commit=False)
+            return HttpResponseRedirect('../')
+    else:
+        form = CreateGroupForm(teacher)
+    return render(request, 'teachers/group_add_form.html', {'form': form})
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')
