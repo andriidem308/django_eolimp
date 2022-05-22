@@ -8,11 +8,12 @@ urlpatterns = [
 
     path('students/', include(([
         path('', lambda request: redirect('my_account', permanent=True)),
-        path('problems/', students.TaskListView.as_view(), name='problem_list'),
+        path('problems/', students.ProblemListView.as_view(), name='problem_list'),
         path('problems/<int:pk>/', students.take_problem, name='take_problem'),
         path('solutions/', students.SolutionListView.as_view(), name='solution_list'),
         path('lectures/', students.LectureListView.as_view(), name='lecture_list'),
         path('lectures/<int:pk>/', students.lecture_view, name='lecture_view'),
+        path('lectures/<int:pk>/download_attachment/', students.attachment_download, name='attachment_download'),
     ], 'testing'), namespace='students')),
 
     path('teachers/', include(([
