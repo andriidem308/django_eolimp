@@ -11,13 +11,13 @@ def test_student_solution(code, exec_time, file_in, file_out):
     open(temporary_file, 'w').write(code)
 
     try:
-        test_outputs = open(file_out.path, 'r').read().split('\n')
-        test_inputs = open(file_in.path, 'r').readlines()
+        test_outputs = list(map(lambda x: x.strip(), open(file_out.path, 'r').readlines()))
+        test_inputs = list(map(lambda x: x.strip(), open(file_in.path, 'r').readlines()))
 
         code_outputs = []
 
         for curr_test_inputs in test_inputs:
-            inputs_list = curr_test_inputs.rstrip().split(SEPARATOR)
+            inputs_list = curr_test_inputs.split(SEPARATOR)
 
             command = [f'python3 {temporary_file}']
 

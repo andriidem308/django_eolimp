@@ -124,7 +124,8 @@ class LectureListView(ListView):
     template_name = 'students/lecture_list.html'
 
     def get_queryset(self):
-        queryset = Lecture.objects.all()
+        student = Student.objects.get(user=self.request.user)
+        queryset = Lecture.objects.filter(group=student.group)
         return queryset
 
 

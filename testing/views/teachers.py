@@ -51,8 +51,9 @@ class ProblemsListView(ListView):
     template_name = 'teachers/problem_change_list.html'
 
     def get_queryset(self):
-        queryset = Problem.objects.all()
-        return queryset
+        teacher = Teacher.objects.get(user=self.request.user)
+        problems = Problem.objects.filter(teacher=teacher)
+        return problems
 
 
 @login_required
@@ -100,8 +101,9 @@ class LectureListView(ListView):
     template_name = 'teachers/lecture_change_list.html'
 
     def get_queryset(self):
-        queryset = Lecture.objects.all()
-        return queryset
+        teacher = Teacher.objects.get(user=self.request.user)
+        lectures = Lecture.objects.filter(teacher=teacher)
+        return lectures
 
 
 @login_required
