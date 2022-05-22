@@ -17,9 +17,10 @@ sudo apt install make
 make requirements
 ```
 
-Робимо міграції бази данних
+Робимо міграції бази даних
 ```
-make migrations
+make migrate_acc
+make migrate_tst
 make migrate
 ```
 
