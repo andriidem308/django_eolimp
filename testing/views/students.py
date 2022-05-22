@@ -1,6 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -28,7 +29,7 @@ class StudentSignUpView(CreateView):
 
 
 @method_decorator([login_required, student_required], name='dispatch')
-class TaskListView(ListView):
+class ProblemListView(ListView):
     model = Problem
     ordering = ('title', )
     context_object_name = 'problems'
@@ -134,3 +135,15 @@ class LectureListView(ListView):
 def lecture_view(request, pk):
     lecture = get_object_or_404(Lecture, pk=pk)
     return render(request, 'students/lecture_view.html', context={'lecture': lecture})
+
+
+@login_required
+@student_required
+def attachment_download(request, pk):
+    lecture = Lecture.objects.get(pk=pk)
+    attachment_path = lecture.attachment.path
+    filename = attachment_path.split('/')[-1]
+
+    file_response = open(attachment_path, 'rb')
+
+    return FileResponse(file_response, filename=filename)
