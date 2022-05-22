@@ -2,9 +2,10 @@ import os
 
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponseRedirect, FileResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
@@ -197,7 +198,6 @@ class StudentsListView(ListView):
 class StudentSolutionsListView(ListView):
     context_object_name = 'students'
     template_name = 'teachers/solution_list.html'
-    # ordering: Чи є розв'язок (solution is not None) -> Неперевірені (checked=False) -> Дата здачі (date_solved)
 
     def get_queryset(self, **kwargs):
         problem = Problem.objects.get(pk=self.kwargs['pk'])
@@ -239,27 +239,35 @@ class StudentSolutionsListView(ListView):
         return reverse('teachers:group', kwargs={'pk': self.object.pk})
 
 
-@login_required
-@teacher_required
-def solution_view(request, pk):
-    solution = Solution.objects.get(pk=pk)
-    context = {
-        'solution': solution,
-        'problem': Problem.objects.get(pk=solution.problem.id),
-        'student': Student.objects.get(pk=solution.student.id),
-        'code': solution.solution_code.replace('\r\n', '<br>').replace('    ', '&emsp;')
-    }
+@method_decorator([login_required, teacher_required], name='dispatch')
+class SolutionUpdateView(UpdateView):
+    model = Solution
+    fields = ('score', )
+    context_object_name = 'solution'
+    template_name = 'teachers/solution_change_form.html'
 
-    return render(request, 'teachers/solution_view.html', context=context)
+    def get_queryset(self):
+        return Solution.objects.all()
 
+    def get_success_url(self):
+        problem = self.object.problem
+        return reverse('teachers:solution_list', kwargs={'pk': problem.id})
 
-@login_required
-@teacher_required
-def solution_check(request, pk):
-    solution = Solution.objects.get(pk=pk)
-    solution.checked = True
-    solution.save()
-    return redirect(f'../../../problems/{solution.problem.id}/solutions/')
+    def get_context_data(self, **kwargs):
+        context = super(SolutionUpdateView, self).get_context_data(**kwargs)
+        solution = Solution.objects.get(pk=self.object.pk)
+        context['code'] = solution.solution_code.replace('\r\n', '<br>').replace('    ', '&emsp;')
+        return context
+
+    def form_valid(self, form):
+        problem = self.object.problem
+        self.object.checked = True
+        if form.cleaned_data.get('score') > problem.problem_value:
+            solution = form.save(commit=False)
+            solution.score = problem.problem_value
+            solution.save()
+        return super().form_valid(form)
+
 
 @login_required
 @teacher_required
