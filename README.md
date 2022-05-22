@@ -7,6 +7,11 @@
 git clone https://github.com/projectowner/projectname.git
 ```
 
+Для простоти виконання наступних команд, рекомендуємо встановити підтримку "мейкфайлів":
+```
+sudo apt install make
+```
+
 Відкриваємо проект, в терміналі встановлюємо всі потрібні бібліотеки
 ```
 make requirements
