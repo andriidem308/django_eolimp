@@ -148,6 +148,7 @@ class CreateProblemForm(forms.ModelForm):
 class LectureCreateForm(forms.ModelForm):
     title = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'autocomplete': 'off'}))
     description = forms.Textarea()
+    attachment = forms.FileField(required=False)
 
     def __init__(self, teacher, *args, **kwargs):
         super(LectureCreateForm, self).__init__(*args, **kwargs)
@@ -159,7 +160,7 @@ class LectureCreateForm(forms.ModelForm):
 
     class Meta:
         model = Lecture
-        fields = ['group', 'title', 'description']
+        fields = ['group', 'title', 'description', 'attachment']
 
     def save(self, **kwargs):
         user = kwargs.pop('user')

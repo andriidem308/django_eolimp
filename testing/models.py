@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -91,26 +90,10 @@ class Lecture(models.Model):
     description = models.TextField()
     date_created = models.DateTimeField(auto_now=True)
     date_updated = models.DateTimeField(auto_now=True)
+    attachment = models.FileField(upload_to='files_uploaded/lectures_files', blank=True, null=True)
 
     class Meta:
         ordering = ['date_created']
 
     def __str__(self):
         return self.title
-
-
-class Attachment(models.Model):
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
-    attachment_file = models.FileField(null=True)
-
-    class Meta:
-        ordering = ['pk']
-
-
-class ProblemTest(models.Model):
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    input_data = models.FileField(null=True)
-    output_data = models.FileField(null=True)
-
-    class Meta:
-        ordering = ['pk']

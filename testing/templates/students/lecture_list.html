@@ -7,7 +7,6 @@
         {% for lecture in lectures %}
             <h4 class="card-title"><a href="{% url 'students:lecture_view' lecture.pk %}">{{ lecture.title }}</a></h4>
             <h5 class="grey summary card-subtitle">{{ lecture.description }}</h5>
-            <h5 class="grey summary card-subtitle pt-3"><a href="{{ lecture.attachment.url }}" download>Завантажити додаток</a></h5>
             <hr>
         {% empty %}
             <li class="row">

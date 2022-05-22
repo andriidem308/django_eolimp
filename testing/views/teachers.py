@@ -125,7 +125,7 @@ def lecture_add(request):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class LectureUpdateView(UpdateView):
     model = Lecture
-    fields = ('title', 'description')
+    fields = ('title', 'description', 'attachment')
     context_object_name = 'lectures'
     template_name = 'teachers/lecture_change_form.html'
 

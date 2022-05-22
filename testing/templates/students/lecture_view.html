@@ -3,4 +3,8 @@
 {% block content %}
     <h2 class="mb-3">{{ lecture.title }}</h2>
     <p class="lead">{{ lecture.description }}</p>
+    {% if lecture.attachment %}
+        <a download href="/students/lectures/{{ lecture.pk }}/download_attachment" class="btn btn-light" role="button" style="background-color: #efc702; color: #000000">Завантажити додаток</a>
+    {% endif %}
+
 {% endblock %}
