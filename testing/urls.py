@@ -30,6 +30,7 @@ urlpatterns = [
         path('solutions/<int:pk>/', teachers.solution_view, name='solution_view'),
         path('solutions/<int:pk>/check/', teachers.solution_check, name='solution_check'),
         path('solutions/<int:pk>/download/', teachers.solution_download, name='solution_download'),
+        path('tests/add/',teachers.add_form,name='add_form')
         # path('students/', teachers.StudentsListView.as_view(), name='students_list')
     ], 'testing'), namespace='teachers')),
 
