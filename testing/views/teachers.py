@@ -13,7 +13,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm
-from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Choices, Questions, Form
+from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Choices, Questions, Test
 
 
 class TeacherSignUpView(CreateView):
@@ -49,7 +49,7 @@ def group_add(request):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class ProblemsListView(ListView):
     model = Problem
-    ordering = ('title', )
+    ordering = ('title',)
     context_object_name = 'problems'
     template_name = 'teachers/problem_change_list.html'
 
@@ -99,7 +99,7 @@ class ProblemUpdateView(UpdateView):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class LectureListView(ListView):
     model = Lecture
-    ordering = ('date', )
+    ordering = ('date',)
     context_object_name = 'lectures'
     template_name = 'teachers/lecture_change_list.html'
 
@@ -141,7 +141,7 @@ class LectureUpdateView(UpdateView):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class GroupsListView(ListView):
     model = Group
-    ordering = ('group_name', )
+    ordering = ('group_name',)
     context_object_name = 'groups'
     template_name = 'teachers/groups_list.html'
 
@@ -244,7 +244,7 @@ class StudentSolutionsListView(ListView):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class SolutionUpdateView(UpdateView):
     model = Solution
-    fields = ('score', )
+    fields = ('score',)
     context_object_name = 'solution'
     template_name = 'teachers/solution_change_form.html'
 
@@ -289,22 +289,74 @@ def solution_download(request, pk):
 
     return FileResponse(file_response)
 
+
 @login_required
 @teacher_required
-def add_form(request):
+def test_add(request):
     # Create a blank form API
     if request.method == "POST":
         data = json.loads(request.body)
         title = data["title"]
         code = ''.join(random.choice(string.ascii_letters + string.digits) for x in range(30))
-        choices = Choices(choice = "Option 1")
+        choices = Choices(choice="Option 1")
         choices.save()
-        question = Questions(question_type = "multiple choice", question= "Untitled Question", required= False)
+        question = Questions(question_type="multiple choice", question="Untitled Question", required=False)
         question.save()
         question.choices.add(choices)
         question.save()
-        form = Form(code = code, title = title, creator=request.user)
+        form = Test(code=code, title=title, creator=request.user)
         form.save()
         form.questions.add(question)
         form.save()
         return JsonResponse({"message": "Sucess", "code": code})
+
+
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class TestsListView(ListView):
+    model = Problem
+    ordering = ('title',)
+    context_object_name = 'tests'
+    template_name = 'teachers/test_change_list.html'
+
+    def get_queryset(self):
+        teacher = Teacher.objects.get(user=self.request.user)
+        tests = Test.objects.filter(teacher=teacher)
+        return tests
+
+
+@login_required
+@teacher_required
+def test_add(request):
+    teacher = Teacher.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = CreateTestForm(teacher, request.POST)
+        if form.is_valid():
+            form.save(user=request.user, commit=False)
+            return HttpResponseRedirect('../')
+    else:
+        form = CreateTestForm(teacher)
+    return render(request, 'teachers/test_add_form.html', {'form': form})
+
+
+@method_decorator([login_required, teacher_required], name='dispatch')
+class TestUpdateView(UpdateView):
+    model = Test
+    fields = (
+        'group', 'title', 'description', 'problem_value', 'max_execution_time',
+        'deadline', 'input_data', 'output_data'
+    )
+    context_object_name = 'test'
+    template_name = 'teachers/test_change_form.html'
+
+    def get_queryset(self):
+        return Test.objects.all()
+
+    def get_success_url(self):
+        return reverse('teachers:test_change', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['test'] = Test.objects.get(pk=self.kwargs['pk'])
+        return context

@@ -30,7 +30,9 @@ urlpatterns = [
         path('problems/<int:pk>/solutions/', teachers.StudentSolutionsListView.as_view(), name='solution_list'),
         path('solutions/<int:pk>/', teachers.SolutionUpdateView.as_view(), name='solution_change'),
         path('solutions/<int:pk>/download/', teachers.solution_download, name='solution_download'),
-        path('tests/add/', teachers.add_form, name='add_form'),
+        path('tests/', teachers.TestsListView.as_view(), name='test_change_list'),
+        path('tests/add/', teachers.test_add, name='add_form'),
+        path('tests/<int:pk>/', teachers.TestUpdateView.as_view(), name='form_add'),
     ], 'testing'), namespace='teachers')),
 
 ]
