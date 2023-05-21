@@ -1,17 +1,19 @@
+import json
 import os
+import random
+import string
 
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.http import HttpResponseRedirect, FileResponse
+from django.http import HttpResponseRedirect, FileResponse, JsonResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm
-from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher
+from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Choices, Questions, Form
 
 
 class TeacherSignUpView(CreateView):
@@ -286,3 +288,23 @@ def solution_download(request, pk):
     os.remove(filename)
 
     return FileResponse(file_response)
+
+@login_required
+@teacher_required
+def add_form(request):
+    # Create a blank form API
+    if request.method == "POST":
+        data = json.loads(request.body)
+        title = data["title"]
+        code = ''.join(random.choice(string.ascii_letters + string.digits) for x in range(30))
+        choices = Choices(choice = "Option 1")
+        choices.save()
+        question = Questions(question_type = "multiple choice", question= "Untitled Question", required= False)
+        question.save()
+        question.choices.add(choices)
+        question.save()
+        form = Form(code = code, title = title, creator=request.user)
+        form.save()
+        form.questions.add(question)
+        form.save()
+        return JsonResponse({"message": "Sucess", "code": code})
