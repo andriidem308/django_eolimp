@@ -2,12 +2,12 @@
 
 {% block content %}
 
-    <h2>Вітаємо Вас! Це веб-сервіс для тестування.<span class="icon-emo-happy"></span></h2>
+    <h2>Hello! This is web-testing service.<span class="icon-emo-happy"></span></h2>
     <p class="lead">
-    Якщо у Вас вже є акаунт, то переходьте на <a href="{% url 'login' %}">Сторінку авторизації</a>.
+    If you already have an account, go to <a href="{% url 'login' %}">Authorization page</a>.
     <br>
-    Якщо Ви тут вперше, то пропонуємо Вам зареєструватись у якості
-        <a href="{% url 'student_signup' %}">Студента</a>
+    If you do not have an account, please sign up as
+        <a href="{% url 'student_signup' %}">Student</a>
         чи
-        <a href="{% url 'teacher_signup' %}">Викладача</a>.
+        <a href="{% url 'teacher_signup' %}">Teacher</a>.
 {% endblock %}

@@ -3,7 +3,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    font-family: "Courier New";
+    font-family: "Alatsi", serif;
 }
 
 .card {
@@ -21,4 +21,8 @@ a {
 .nav-link.active {
   background-color: #efc702;
   color: #000000
+}
+
+.basic-text {
+    font-family: "Alatsi", serif;
 }

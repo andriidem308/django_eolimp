@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Testing Service{% endblock %}</title>
     <link rel="icon" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alatsi" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
@@ -26,11 +26,11 @@
             <div class="col-6 text-right">
               {% if user.is_authenticated %}
                 <p class="pt-3" style="color: #151d2f"><strong>{{ user.email }}</strong>
-                    <a href="{% url 'logout' %}"> | Вийти</a>
+                    <a href="{% url 'logout' %}"> | Log out</a>
                 </p>
               {% else %}
-                <a href="{% url 'login' %}" class="btn btn-light" role="button">Увійти</a>
-                <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Зареєструватись</a>
+                <a href="{% url 'login' %}" class="btn btn-light" role="button">Login</a>
+                <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Sign up</a>
               {% endif %}
             </div>
           </div>
