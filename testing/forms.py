@@ -65,7 +65,7 @@ class StudentSignUpForm(UserCreationForm):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}), label='')
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password confirmation'}), label='')
 
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), label="Група")
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), label='', empty_label='Select Group')
 
     class Meta(UserCreationForm.Meta):
         model = User

@@ -14,6 +14,12 @@ a {
     color: #71bbff;
 }
 
+a:hover {
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+}
+
 .nav-link {
     color: white;
 }
@@ -118,4 +124,3 @@ h2 {
 .sign_up form textarea {
     border: 1px solid black;
 }
-
