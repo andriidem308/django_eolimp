@@ -4,22 +4,22 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-8 col-sm-10 col-12">
-        {% if user_type  == 'teacher' %}
-        <h2>Зареєструватись як Вчитель</h2>
-        {% else %}
-        <h2>Зареєструватись як Студент</h2>
-        {% endif %}
-        <br>
-      <form method="post" novalidate>
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}">
-        {{ form | crispy }}
-          {{ form. }}
-          <br>
-        <button type="submit" class="btn btn-success" style="background-color: #efc702; color: #000000">Зареєструватись</button>
-      </form>
-    </div>
+  <div class="sign_up">
+
+            {% if user_type  == 'teacher' %}
+            <h2>Sign up as Teacher</h2>
+            {% else %}
+            <h2>Sign up as Student</h2>
+            {% endif %}
+            <br>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {{ form | crispy }}
+              {{ form. }}
+              <br>
+            <button type="submit" class="btn btn-success" >Sign Up</button>
+          </form>
+
   </div>
 {% endblock %}

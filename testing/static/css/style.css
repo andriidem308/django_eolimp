@@ -84,3 +84,38 @@ h2 {
     margin: 10px;
 }
 
+
+.sign_up {
+  width: 500px;
+  margin: 150px auto;
+  padding: 20px;
+  background-color: #ffffff;
+
+}
+
+/* Стили для заголовка */
+.sign_up h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Стили для формы */
+.sign_up form {
+  margin-bottom: 20px;
+}
+
+/* Стили для кнопки */
+.sign_up button {
+  background-color: #058ef1;
+  color: #ffffff;
+}
+
+/* Стили для полей ввода */
+.sign_up form input[type="text"],
+.sign_up form input[type="password"],
+.sign_up form input[type="email"],
+.sign_up form textarea {
+  border: 1px solid black;
+}
+
