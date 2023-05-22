@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'testing',
     'corsheaders',
     'accounts',
+    'fontawesomefree',
 ]
 
 MIDDLEWARE = [
