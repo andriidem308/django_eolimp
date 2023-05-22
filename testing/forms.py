@@ -1,6 +1,8 @@
+import logging
+
 from django import forms
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, User, UsernameField
 from django.db import transaction
 
 from django_eolimp.settings import SECRET_KEY_TEACHER

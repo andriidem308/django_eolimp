@@ -45,13 +45,13 @@ a:hover {
     bottom: 25%;
 }
 
-h1 {
+.main-container h1 {
     font-size: 72px;
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
-h2 {
+.main-container h2 {
     font-size: 40px;
 }
 
@@ -99,29 +99,54 @@ h2 {
 
 }
 
-/* Стили для заголовка */
 .auth-form h2 {
-    font-size: 24px;
+    font-size: 30px;
     text-align: center;
     margin-bottom: 20px;
 }
 
-/* Стили для формы */
 .auth-form form {
     margin-bottom: 20px;
 }
 
-/* Стили для кнопки */
-.auth-form button {
+.auth-form button,
+.auth-form button a {
+    width: 120px;
     background-color: #058ef1;
     color: #ffffff;
 }
 
-/* Стили для полей ввода */
+.auth-form button:hover,
+.auth-form button a:hover {
+    background-color: #3270ff;
+    color: #ffffff;
+}
+
 .auth-form form input[type="text"],
 .auth-form form input[type="password"],
 .auth-form form input[type="email"],
 .auth-form form select[name="group"],
 .auth-form form textarea {
     border: 1px solid black;
+}
+
+div.buttons-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation {
+    display: flex;
+    margin: 0 auto;
+    align-content: center;
+
+    justify-content: center;
+    list-style-type: none
+}
+
+
+.nav-item,
+.nav-item a {
+    background-color: blue;
+    color: black;
 }

@@ -15,7 +15,9 @@ Including another URLconf
 """
 import debug_toolbar
 from django.contrib import admin
+import django.contrib.auth.urls
 from django.urls import include, path
+from django.contrib.auth.views import auth_logout
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import auth_logout
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
@@ -36,7 +38,8 @@ urlpatterns = [
     # Accounts urls
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/my_account/', testing.AccountView.as_view(), name='my_account'),
-    path('accounts/signup/', testing.SignUpView.as_view(), name='signup'),
+    path('accounts/login/', testing.UserLoginView.as_view(), name='login'),
+    # path('accounts/login/', testing.UserLoginView.as_view(), name='login'),
     path('accounts/signup/student/', students.StudentSignUpView.as_view(), name='student_signup'),
     path('accounts/signup/teacher/', teachers.TeacherSignUpView.as_view(), name='teacher_signup'),
 

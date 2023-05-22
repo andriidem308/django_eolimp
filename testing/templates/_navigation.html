@@ -1,17 +1,14 @@
-<ul class="nav nav-tabs mb-3" style="margin-top: 30px">
-    <li class="nav-item">
-        <a class="nav-link" href="{% if user.is_student %}{% url 'students:lecture_list' %}
-                {% else %}{% url 'teachers:lecture_change_list' %}{% endif %}">Лекції</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link"
-           href="{% if user.is_student %}{% url 'students:problem_list' %}
-                {% else %}{% url 'teachers:problem_change_list' %}{% endif %}">Задачі</a>
-    </li>
+<ul class="navigation">
+    <li class="nav-item"><a class="nav-link" href="{% if user.is_student %}{% url 'students:lecture_list' %}
+                {% else %}{% url 'teachers:lecture_change_list' %}{% endif %}">Лекції</a></li>
+    <li class="nav-item"><a class="nav-link"
+                            href="{% if user.is_student %}{% url 'students:problem_list' %}
+                {% else %}{% url 'teachers:problem_change_list' %}{% endif %}">Задачі</a></li>
+    <li class="nav-item"></li>
     {% if user.is_teacher %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'teachers:groups_list' %}">Групи</a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'teachers:groups_list' %}">Групи</a>
+        </li>
     {% endif %}
     <li class="nav-item">
         <a class="nav-link" href="{% url 'my_account' %}">Профіль</a>
