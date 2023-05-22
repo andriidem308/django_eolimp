@@ -7,20 +7,20 @@ body {
 }
 
 .card {
-  background-color: #37c44a;
+    background-color: #37c44a;
 }
 
 a {
-  color: #71bbff;
+    color: #71bbff;
 }
 
 .nav-link {
-  color: white;
+    color: white;
 }
 
 .nav-link.active {
-  background-color: #efc702;
-  color: #000000
+    background-color: #efc702;
+    color: #000000
 }
 
 .basic-text {
@@ -86,29 +86,29 @@ h2 {
 
 
 .sign_up {
-  width: 500px;
-  margin: 150px auto;
-  padding: 20px;
-  background-color: #ffffff;
+    width: 500px;
+    margin: 150px auto;
+    padding: 20px;
+    background-color: #ffffff;
 
 }
 
 /* Стили для заголовка */
 .sign_up h2 {
-  font-size: 24px;
-  text-align: center;
-  margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 /* Стили для формы */
 .sign_up form {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 /* Стили для кнопки */
 .sign_up button {
-  background-color: #058ef1;
-  color: #ffffff;
+    background-color: #058ef1;
+    color: #ffffff;
 }
 
 /* Стили для полей ввода */
@@ -116,6 +116,6 @@ h2 {
 .sign_up form input[type="password"],
 .sign_up form input[type="email"],
 .sign_up form textarea {
-  border: 1px solid black;
+    border: 1px solid black;
 }
 
