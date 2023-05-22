@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <h2>Hello! This is web-testing service.<span class="icon-emo-happy"></span></h2>
-    <p class="lead">
-    If you already have an account, go to <a href="{% url 'login' %}">Authorization page</a>.
-    <br>
-    If you do not have an account, please sign up as
-        <a href="{% url 'student_signup' %}">Student</a>
-        чи
-        <a href="{% url 'teacher_signup' %}">Teacher</a>.
+    <div class="container-center text-center">
+        <h1 class="">Testing Service</h1>
+        <div class="greeting">
+            <h2>Hello! This is web-testing service.<span class="icon-emo-happy"></span></h2>
+            <p class="lead">
+                If you already have an account, go to <a href="{% url 'login' %}">Authorization page</a>.
+                <br>
+                If you do not have an account, please sign up as
+                <a href="{% url 'student_signup' %}">Student</a>
+                or
+                <a href="{% url 'teacher_signup' %}">Teacher</a>.
+        </div>
+        <div class="tiles">
+            <a href="" ><div class="tile"><i class="fas fa-home"></i>Tile 1</div></a>
+            <a href="" ><div class="tile"><i class="fas fa-home"></i>Tile 2</div></a>
+            <a href="" ><div class="tile"><i class="fas fa-home"></i>Tile 3</div></a>
+        </div>
+    </div>
 {% endblock %}
