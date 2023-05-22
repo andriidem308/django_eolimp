@@ -91,7 +91,7 @@ h2 {
 }
 
 
-.sign_up {
+.auth-form {
     width: 500px;
     margin: 150px auto;
     padding: 20px;
@@ -100,27 +100,28 @@ h2 {
 }
 
 /* Стили для заголовка */
-.sign_up h2 {
+.auth-form h2 {
     font-size: 24px;
     text-align: center;
     margin-bottom: 20px;
 }
 
 /* Стили для формы */
-.sign_up form {
+.auth-form form {
     margin-bottom: 20px;
 }
 
 /* Стили для кнопки */
-.sign_up button {
+.auth-form button {
     background-color: #058ef1;
     color: #ffffff;
 }
 
 /* Стили для полей ввода */
-.sign_up form input[type="text"],
-.sign_up form input[type="password"],
-.sign_up form input[type="email"],
-.sign_up form textarea {
+.auth-form form input[type="text"],
+.auth-form form input[type="password"],
+.auth-form form input[type="email"],
+.auth-form form select[name="group"],
+.auth-form form textarea {
     border: 1px solid black;
 }
