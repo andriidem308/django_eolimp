@@ -8,11 +8,6 @@
            href="{% if user.is_student %}{% url 'students:problem_list' %}
                 {% else %}{% url 'teachers:problem_change_list' %}{% endif %}">Задачі</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link"
-           href="{% if user.is_student %}{% url 'students:tests_list' %}
-                {% else %}{% url 'teachers:test_change_list' %}{% endif %}">Тести</a>
-    </li>
     {% if user.is_teacher %}
     <li class="nav-item">
         <a class="nav-link" href="{% url 'teachers:groups_list' %}">Групи</a>
