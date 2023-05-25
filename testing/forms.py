@@ -140,6 +140,7 @@ class CreateProblemForm(forms.ModelForm):
         return instance
 
 
+# ---- USE AS EXAMPLE FOR LECTURE ----
 class UpdateProblemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateProblemForm, self).__init__(*args, **kwargs)

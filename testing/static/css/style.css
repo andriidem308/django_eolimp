@@ -151,6 +151,10 @@ a:hover {
     margin-left: 40px;
 }
 
+.tile:hover {
+    background-color: #d0d0d0;
+}
+
 .tile-icon {
     font-size: 60px;
     margin: 10px;
