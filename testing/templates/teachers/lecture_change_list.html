@@ -1,27 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2 class="mb-3">Лекції</h2>
-  <a href="{% url 'teachers:lecture_add' %}" class="btn btn-primary mb-3" role="button">Додати лекцію</a>
-  <div class="card">
-    <div class="card">
-        <table class="table mb-0">
-            <tbody>
-                {% for lecture in lectures %}
-                <tr>
-                    <td class="align-middle">
-                        <a href="{% url 'teachers:lecture_change' lecture.pk %}">{{ lecture.title }}</a>
-                        <br>
-                        <p class="grey summary card-subtitle p-3">{{ lecture.description }}</p>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td class="bg-light text-center font-italic" colspan="5">Ви не додали ще ні одної лекції.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-  </div>
+  <h2 class="mb-3">Lectures</h2>
+  <a href="{% url 'teachers:lecture_add' %}" class="btn btn-primary mb-3" role="button">New lecture</a>
+    <table class="table mb-0">
+        <tbody>
+        {% for lecture in lectures %}
+            <tr>
+                <td class="align-middle">
+                    <a href="{% url 'teachers:lecture_change' lecture.pk %}">{{ lecture.title }}</a>
+                    <br>
+                    <p class="grey summary card-subtitle p-3">{{ lecture.description }}</p>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td class="bg-light text-center font-italic" colspan="5">You didn't add any lecture</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

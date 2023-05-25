@@ -1,21 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2 class="mb-3">Групи</h2>
-    <a href="{% url 'teachers:group_add' %}" class="btn btn-primary mb-3" role="button">Нова група</a>
-    <div class="card">
-        <table class="table mb-0">
-            <tbody>
-                {% for group in groups %}
-                <tr>
-                    <td class="align-middle"><a href="{% url 'teachers:group' group.pk %}">{{ group.group_name }}</a></td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td class="bg-light text-center font-italic" colspan="5">У Вас поки ще немає груп .</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <h2 class="mb-3">Groups</h2>
+    <a href="{% url 'teachers:group_add' %}" class="btn btn-primary mb-3" role="button">New group</a>
+    <table class="table mb-0">
+        <tbody>
+            {% for group in groups %}
+            <tr>
+                <td class="align-middle"><a href="{% url 'teachers:group' group.pk %}">{{ group.group_name }}</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td class="bg-light text-center font-italic" colspan="5">У Вас поки ще немає груп .</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

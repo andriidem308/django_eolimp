@@ -128,7 +128,7 @@ def lecture_add(request):
 class LectureUpdateView(UpdateView):
     model = Lecture
     fields = ('title', 'description', 'attachment')
-    context_object_name = 'lectures'
+    context_object_name = 'lecture'
     template_name = 'teachers/lecture_change_form.html'
 
     def get_queryset(self):

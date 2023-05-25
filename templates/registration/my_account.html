@@ -4,18 +4,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="user-forms">
-    <div class="user-forms-text">
-      <h2>My account</h2>
-        <br><br>
-      <form method="post" novalidate>
-        {% csrf_token %}
-          <p><b>Name, Surname:</b> {{ user.first_name }} {{ user.last_name }}</p>
-          <p><b>E-mail:</b> {{ user.email }}</p>
-        {{ form | crispy }}
-        <a href="{% url 'logout' %}" class="btn btn-warning" role="button">Log out</a>
-      </form>
+    <div class="text-center">
+        <h2>My account</h2>
+        <br>
+        <form class="account-form" method="post" novalidate>
+            {% csrf_token %}
+            <p><b>Name:</b>&ensp;{{ user.first_name }}</p>
+            <p><b>Surname:</b>&ensp;{{ user.last_name }}</p>
+            <p><b>E-mail:</b>&ensp;{{ user.email }}</p>
+            {{ form | crispy }}
+            <a href="{% url 'logout' %}" class="btn btn-warning" role="button">Log out</a>
+        </form>
     </div>
-  </div>
-
 {% endblock %}

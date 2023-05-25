@@ -20,7 +20,7 @@
 {% if user.is_authenticated %}
     {% include '_navigation.html' with user=user%}
 {% endif %}
-<div class="content">
+<div class="container-center">
     {% block content %}
     {% endblock %}
 </div>

@@ -3,23 +3,17 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-        <h2 class="mb-3">Лекція {{ material.title }}</h2>
-    <div class="left-side row mb-3">
-        <div class="col-md-6 col-sm-8 col-12">
+        <h2 class="mb-3">Lecture {{ lecture.title }}</h2>
             <form method="post" novalidate>
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-success" style="background-color: #efc702; color: #000000">Зберегти зміни</button>
-                <a href="{% url 'teachers:lecture_change_list' %}" class="btn btn-outline-secondary" role="button" style="background-color: #058ef1; color: #ffffff">Відмінити</a>
+                <div class="buttons-row">
+                    <button type="submit" class="btn">Save changes</button>
+                    <a href="{% url 'teachers:lecture_change_list' %}">
+                        <button class="btn" type="button">Cancel</button>
+                    </a>
+                </div>
             </form>
-        </div>
-    </div>
-    <div class="right-side">
-
-    </div>
-
-
-
 {% endblock %}
 
 
