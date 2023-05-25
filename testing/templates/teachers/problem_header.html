@@ -3,11 +3,11 @@
 
     <ul class="nav nav-tabs mb-3" style="margin-top: 20px">
         <li class="nav-item">
-            <a class="nav-link{% if active_tab == 'change_problem' %} active {% endif %}"
+            <a class="nav-link{% if active_tab == 'change_problem' %} active-tab {% endif %}"
                href="{% url 'teachers:problem_change' problem.pk %}">Edit</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link{% if active_tab == 'solutions' %} active {% endif %}"
+            <a class="nav-link{% if active_tab == 'solutions' %} active-tab {% endif %}"
                href="{% url 'teachers:solution_list' problem.pk %}">Students solutions</a>
         </li>
     </ul>

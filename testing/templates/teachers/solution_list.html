@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container-center">
         {% include 'teachers/problem_header.html' with active_tab='solutions' %}
         <h2 class="mb-3"> Problems Solution {{ problem.title }}</h2>
         <table class="table mb-0">
@@ -29,6 +28,5 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
 
 {% endblock %}

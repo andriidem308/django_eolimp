@@ -38,7 +38,7 @@ p {
     height: 100%;
 
 
-    margin: 0 auto;
+    margin: auto;
     display: flex;
     /*justify-content: center;*/
     justify-content: space-between;
@@ -48,40 +48,45 @@ p {
     /*background-color: #b8daff;*/
 }
 
-.navigation-item,
-.navigation-item a {
+/*.navigation-item,*/
+.navigation-item {
     display: flex;
 
     height: 100%;
     font-size: 20px;
-    color: #ffffff;
+    margin: auto;
+
     /*background-color: blue;*/
     /*color: black;*/
 }
 
 .navigation-icon {
     font-size: 30px;
-    justify-content: center;
-    align-content: center;
     margin: auto;
     color: #ffffff;
 
 }
 
 .navigation-link {
-    color: white;
+    height: 100%;
+    align-items: center;
+    color: #ffffff;
+    display: flex;
+    margin: auto;
 }
 
-.navigation-link.active {
-    background-color: #efc702;
-    color: #000000
+.navigation-link:hover,
+.icon-link i:hover{
+    color: #dedede;
 }
+
 
 .nav-link {
+    background-color: #b8daff;
     color: white;
 }
 
-.nav-link.active {
+.nav-link.active-tab {
     background-color: #efc702;
     color: #000000
 }
