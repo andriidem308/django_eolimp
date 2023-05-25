@@ -1,10 +1,14 @@
-<h2>Задачі</h2>
+<div class="title-div">
+    <h2>Problems</h2>
 
-<ul class="nav nav-tabs mb-3" style="margin-top: 20px">
-  <li class="nav-item">
-    <a class="nav-link{% if active_tab == 'change_problem' %} active {% endif %}" href="{% url 'teachers:problem_change' problem.pk %}">Редагувати</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link{% if active_tab == 'solutions' %} active {% endif %}" href="{% url 'teachers:solution_list' problem.pk %}">Розв'язки студентів</a>
-  </li>
-</ul>
+    <ul class="nav nav-tabs mb-3" style="margin-top: 20px">
+        <li class="nav-item">
+            <a class="nav-link{% if active_tab == 'change_problem' %} active {% endif %}"
+               href="{% url 'teachers:problem_change' problem.pk %}">Edit</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{% if active_tab == 'solutions' %} active {% endif %}"
+               href="{% url 'teachers:solution_list' problem.pk %}">Students solutions</a>
+        </li>
+    </ul>
+</div>

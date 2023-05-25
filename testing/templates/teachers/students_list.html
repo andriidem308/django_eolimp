@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2 class="mb-3">Студенти групи {{ group_title }}</h2>
-  <div class="card">
-    <table class="table mb-0">
+    <div class="container-center">
+        <h2 class="mb-3">Students of the group {{ group_title }}</h2>
+        <table class="table mb-0">
             <thead>
-                <tr>
-                    <th>Прізвище</th>
-                    <th>Ім'я</th>
-                    <th>Сума балів</th>
-                </tr>
+            <tr>
+                <th>Surname</th>
+                <th>Name</th>
+                <th>Final score</th>
+            </tr>
             </thead>
             <tbody>
-                {% for k, v in data.items %}
+            {% for k, v in data.items %}
                 <tr>
                     <td class="align-middle">{{ v.last_name }}</td>
                     <td class="align-middle">{{ v.first_name }}</td>
                     <td class="align-middle">{{ v.total_solutions_score }} / {{ v.total_problems_points }}</td>
                 </tr>
-                {% endfor %}
+            {% endfor %}
             </tbody>
         </table>
-  </div>
+    </div>
 {% endblock %}

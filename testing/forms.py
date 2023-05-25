@@ -123,16 +123,11 @@ class CreateProblemForm(forms.ModelForm):
 
     def __init__(self, teacher, *args, **kwargs):
         super(CreateProblemForm, self).__init__(*args, **kwargs)
+        #fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
         self.fields['group'].label = ''
-        self.fields['group'].empty_label = 'Оберіть групу'
-        self.fields['title'].label = 'Назва задачі'
-        self.fields['description'].label = 'Умова задачі'
-        self.fields['problem_value'].label = 'Бал за задачу'
-        self.fields['max_execution_time'].label = 'Максимальний час (у мс)'
-        self.fields['deadline'].label = 'Дедлайн'
-        self.fields['input_data'].label = 'Вхідні тести'
-        self.fields['output_data'].label = 'Вихідні тести'
+        for field in self.fields.values():
+            field.label = ''
 
     class Meta:
         model = Problem
