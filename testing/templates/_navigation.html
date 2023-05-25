@@ -1,28 +1,28 @@
 <div class="navigation">
     <ul class="navigation-list">
-        <li class="nav-item"><a class="nav-link" href="{% if user.is_student %}{% url 'students:lecture_list' %}
+        <li class="navigation-item"><a class="navigation-link" href="{% if user.is_student %}{% url 'students:lecture_list' %}
                 {% else %}{% url 'teachers:lecture_change_list' %}{% endif %}">Lectures</a></li>
-        <li class="nav-item"><a class="nav-link"
+        <li class="navigation-item"><a class="navigation-link"
                                 href="{% if user.is_student %}{% url 'students:problem_list' %}
                 {% else %}{% url 'teachers:problem_change_list' %}{% endif %}">Problems</a></li>
         {% if user.is_teacher %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'teachers:groups_list' %}">Groups</a>
+            <li class="navigation-item">
+                <a class="navigation-link" href="{% url 'teachers:groups_list' %}">Groups</a>
             </li>
         {% endif %}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'my_account' %}">Profile</a>
+        <li class="navigation-item">
+            <a class="navigation-link" href="{% url 'my_account' %}">Profile</a>
         </li>
-        <li class="nav-item">
+        <li class="navigation-item">
             <div class="icon-links">
                 <a href="https://mechmat.knu.ua/" class="icon-link">
-                    <i class="nav-icon fa-solid fa-building-un"></i>
+                    <i class="navigation-icon fa-solid fa-building-un"></i>
                 </a>
                 <a href="https://mechmat.knu.ua/golovna/fakul-tet/biblioteka/" class="icon-link">
-                    <i class="nav-icon fas fa-thin fa-book"></i>
+                    <i class="navigation-icon fas fa-thin fa-book"></i>
                 </a>
                 <a href="https://github.com/andriidem308/django_eolimp" class="icon-link">
-                    <i class="nav-icon fa-brands fa-github"></i>
+                    <i class="navigation-icon fa-brands fa-github"></i>
                 </a>
             </div>
         </li>

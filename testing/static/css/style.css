@@ -48,8 +48,8 @@ p {
     /*background-color: #b8daff;*/
 }
 
-.nav-item,
-.nav-item a {
+.navigation-item,
+.navigation-item a {
     display: flex;
 
     height: 100%;
@@ -59,7 +59,7 @@ p {
     /*color: black;*/
 }
 
-.nav-icon {
+.navigation-icon {
     font-size: 30px;
     justify-content: center;
     align-content: center;
@@ -68,11 +68,11 @@ p {
 
 }
 
-.nav-link {
+.navigation-link {
     color: white;
 }
 
-.nav-link.active {
+.navigation-link.active {
     background-color: #efc702;
     color: #000000
 }

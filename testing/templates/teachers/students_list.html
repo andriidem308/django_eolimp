@@ -1,25 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container-center">
-        <h2 class="mb-3">Students of the group {{ group_title }}</h2>
-        <table class="table mb-0">
-            <thead>
+    <h2 class="mb-3">Students of the group {{ group_title }}</h2>
+    <table class="table mb-3">
+        <thead>
+        <tr>
+            <th>Surname</th>
+            <th>Name</th>
+            <th>Final score</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for k, v in data.items %}
             <tr>
-                <th>Surname</th>
-                <th>Name</th>
-                <th>Final score</th>
+                <td class="align-middle">{{ v.last_name }}</td>
+                <td class="align-middle">{{ v.first_name }}</td>
+                <td class="align-middle">{{ v.total_solutions_score }} / {{ v.total_problems_points }}</td>
             </tr>
-            </thead>
-            <tbody>
-            {% for k, v in data.items %}
-                <tr>
-                    <td class="align-middle">{{ v.last_name }}</td>
-                    <td class="align-middle">{{ v.first_name }}</td>
-                    <td class="align-middle">{{ v.total_solutions_score }} / {{ v.total_problems_points }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

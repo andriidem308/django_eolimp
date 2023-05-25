@@ -125,7 +125,6 @@ class CreateProblemForm(forms.ModelForm):
         super(CreateProblemForm, self).__init__(*args, **kwargs)
         #fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
-        self.fields['group'].label = ''
         for field in self.fields.values():
             field.label = ''
 
@@ -139,6 +138,17 @@ class CreateProblemForm(forms.ModelForm):
         instance.teacher = Teacher.objects.get(user=user)
         instance.save()
         return instance
+
+
+class UpdateProblemForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UpdateProblemForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.label = ''
+
+    class Meta:
+        model = Problem
+        fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
 
 
 class LectureCreateForm(forms.ModelForm):
