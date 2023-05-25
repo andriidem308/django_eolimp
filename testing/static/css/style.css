@@ -77,6 +77,15 @@ p {
     color: #000000
 }
 
+.nav-link {
+    color: white;
+}
+
+.nav-link.active {
+    background-color: #efc702;
+    color: #000000
+}
+
 .card {
     background-color: #37c44a;
 }
