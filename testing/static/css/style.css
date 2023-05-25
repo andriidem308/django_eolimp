@@ -6,6 +6,65 @@ body {
     font-family: "Alatsi", serif;
 }
 
+.container-center {
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    right: 25%;
+    bottom: 20%;
+}
+
+.navigation {
+    background-color: #3270ff;
+    height: 50px;
+}
+
+.navigation-list {
+    padding-right: 5%;
+    padding-left: 5%;
+    width: 78%;
+    height: 100%;
+
+
+    margin: 0 auto;
+    display: flex;
+    /*justify-content: center;*/
+    justify-content: space-between;
+    align-content: center;
+    list-style-type: none;
+
+    /*background-color: #b8daff;*/
+}
+
+.nav-item,
+.nav-item a {
+    display: flex;
+
+    height: 100%;
+    font-size: 20px;
+    color: #ffffff;
+    /*background-color: blue;*/
+    /*color: black;*/
+}
+
+.nav-icon {
+    font-size: 30px;
+    justify-content: center;
+    align-content: center;
+    margin: auto;
+    color: #ffffff;
+
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-link.active {
+    background-color: #efc702;
+    color: #000000
+}
+
 .card {
     background-color: #37c44a;
 }
@@ -20,29 +79,12 @@ a:hover {
     outline: none;
 }
 
-.nav-link {
-    color: white;
-}
-
-.nav-link.active {
-    background-color: #efc702;
-    color: #000000
-}
-
 .basic-text {
     font-family: "Alatsi", serif;
 }
 
 .lead {
     font-size: 24px;
-}
-
-.container-center {
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    right: 25%;
-    bottom: 25%;
 }
 
 .main-container h1 {
@@ -62,7 +104,6 @@ a:hover {
     margin-top: 50px;
     margin-right: 40px;
 }
-
 
 .tile {
     display: flex;
@@ -90,6 +131,23 @@ a:hover {
     margin: 10px;
 }
 
+.icon-links {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: auto;
+}
+
+.icon-link {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: auto;
+    padding: 0 15px;
+
+}
 
 .auth-form {
     width: 500px;
@@ -122,6 +180,16 @@ a:hover {
     color: #ffffff;
 }
 
+.auth-form button[type="submit"] {
+    background-color: #41d369;
+    color: #ffffff;
+}
+
+.auth-form button[type="submit"]:hover {
+    background-color: #3da85a;
+    color: #ffffff;
+}
+
 .auth-form form input[type="text"],
 .auth-form form input[type="password"],
 .auth-form form input[type="email"],
@@ -133,22 +201,6 @@ a:hover {
 div.buttons-row {
     display: flex;
     justify-content: space-between;
-}
-
-.navigation {
-    display: flex;
-    margin: 0 auto;
-    align-content: center;
-
-    justify-content: center;
-    list-style-type: none
-}
-
-
-.nav-item,
-.nav-item a {
-    background-color: blue;
-    color: black;
 }
 
 .user-forms{
