@@ -3,14 +3,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h2 class="mb-3">Додати задачу</h2>
+    <h2 class="mb-3">Add problem</h2>
     <div class="row">
         <div class="col-md-6 col-sm-8 col-12">
             <form method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
                 {{ form | crispy }}
-                <button type="submit" class="btn btn-success" style="background-color: #efc702; color: #000000">Зберегти</button>
-                <a href="{% url 'teachers:problem_change_list' %}" class="btn btn-outline-secondary" role="button" style="background-color: #058ef1; color: #ffffff">Відмінити</a>
+                <button type="submit" class="btn btn-success" style="background-color: #efc702; color: #000000">Save</button>
+                <a href="{% url 'teachers:problem_change_list' %}" class="btn btn-outline-secondary" role="button" style="background-color: #058ef1; color: #ffffff">Cancel</a>
             </form>
         </div>
     </div>

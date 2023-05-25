@@ -4,7 +4,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="row">
+  <div class="user-forms">
+    <div class="user-forms-text">
       <h2>My account</h2>
         <br><br>
       <form method="post" novalidate>
@@ -14,5 +15,7 @@
         {{ form | crispy }}
         <a href="{% url 'logout' %}" class="btn btn-warning" role="button">Log out</a>
       </form>
+    </div>
   </div>
+
 {% endblock %}

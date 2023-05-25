@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2 class="mb-3">Задачі</h2>
-    <a href="{% url 'teachers:problem_add' %}" class="btn btn-primary mb-3" role="button">Нова задача</a>
-    <div class="card">
+        <div class="container-center">
+    <h2 class="mb-3">Problems</h2>
+    <a href="{% url 'teachers:problem_add' %}" class="btn btn-primary mb-3" role="button">New problem</a>
         <table class="table mb-0">
             <tbody>
                 {% for problem in problems %}
@@ -12,7 +12,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td class="bg-light text-center font-italic" colspan="5">Ви не додали ще ні одної задачі.</td>
+                    <td class="bg-light text-center font-italic" colspan="5">No problems written yet</td>
                 </tr>
                 {% endfor %}
             </tbody>
