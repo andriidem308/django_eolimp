@@ -12,7 +12,8 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
-from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm
+from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
+    UpdateLectureForm
 from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher
 
 
@@ -77,7 +78,7 @@ def problem_add(request):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class ProblemUpdateView(UpdateView):
     model = Problem
-    form_class = UpdateProblemForm  ### USE AS EXAMPLE FOR LECTURE
+    form_class = UpdateProblemForm
     context_object_name = 'problem'
     template_name = 'teachers/problem_change_form.html'
 
@@ -124,7 +125,7 @@ def lecture_add(request):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class LectureUpdateView(UpdateView):
     model = Lecture
-    fields = ('title', 'description', 'attachment')
+    form_class = UpdateLectureForm
     context_object_name = 'lecture'
     template_name = 'teachers/lecture_change_form.html'
 
