@@ -77,7 +77,7 @@ def problem_add(request):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class ProblemUpdateView(UpdateView):
     model = Problem
-    form_class = UpdateProblemForm  ### USE AS EXAMPLE FOR LECTURE
+    form_class = UpdateProblemForm
     context_object_name = 'problem'
     template_name = 'teachers/problem_change_form.html'
     success_url = reverse_lazy('teachers:problem_change_list')
