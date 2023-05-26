@@ -82,13 +82,12 @@ p {
 
 
 .nav-link {
-    background-color: #b8daff;
+    background-color: #3270ff;
     color: white;
 }
 
 .nav-link.active-tab {
-    background-color: #efc702;
-    color: #000000
+    background-color: #37c44a;
 }
 
 .card {
