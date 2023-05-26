@@ -142,7 +142,7 @@ class CreateProblemForm(forms.ModelForm):
 
 
 class UpdateProblemForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, teacher, *args, **kwargs):
         super(UpdateProblemForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.label = ''
@@ -153,7 +153,7 @@ class UpdateProblemForm(forms.ModelForm):
 
 
 class UpdateLectureForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, teacher, *args, **kwargs):
         super(UpdateLectureForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.label = ''
@@ -171,6 +171,8 @@ class LectureCreateForm(forms.ModelForm):
     def __init__(self, teacher, *args, **kwargs):
         super(LectureCreateForm, self).__init__(*args, **kwargs)
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
+        for field in self.fields.values():
+            field.label = ''
 
     class Meta:
         model = Lecture
