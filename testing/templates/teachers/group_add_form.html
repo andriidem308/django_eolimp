@@ -3,14 +3,24 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h2 class="page-title">Додати групу</h2>
+    <h2 class="page-title">Add group</h2>
+
     <div class="row">
         <div class="col-md-6 col-sm-8 col-12">
             <form method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
-                {{ form | crispy }}
-                <button type="submit" class="btn btn-success" style="background-color: #efc702; color: #000000">Зберегти</button>
-                <a href="{% url 'teachers:groups_list' %}" class="btn btn-outline-secondary" role="button" style="background-color: #058ef1; color: #ffffff">Відмінити</a>
+                <div class="form-group row">
+                    <label for="{{ form.group_name.id_for_label }}" class="col-sm-3 col-form-label">Group name:</label>
+                    <div class="col-sm-9">
+                        {{ form.group_name|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="buttons-row">
+              <button type="submit" class="btn">Save</button>
+              <a href="{% url 'teachers:groups_list' %}">
+                  <button class="btn" type="button">Cancel</button>
+              </a>
+          </div>
             </form>
         </div>
     </div>
