@@ -13,7 +13,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
-    UpdateLectureForm
+    UpdateLectureForm, SolutionViewForm
 from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher
 
 
@@ -241,12 +241,12 @@ class StudentSolutionsListView(ListView):
 
             if solution:
                 data[student]['grade'] = f'{solution[0].score} / {problem.problem_value}'
-                data[student]['solution'] = f'<a href="../../../solutions/{solution[0].pk}">Подивитись розв\'язок</a>'
-                data[student]['checked'] = f'{"Так" if solution[0].checked else "Ні"}'
+                data[student]['solution'] = f'<u><a href="../../../solutions/{solution[0].pk}">Check solution</a></u>'
+                data[student]['checked'] = f'{"Yes" if solution[0].checked else "No"}'
             else:
-                data[student]['grade'] = f'Немає оцінки'
-                data[student]['solution'] = 'Немає розв\'язку'
-                data[student]['checked'] = 'Немає розв\'язку'
+                data[student]['grade'] = f'No solution'
+                data[student]['solution'] = 'No solution'
+                data[student]['checked'] = 'No solution'
 
         context['data'] = data
 
@@ -259,7 +259,8 @@ class StudentSolutionsListView(ListView):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class SolutionUpdateView(UpdateView):
     model = Solution
-    fields = ('score',)
+    # fields = ('score',)
+    form_class = SolutionViewForm
     context_object_name = 'solution'
     template_name = 'teachers/solution_change_form.html'
 

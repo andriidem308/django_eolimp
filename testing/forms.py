@@ -186,6 +186,16 @@ class LectureCreateForm(forms.ModelForm):
         return instance
 
 
+class SolutionViewForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SolutionViewForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.label = ''
+
+    class Meta:
+        model = Solution
+        fields = ['score']
+
 # class CreateTestForm(forms.ModelForm):
 #     # title = forms.CharField(max_length=255, widget=forms.TextInput())
 #     # description = forms.Textarea()

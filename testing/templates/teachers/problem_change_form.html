@@ -3,8 +3,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+    <h2 class="page-title">Edit problem: {{ problem.title }}</h2>
     {% include 'teachers/problem_header.html' with active_tab='change_problem' %}
-    <h2 class="page-title">Edit problem {{ problem.title }}</h2>
 
     <form method="post" novalidate>
         {% csrf_token %}
@@ -33,7 +33,8 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="{{ form.max_execution_time.id_for_label }}" class="col-sm-3 col-form-label">Max execution time:</label>
+            <label for="{{ form.max_execution_time.id_for_label }}" class="col-sm-3 col-form-label">Max execution
+                time:</label>
             <div class="col-sm-9">
                 {{ form.max_execution_time|as_crispy_field }}
             </div>

@@ -217,7 +217,7 @@ a:hover {
 
 button,
 button a {
-    width: 120px;
+    min-width: 120px;
     background-color: #058ef1;
     color: #ffffff;
     margin-left: 10px;
