@@ -3,8 +3,15 @@
 {% block content %}
     <h2 class="page-title">{{ lecture.title }}</h2>
     <p class="lead">{{ lecture.description }}</p>
-    {% if lecture.attachment %}
-        <a download href="/students/lectures/{{ lecture.pk }}/download_attachment" class="btn btn-light" role="button" style="background-color: #efc702; color: #000000">Download attachment</a>
-    {% endif %}
+    <div class="buttons-row">
+    <a href="{% url 'students:lecture_list' %}">
+        <button class="btn" type="button">Return to lectures</button>
+    </a>
+        {% if lecture.attachment %}
 
+            <a download href="/students/lectures/{{ lecture.pk }}/download_attachment">
+                <button class="btn" type="submit">Download attachment</button>
+            </a>
+        {% endif %}
+    </div>
 {% endblock %}

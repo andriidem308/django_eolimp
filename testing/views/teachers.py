@@ -5,6 +5,7 @@ import string
 
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect, FileResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
@@ -15,6 +16,7 @@ from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
     UpdateLectureForm, SolutionViewForm
 from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher
+from testing.notifications import lecture_added_notify
 
 
 class TeacherSignUpView(CreateView):
@@ -120,7 +122,11 @@ def lecture_add(request):
     if request.method == 'POST':
         form = LectureCreateForm(teacher, request.POST, request.FILES)
         if form.is_valid():
-            form.save(user=request.user, commit=False)
+            lecture = form.save(user=request.user, commit=False)
+            lecture.save()
+
+            lecture_added_notify(lecture)
+
             return HttpResponseRedirect('../')
     else:
         form = LectureCreateForm(teacher)
