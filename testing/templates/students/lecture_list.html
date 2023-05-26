@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Lectures</h2>
-    <ul class="p-2 m-3">
+  <h2 class="page-title">Lectures</h2>
+    <table class="table">
+        <tbody>
         {% for lecture in lectures %}
-            <h4 class="card-title"><a href="{% url 'students:lecture_view' lecture.pk %}">{{ lecture.title }}</a></h4>
-            <h5 class="grey summary card-subtitle">{{ lecture.description }}</h5>
-            <hr>
+            <tr>
+                <td class="align-middle">
+                    <a class="table-link" href="{% url 'students:lecture_view' lecture.pk %}">{{ lecture.title }}</a>
+                </td>
+            </tr>
         {% empty %}
-            <li class="row">
-                <span class="grey summary card-subtitle">There is no lecture yet</span>
-            </li>
+            <tr>
+                <td class="bg-light text-center font-italic" colspan="5">There is no lecture yet</td>
+            </tr>
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
 {% endblock %}
