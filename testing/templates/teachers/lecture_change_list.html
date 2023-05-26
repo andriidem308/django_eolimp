@@ -3,19 +3,17 @@
 {% block content %}
   <h2 class="page-title">Lectures</h2>
   <a href="{% url 'teachers:lecture_add' %}" class="btn btn-primary mb-3" role="button">New lecture</a>
-    <table class="table mb-0">
+    <table class="table">
         <tbody>
         {% for lecture in lectures %}
             <tr>
                 <td class="align-middle">
-                    <a href="{% url 'teachers:lecture_change' lecture.pk %}">{{ lecture.title }}</a>
-                    <br>
-                    <p class="grey summary card-subtitle p-3">{{ lecture.description }}</p>
+                    <a class="table-link" href="{% url 'teachers:lecture_change' lecture.pk %}">{{ lecture.title }}</a>
                 </td>
             </tr>
         {% empty %}
             <tr>
-                <td class="bg-light text-center font-italic" colspan="5">You didn't add any lecture</td>
+                <td class="bg-light text-center font-italic" colspan="5">You didn't create any lecture</td>
             </tr>
         {% endfor %}
         </tbody>

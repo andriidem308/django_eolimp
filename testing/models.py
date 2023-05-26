@@ -43,7 +43,7 @@ class Problem(models.Model):
     output_data = models.FileField(upload_to='files_uploaded/test_files/', null=True)
 
     class Meta:
-        ordering = ['date_created']
+        ordering = ['-date_updated']
 
 
 class Student(models.Model):
@@ -92,7 +92,7 @@ class Lecture(models.Model):
     attachment = models.FileField(upload_to='files_uploaded/lectures_files', blank=True, null=True)
 
     class Meta:
-        ordering = ['date_created']
+        ordering = ['-date_updated']
 
     def __str__(self):
         return self.title

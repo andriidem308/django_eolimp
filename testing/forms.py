@@ -142,14 +142,30 @@ class CreateProblemForm(forms.ModelForm):
 
 # ---- USE AS EXAMPLE FOR LECTURE ----
 class UpdateProblemForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(UpdateProblemForm, self).__init__(*args, **kwargs)
+    def __init__(self, teacher, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.teacher = teacher
+        self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
         for field in self.fields.values():
             field.label = ''
 
     class Meta:
         model = Problem
         fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
+
+
+# ---- USE AS EXAMPLE FOR LECTURE ----
+class UpdateLectureForm(forms.ModelForm):
+    def __init__(self, teacher, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.teacher = teacher
+        self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
+        for field in self.fields.values():
+            field.label = ''
+
+    class Meta:
+        model = Lecture
+        fields = ['group', 'title', 'description', 'attachment']
 
 
 class LectureCreateForm(forms.ModelForm):
@@ -160,10 +176,8 @@ class LectureCreateForm(forms.ModelForm):
     def __init__(self, teacher, *args, **kwargs):
         super(LectureCreateForm, self).__init__(*args, **kwargs)
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
-        self.fields['group'].empty_label = 'Оберіть групу'
-        self.fields['group'].label = ''
-        self.fields['title'].label = 'Тема лекції'
-        self.fields['description'].label = 'Вміст лекції'
+        for field in self.fields.values():
+            field.label = ''
 
     class Meta:
         model = Lecture

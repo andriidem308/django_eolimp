@@ -7,12 +7,13 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, FileResponse, JsonResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
-from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm
+from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
+    UpdateLectureForm
 from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher
 
 
@@ -49,7 +50,6 @@ def group_add(request):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class ProblemsListView(ListView):
     model = Problem
-    ordering = ('title',)
     context_object_name = 'problems'
     template_name = 'teachers/problem_change_list.html'
 
@@ -80,12 +80,19 @@ class ProblemUpdateView(UpdateView):
     form_class = UpdateProblemForm  ### USE AS EXAMPLE FOR LECTURE
     context_object_name = 'problem'
     template_name = 'teachers/problem_change_form.html'
+    success_url = reverse_lazy('teachers:problem_change_list')
 
     def get_queryset(self):
         return Problem.objects.all()
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        teacher = Teacher.objects.get(user=self.request.user)
+        kwargs['teacher'] = teacher
+        return kwargs
+
     def get_success_url(self):
-        return reverse('teachers:problem_change', kwargs={'pk': self.object.pk})
+        return reverse_lazy('teachers:problem_change_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,7 +103,6 @@ class ProblemUpdateView(UpdateView):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class LectureListView(ListView):
     model = Lecture
-    ordering = ('date',)
     context_object_name = 'lectures'
     template_name = 'teachers/lecture_change_list.html'
 
@@ -124,15 +130,27 @@ def lecture_add(request):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class LectureUpdateView(UpdateView):
     model = Lecture
-    fields = ('title', 'description', 'attachment')
+    form_class = UpdateLectureForm
     context_object_name = 'lecture'
     template_name = 'teachers/lecture_change_form.html'
+    success_url = reverse_lazy('teachers:lecture_change_list')
 
     def get_queryset(self):
         return Lecture.objects.all()
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        teacher = Teacher.objects.get(user=self.request.user)
+        kwargs['teacher'] = teacher
+        return kwargs
+
     def get_success_url(self):
-        return reverse('teachers:lecture_change', kwargs={'pk': self.object.pk})
+        return reverse_lazy('teachers:lecture_change_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['lecture'] = Lecture.objects.get(pk=self.kwargs['pk'])
+        return context
 
 
 @method_decorator([login_required, teacher_required], name='dispatch')

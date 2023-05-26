@@ -287,6 +287,11 @@ table tr:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.table-link {
+    font-size: 25px;
+}
+
+
 /*form {*/
 /*    width: 100% ;*/
 /*}*/
