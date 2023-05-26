@@ -1,29 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+      <h2 class="page-title">Problems </h2>
   {% include 'students/problems_list_header.html' with active_tab='problem' %}
-  <div class="card">
+
     <table class="table mb-0">
-      <thead>
-        <tr>
-          <th>Задача</th>
-          <th></th>
-        </tr>
-      </thead>
       <tbody>
         {% for problem in problems %}
           <tr>
             <td class="align-middle">{{ problem.title }}</td>
             <td class="text-right">
-              <a href="{% url 'students:take_problem' problem.pk %}" class="btn btn-primary">Розв'язати</a>
+              <a href="{% url 'students:take_problem' problem.pk %}" class="btn btn-primary">Solve</a>
             </td>
           </tr>
         {% empty %}
           <tr>
-            <td class="text-center font-italic" colspan="3">У Вас немає поточних задач. Ви молодець :)</td>
+            <td class="text-center font-italic" colspan="3">You have no current tasks</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
-  </div>
 {% endblock %}

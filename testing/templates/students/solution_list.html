@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+      <h2 class="page-title">Solutions </h2>
   {% include 'students/problems_list_header.html' with active_tab='solution' %}
-  <div class="card">
     <table class="table mb-0">
       <thead>
         <tr>
-          <th>Задача</th>
-          <th>Бали</th>
-          <th>Перездати</th>
+          <th>Problem</th>
+          <th>Score</th>
+          <th>Re-take</th>
         </tr>
       </thead>
       <tbody>
@@ -16,21 +16,21 @@
           <tr>
             <td>{{ solution.problem.title }}</td>
             <td>{{ solution.score }} / {{ solution.problem.problem_value }}</td>
-            <td><a href="{% url 'students:take_problem' solution.problem.pk %}" class="btn btn-warning">Так</a></td>
+            <td><a href="{% url 'students:take_problem' solution.problem.pk %}" class="btn btn-warning">Yes</a></td>
           </tr>
         {% empty %}
           <tr>
-            <td class="text-center font-italic" colspan="3">Ви ще не вирішили жодної задачі.</td>
+            <td class="text-center font-italic" colspan="3">You haven't solved a single problem yet.</td>
           </tr>
         {% endfor %}
       </tbody>
       <tfoot>
         <tr>
-          <th>Сума</th>
+          <th>Final score</th>
           <th>{{ points_sum }} / {{ points_total }}</th>
           <th></th>
         </tr>
       </tfoot>
     </table>
-  </div>
+
 {% endblock %}
