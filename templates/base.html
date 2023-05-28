@@ -18,8 +18,8 @@
 <body>
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% if user.is_authenticated %}
-    {% include '_navigation.html' with user=user%}
-    {% include 'panel.html' with user=user%}
+    {% include '_navigation.html' with user=user %}
+    {% include 'panel.html' with solutions=teacher_solutions %}
 {% endif %}
 <div class="container-center">
 
