@@ -34,6 +34,7 @@ p {
 .navigation {
     background-color: #3270ff;
     height: 50px;
+    z-index: 100000;
 }
 
 .navigation-list {
@@ -291,7 +292,20 @@ table tr:hover {
     font-size: 25px;
 }
 
-
+.left-panel {
+    position: fixed;
+    left: 20px;
+    top: 150px;
+    height: 50vh;
+    width: 15vw;
+    border: 1px solid black;
+    border-radius: 25px;
+    z-index: 10000000;
+}
+.h5 {
+    text-align: center;
+    font-size: 25px;
+}
 /*form {*/
 /*    width: 100% ;*/
 /*}*/

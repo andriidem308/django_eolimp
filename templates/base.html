@@ -19,9 +19,12 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% if user.is_authenticated %}
     {% include '_navigation.html' with user=user%}
+    {% include 'panel.html' with user=user%}
 {% endif %}
 <div class="container-center">
+
     {% block content %}
+
     {% endblock %}
 </div>
 <script>
