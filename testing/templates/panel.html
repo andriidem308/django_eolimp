@@ -1,7 +1,39 @@
 <div class="left-panel">
-   {% if user.is_teacher %}
-    {% endif %}
-  {% if user.is_student %}
-      <h5 class="page-title">   Deadlines this week:</h5>
-    {% endif %}
+    <div class="panel-headline">
+        {% if user.is_teacher %}
+            <h3>Unchecked solutions</h3>
+        {% endif %}
+        {% if user.is_student %}
+            <h3>Deadlines</h3>
+        {% endif %}
+    </div>
+    <div class="panel-content">
+        <div class="panel-rows">
+            {% if user.is_teacher %}
+                {% for solution in solutions %}
+                    <div><a href="{% url "teachers:solution_change" solution.pk %}"><p>{{ solution.title }}</p><p>{{ solution.student}}</p></a></div>
+                {%  endfor %}
+            {% endif %}
+            {% if user.is_student %}
+                {% for problem in problems %}
+                    <div><a href="{% url "students:take_problem" problem.pk %}"><p>{{ problem.title }}</p><p>{{ problem.deadline|date:"h:i d/m" }}</p></a></div>
+                {%  endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="panel-bottom">
+        {% if user.is_teacher %}
+            <a href="{% url "students:problem_list" %}">See all deadlines</a>
+        {% endif %}
+        {% if user.is_student %}
+            <a href="{% url "students:problem_list" %}">See all deadlines</a>
+        {% endif %}
+    </div>
+
+{#    def get_queryset(self):#}
+    {#    student = Student.objects.get(user=self.request.user)#}
+    {#    solutions = Solution.objects.filter(student=student)#}
+    {#    problem_list = [solution.problem.id for solution in solutions]#}
+    {#    queryset = Problem.objects.filter(group=student.group).exclude(pk__in=problem_list)#}
+    {#    return queryset#}
 </div>
