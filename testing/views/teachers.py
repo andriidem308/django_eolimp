@@ -16,7 +16,7 @@ from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
     UpdateLectureForm, SolutionViewForm
 from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher
-from testing.notifications import lecture_added_notify
+from testing.notifications import lecture_added_notify, problem_added_notify
 
 
 class TeacherSignUpView(CreateView):
@@ -69,7 +69,9 @@ def problem_add(request):
     if request.method == 'POST':
         form = CreateProblemForm(teacher, request.POST, request.FILES)
         if form.is_valid():
-            form.save(user=request.user, commit=False)
+            problem = form.save(user=request.user, commit=False)
+            problem.save()
+            problem_added_notify(problem)
             return HttpResponseRedirect('../')
     else:
         form = CreateProblemForm(teacher)

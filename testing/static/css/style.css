@@ -43,8 +43,10 @@ p {
 }
 
 .navigation {
+    position: fixed;
     background-color: #3270ff;
     height: 50px;
+    width: 200vh;
     z-index: 100000;
 }
 
@@ -316,12 +318,18 @@ table tr:hover {
     background-color: #ebebeb;
 }
 
+
+.h5 {
+    text-align: center;
+    font-size: 25px;
+
 .panel-headline {
     height: 12%;
     padding: 20px;
     /*margin: 25px;*/
     display: flex;
     justify-content: center;
+
 }
 
 
