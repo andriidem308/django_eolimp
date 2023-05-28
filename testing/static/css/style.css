@@ -322,6 +322,7 @@ table tr:hover {
 .h5 {
     text-align: center;
     font-size: 25px;
+}
 
 .panel-headline {
     height: 12%;
@@ -329,7 +330,6 @@ table tr:hover {
     /*margin: 25px;*/
     display: flex;
     justify-content: center;
-
 }
 
 

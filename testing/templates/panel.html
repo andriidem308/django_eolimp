@@ -29,11 +29,4 @@
             <a href="{% url "students:problem_list" %}">See all deadlines</a>
         {% endif %}
     </div>
-
-{#    def get_queryset(self):#}
-    {#    student = Student.objects.get(user=self.request.user)#}
-    {#    solutions = Solution.objects.filter(student=student)#}
-    {#    problem_list = [solution.problem.id for solution in solutions]#}
-    {#    queryset = Problem.objects.filter(group=student.group).exclude(pk__in=problem_list)#}
-    {#    return queryset#}
 </div>
