@@ -16,9 +16,8 @@ def panel_context(request):
             }
         elif user.is_teacher:
             teacher = Teacher.objects.get(user=user)
-            problem = Problem.objects.filter(teacher=teacher)
-            solutions = Solution.objects.filter(problem=problem).filter(checked=False).order_by('date_solved')[:5]
-
+            problems = Problem.objects.filter(teacher=teacher)
+            solutions = Solution.objects.filter(problem__id__in=problems).filter(checked=False).order_by('date_solved')[:5]
             result = {
                 'teacher_solutions': solutions,
             }

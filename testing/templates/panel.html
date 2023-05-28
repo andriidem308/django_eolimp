@@ -11,7 +11,7 @@
         <div class="panel-rows">
             {% if user.is_teacher %}
                 {% for solution in solutions %}
-                    <div><a href="{% url "teachers:solution_change" solution.pk %}"><p>{{ solution.title }}</p><p>{{ solution.student}}</p></a></div>
+                    <div><a href="{% url "teachers:solution_change" solution.pk %}"><p>{{ solution.problem.title }}</p><p>{{ solution.student}}</p></a></div>
                 {%  endfor %}
             {% endif %}
             {% if user.is_student %}
