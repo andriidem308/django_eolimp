@@ -32,8 +32,10 @@ p {
 }
 
 .navigation {
+    position: fixed;
     background-color: #3270ff;
     height: 50px;
+    width: 200vh;
     z-index: 100000;
 }
 
@@ -302,6 +304,7 @@ table tr:hover {
     border-radius: 25px;
     z-index: 10000000;
 }
+
 .h5 {
     text-align: center;
     font-size: 25px;
