@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
 
-from testing.models import User
+from testing.models import User, Teacher, Student
 
 
 class SignUpView(TemplateView):
@@ -18,6 +18,16 @@ class AccountView(TemplateView):
     model = User
     context_object_name = 'user'
     template_name = 'registration/my_account.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountView, self).get_context_data(**kwargs)
+        user = self.request.user
+        if user.is_authenticated:
+            if user.is_teacher:
+                context['teacher'] = Teacher.objects.get(user=user)
+            elif user.is_student:
+                context['student'] = Student.objects.get(user=user)
+        return context
 
 
 def home(request):

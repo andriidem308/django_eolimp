@@ -34,7 +34,6 @@ h3 {
 
 h2.page-title {
     margin-bottom: 20px;
-    /*margin-top: 5px;*/
 }
 
 p {
@@ -65,16 +64,12 @@ p {
     list-style-type: none;
 }
 
-/*.navigation-item,*/
 .navigation-item {
     display: flex;
 
     height: 100%;
     font-size: 20px;
     margin: auto;
-
-    /*background-color: blue;*/
-    /*color: black;*/
 }
 
 .navigation-icon {
@@ -142,11 +137,6 @@ a:hover {
 .account-form {
     text-align: left;
 }
-/*.main-container h1 {*/
-/*    !*font-size: 72px;*!*/
-/*    padding-top: 15px;*/
-/*    padding-bottom: 15px;*/
-/*}*/
 
 .main-container h2 {
     font-size: 40px;
@@ -311,8 +301,6 @@ table tr:hover {
     top: 15%;
     height: 600px;
     width: 350px;
-    ;
-    /*border: 1px solid black;*/
     border-radius: 25px;
     z-index: 10000000;
     background-color: #ebebeb;
@@ -378,4 +366,13 @@ table tr:hover {
 .panel-bottom a {
     font-size: 15px;
     padding-right: 30px;
+}
+
+.account-form p {
+    margin-bottom: 15px;
+}
+
+.account-form a,
+.account-form a button {
+    margin-top: 20px;
 }

@@ -12,10 +12,15 @@
             <p><b>Name:</b>&ensp;{{ user.first_name }}</p>
             <p><b>Surname:</b>&ensp;{{ user.last_name }}</p>
             <p><b>E-mail:</b>&ensp;{{ user.email }}</p>
+            {% if user.is_student %}
+                <p><b>Group:</b>&ensp;{{ student.group }}</p>
+            {% endif %}
+
+
             {{ form | crispy }}
             <a href="{% url 'logout' %}">
                   <button class="btn" type="button">Log out</button>
-              </a>
+            </a>
         </form>
     </div>
 {% endblock %}

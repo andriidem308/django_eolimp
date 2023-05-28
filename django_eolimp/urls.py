@@ -15,15 +15,10 @@ Including another URLconf
 """
 import debug_toolbar
 from django.contrib import admin
-import django.contrib.auth.urls
 from django.urls import include, path
-from django.contrib.auth.views import auth_logout
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.views import auth_logout
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from testing.views import testing, students, teachers
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
