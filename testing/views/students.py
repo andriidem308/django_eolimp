@@ -79,8 +79,8 @@ def take_problem(request, pk):
                 student_solution.student = student
                 student_solution.problem = problem
 
-                input_file = Problem.objects.get(id=student_solution.problem.id).input_data
-                output_file = Problem.objects.get(id=student_solution.problem.id).output_data
+                test_file = Problem.objects.get(id=student_solution.problem.id).test_file
+
 
                 solution_code = student_solution.solution_code
                 max_execution_time = student_solution.problem.max_execution_time
@@ -88,8 +88,7 @@ def take_problem(request, pk):
                 test_score_percentage = test_student_solution(
                     code=solution_code,
                     exec_time=max_execution_time,
-                    file_in=input_file,
-                    file_out=output_file
+                    test_file=test_file,
                 )
 
                 score = round(test_score_percentage * problem.problem_value, 1)
