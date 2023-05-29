@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from testing.models import *
 from accounts.models import User
+
+
 # from django.contrib.auth.models import User
 
 
@@ -88,7 +90,6 @@ class CreateLectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lecture
         fields = '__all__'
-
 
 # class AttachmentSerializer(serializers.ModelSerializer):
 #     lecture_id = LectureSerializer()

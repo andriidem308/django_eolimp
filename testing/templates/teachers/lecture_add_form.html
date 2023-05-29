@@ -3,46 +3,46 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <h2 class="page-title">New Lecture</h2>
-      <form method="post" enctype="multipart/form-data" novalidate>
+    <h2 class="page-title">New Lecture</h2>
+    <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
-          <form method="post" novalidate>
-              {% csrf_token %}
-              <div class="form-group row">
-                  <label for="{{ form.group.id_for_label }}" class="col-sm-3 col-form-label">Group:</label>
-                  <div class="col-sm-9">
-                      {{ form.group|as_crispy_field }}
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label for="{{ form.title.id_for_label }}" class="col-sm-3 col-form-label">Title:</label>
-                  <div class="col-sm-9">
-                      {{ form.title|as_crispy_field }}
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label for="{{ form.description.id_for_label }}" class="col-sm-3 col-form-label">Description:</label>
-                  <div class="col-sm-9">
-                      {{ form.description|as_crispy_field }}
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label for="{{ form.attachment.id_for_label }}" class="col-sm-3 col-form-label">Attachment:</label>
-                  <div class="col-sm-9">
-                      {{ form.attachment|as_crispy_field }}
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <div class="col-sm-3"></div>
-                  <div class="col-sm-9">
-                      <div class="buttons-row">
-                          <button type="submit" class="btn btn-success">Save</button>
-                          <a href="{% url 'teachers:lecture_change_list' %}">
-                              <button class="btn" type="button">Cancel</button>
-                          </a>
-                      </div>
-                  </div>
-              </div>
-          </form>
-      </form>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="{{ form.group.id_for_label }}" class="col-sm-3 col-form-label">Group:</label>
+                <div class="col-sm-9">
+                    {{ form.group|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="{{ form.title.id_for_label }}" class="col-sm-3 col-form-label">Title:</label>
+                <div class="col-sm-9">
+                    {{ form.title|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="{{ form.description.id_for_label }}" class="col-sm-3 col-form-label">Description:</label>
+                <div class="col-sm-9">
+                    {{ form.description|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="{{ form.attachment.id_for_label }}" class="col-sm-3 col-form-label">Attachment:</label>
+                <div class="col-sm-9">
+                    {{ form.attachment|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9">
+                    <div class="buttons-row">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <a href="{% url 'teachers:lecture_change_list' %}">
+                            <button class="btn" type="button">Cancel</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </form>
 {% endblock %}

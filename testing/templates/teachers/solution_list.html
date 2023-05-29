@@ -4,30 +4,30 @@
     <h2 class="page-title">Problem solution: {{ problem.title }}</h2>
     {% include 'teachers/problem_header.html' with active_tab='solutions' %}
 
-        <table class="table mb-0">
-            <thead>
+    <table class="table mb-0">
+        <thead>
+        <tr>
+            <th>Student</th>
+            <th>Score</th>
+            <th>Solution</th>
+            <th>Checked</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for k, v in data.items %}
             <tr>
-                <th>Student</th>
-                <th>Score</th>
-                <th>Solution</th>
-                <th>Checked</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for k, v in data.items %}
-                <tr>
-                    {% for student in students %}
-                        {% if k == student %}
-                            <td class="align-middle">{{ student.user.first_name }} {{ student.user.last_name }}</td>
-                            <td class="align-middle">{{ v.grade }}</td>
-                            <td class="align-middle">{{ v.solution | safe }}</td>
-                            <td class="align-middle">{{ v.checked }}</td>
-                        {% endif %}
-                    {% endfor %}
+                {% for student in students %}
+                    {% if k == student %}
+                        <td class="align-middle">{{ student.user.first_name }} {{ student.user.last_name }}</td>
+                        <td class="align-middle">{{ v.grade }}</td>
+                        <td class="align-middle">{{ v.solution | safe }}</td>
+                        <td class="align-middle">{{ v.checked }}</td>
+                    {% endif %}
+                {% endfor %}
 
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

@@ -11,13 +11,15 @@
         <div class="panel-rows">
             {% if user.is_teacher %}
                 {% for solution in solutions %}
-                    <div><a href="{% url "teachers:solution_change" solution.pk %}"><p>{{ solution.problem.title }}</p><p>{{ solution.student}}</p></a></div>
-                {%  endfor %}
+                    <div><a href="{% url "teachers:solution_change" solution.pk %}"><p>{{ solution.problem.title }}</p>
+                        <p>{{ solution.student }}</p></a></div>
+                {% endfor %}
             {% endif %}
             {% if user.is_student %}
                 {% for problem in problems %}
-                    <div><a href="{% url "students:take_problem" problem.pk %}"><p>{{ problem.title }}</p><p>{{ problem.deadline|date:"h:i d/m" }}</p></a></div>
-                {%  endfor %}
+                    <div><a href="{% url "students:take_problem" problem.pk %}"><p>{{ problem.title }}</p>
+                        <p>{{ problem.deadline|date:"h:i d/m" }}</p></a></div>
+                {% endfor %}
             {% endif %}
         </div>
     </div>

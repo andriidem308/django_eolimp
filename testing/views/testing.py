@@ -3,8 +3,8 @@ import random
 import yaml
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UsernameField
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
@@ -13,7 +13,6 @@ from faker import Faker
 
 from testing.models import User, Teacher, Student, Group
 from testing.services.logging_service import log_user
-
 
 User = get_user_model()
 

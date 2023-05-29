@@ -1,9 +1,10 @@
 <div class="navigation">
     <ul class="navigation-list">
-        <li class="navigation-item"><a class="navigation-link" href="{% if user.is_student %}{% url 'students:lecture_list' %}
+        <li class="navigation-item"><a class="navigation-link"
+                                       href="{% if user.is_student %}{% url 'students:lecture_list' %}
                 {% else %}{% url 'teachers:lecture_change_list' %}{% endif %}">Lectures</a></li>
         <li class="navigation-item"><a class="navigation-link"
-                                href="{% if user.is_student %}{% url 'students:problem_list' %}
+                                       href="{% if user.is_student %}{% url 'students:problem_list' %}
                 {% else %}{% url 'teachers:problem_change_list' %}{% endif %}">Problems</a></li>
         {% if user.is_teacher %}
             <li class="navigation-item">

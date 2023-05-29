@@ -31,7 +31,7 @@ class StudentSignUpView(CreateView):
 @method_decorator([login_required, student_required], name='dispatch')
 class ProblemListView(ListView):
     model = Problem
-    ordering = ('title', )
+    ordering = ('title',)
     context_object_name = 'problems'
     template_name = 'students/problem_list.html'
 
@@ -64,6 +64,7 @@ class SolutionListView(ListView):
 
         return context
 
+
 @login_required
 @student_required
 def take_problem(request, pk):
@@ -80,7 +81,6 @@ def take_problem(request, pk):
                 student_solution.problem = problem
 
                 test_file = Problem.objects.get(id=student_solution.problem.id).test_file
-
 
                 solution_code = student_solution.solution_code
                 max_execution_time = student_solution.problem.max_execution_time
@@ -119,7 +119,7 @@ def take_problem(request, pk):
 @method_decorator([login_required, student_required], name='dispatch')
 class LectureListView(ListView):
     model = Lecture
-    ordering = ('date', )
+    ordering = ('date',)
     context_object_name = 'lectures'
     template_name = 'students/lecture_list.html'
 

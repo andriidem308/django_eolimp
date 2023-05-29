@@ -96,7 +96,6 @@ class Lecture(models.Model):
     def __str__(self):
         return self.title
 
-
 # class Choices(models.Model):
 #     choice = models.CharField(max_length=5000)
 #     is_answer = models.BooleanField(default=False)

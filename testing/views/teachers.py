@@ -1,12 +1,8 @@
-import json
 import os
-import random
-import string
 
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
-from django.http import HttpResponseRedirect, FileResponse, JsonResponse
+from django.http import HttpResponseRedirect, FileResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -312,7 +308,6 @@ def solution_download(request, pk):
     os.remove(filename)
 
     return FileResponse(file_response)
-
 
 # @login_required
 # @teacher_required

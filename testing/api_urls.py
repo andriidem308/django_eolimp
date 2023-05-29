@@ -1,7 +1,6 @@
-from django.urls import include, path
+from django.urls import path
 
 from .api_views import *
-
 
 urlpatterns = [
     path('teachers/<int:pk>', TeacherRetrieveView.as_view()),
@@ -38,4 +37,3 @@ urlpatterns = [
     # path('attachments/all/', AttachmentListView.as_view()),
     # path('attachments/new', AttachmentCreateView.as_view()),
 ]
-
