@@ -23,7 +23,7 @@
     </div>
     <div class="panel-bottom">
         {% if user.is_teacher %}
-            <a href="{% url "students:problem_list" %}">See all deadlines</a>
+            <a href="{% url "teachers:problem_change_list" %}">See all problems</a>
         {% endif %}
         {% if user.is_student %}
             <a href="{% url "students:problem_list" %}">See all deadlines</a>
