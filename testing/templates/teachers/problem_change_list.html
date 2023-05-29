@@ -3,7 +3,7 @@
 {% block content %}
     <h2 class="headline-text mb-3">Problems</h2>
     <a href="{% url 'teachers:problem_add' %}" class="btn btn-primary mb-3" role="button">New problem</a>
-    <table class="table mb-3">
+    <table class="table">
         <tbody>
         {% for problem in problems %}
             <tr>

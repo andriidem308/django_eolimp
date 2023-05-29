@@ -26,7 +26,7 @@
 
                 <div class="buttons-row">
                     <button type="submit" class="btn btn-success">Checked</button>
-                    <a download href="{% url 'teachers:problem_change_list' %}">
+                    <a download href='/teachers/solutions/{{ solution.pk }}/download'>
                         <button class="btn" type="button">Download solution</button>
                     </a>
                 </div>
