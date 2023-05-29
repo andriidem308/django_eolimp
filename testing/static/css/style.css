@@ -257,15 +257,7 @@ div.buttons-row {
     justify-content: space-between;
 }
 
-table {
-    width: 100%;
-    max-width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 80px;
-    background-color: transparent;
-}
-
-.table {
+table, .table  {
     width: 100%;
     max-width: 100%;
     border-collapse: collapse;

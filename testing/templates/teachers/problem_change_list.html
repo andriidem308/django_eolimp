@@ -8,7 +8,7 @@
         {% for problem in problems %}
             <tr>
                 <td class="align-middle"><a class="table-link"
-                                            href="{% url 'teachers:problem_change' problem.pk %}">{{ problem.title }}</a>
+                                            href="{% url 'teachers:problem_change' problem.pk %}">{{ problem.title }} | {{ problem.group }}</a>
                 </td>
             </tr>
         {% empty %}
