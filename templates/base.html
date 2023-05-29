@@ -8,18 +8,25 @@
     <title>{% block title %}Testing Service{% endblock %}</title>
     <link rel="icon" href="{% static 'img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Alatsi" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% if user.is_authenticated %}
     {% include '_navigation.html' with user=user %}
-    {% include 'panel.html' with solutions=teacher_solutions %}
+    {% if user.is_teacher %}
+        {% include 'panel.html' with solutions=teacher_solutions %}
+    {% elif user.is_student %}
+        {% include 'panel.html' with problems=student_problems %}
+    {% endif %}
 {% endif %}
 <div class="container-center">
 
@@ -28,10 +35,10 @@
     {% endblock %}
 </div>
 <script>
-    var some_input=document.getElementsByTagName('input');
+    var some_input = document.getElementsByTagName('input');
 
-    for(var i = 0; i < some_input.length; i++){
-        some_input[i].setAttribute('autocomplete','off');
+    for (var i = 0; i < some_input.length; i++) {
+        some_input[i].setAttribute('autocomplete', 'off');
     }
 </script>
 </body>
