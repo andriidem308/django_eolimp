@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 
-from .serializers import *
+from api.serializers import *
 
 
 class TeacherRetrieveView(generics.RetrieveAPIView):

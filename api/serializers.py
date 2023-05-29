@@ -26,20 +26,6 @@ class CreateTeacherSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class StudentSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
-    class Meta:
-        model = Student
-        fields = '__all__'
-
-
-class CreateStudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = '__all__'
-
-
 class GroupSerializer(serializers.ModelSerializer):
     teacher = TeacherSerializer()
 
@@ -51,6 +37,21 @@ class GroupSerializer(serializers.ModelSerializer):
 class CreateGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
+        fields = '__all__'
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    group = GroupSerializer()
+
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+
+class CreateStudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
         fields = '__all__'
 
 
@@ -75,11 +76,12 @@ class SolutionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Solution
-        fields = ['student', 'problem', 'score', 'checked']
+        fields = '__all__'
 
 
 class LectureSerializer(serializers.ModelSerializer):
     teacher = TeacherSerializer()
+    group = GroupSerializer()
 
     class Meta:
         model = Lecture
@@ -90,16 +92,3 @@ class CreateLectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lecture
         fields = '__all__'
-
-# class AttachmentSerializer(serializers.ModelSerializer):
-#     lecture_id = LectureSerializer()
-#
-#     class Meta:
-#         model = Attachment
-#         fields = '__all__'
-#
-#
-# class CreateAttachmentSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Attachment
-#         fields = '__all__'
