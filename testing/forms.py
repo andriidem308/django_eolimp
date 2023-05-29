@@ -119,8 +119,8 @@ class CreateProblemForm(forms.ModelForm):
         input_formats=['%Y-%m-%d %H:00:00'],
         widget=BootstrapDateTimePickerInput(attrs={'autocomplete': 'off'})
     )
-    input_data = forms.FileField()
-    output_data = forms.FileField()
+    test_file = forms.FileField()
+
 
     def __init__(self, teacher, *args, **kwargs):
         super(CreateProblemForm, self).__init__(*args, **kwargs)
@@ -131,7 +131,7 @@ class CreateProblemForm(forms.ModelForm):
 
     class Meta:
         model = Problem
-        fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
+        fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'test_file']
 
     def save(self, **kwargs):
         user = kwargs.pop('user')
@@ -149,7 +149,7 @@ class UpdateProblemForm(forms.ModelForm):
 
     class Meta:
         model = Problem
-        fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
+        fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'test_file']
 
 
 class UpdateLectureForm(forms.ModelForm):

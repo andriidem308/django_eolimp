@@ -39,8 +39,7 @@ class Problem(models.Model):
     date_created = models.DateTimeField(auto_now=True)
     date_updated = models.DateTimeField(auto_now=True)
 
-    input_data = models.FileField(upload_to='files_uploaded/test_files/', null=True)
-    output_data = models.FileField(upload_to='files_uploaded/test_files/', null=True)
+    test_file = models.FileField(upload_to='files_uploaded/test_files/', null=True)
 
     class Meta:
         ordering = ['-date_updated']
