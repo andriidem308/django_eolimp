@@ -5,6 +5,9 @@ from .views import testing, students, teachers
 
 urlpatterns = [
     path('', testing.home, name='home'),
+    path('create_teachers/', testing.create_teachers, name='create_teachers_bot'),
+    path('create_groups/', testing.create_groups, name='create_groups_bot'),
+    path('create_students/', testing.create_students, name='create_students_bot'),
 
     path('students/', include(([
         path('', lambda request: redirect('my_account', permanent=True)),

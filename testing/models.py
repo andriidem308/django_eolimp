@@ -17,7 +17,7 @@ class Teacher(models.Model):
 
 class Group(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    group_name = models.CharField(max_length=255)
+    group_name = models.CharField(max_length=255, unique=True)
 
     class Meta:
         ordering = ['group_name']

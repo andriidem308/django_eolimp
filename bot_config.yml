@@ -1,0 +1,8 @@
+number_of_teachers: 5
+group_names:
+  - Computer Mathematics
+  - Statistics
+  - Mathematics
+  - Secondary Education
+  - Mechanics
+max_students_per_group: 10

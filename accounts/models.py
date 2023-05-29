@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_teacher_user(self, email, username, password, first_name, last_name):
+    def create_teacher_user(self, email, password, first_name, last_name):
         user = self.create_user(
             email,
             password=password,
