@@ -5,7 +5,7 @@ from subprocess import PIPE, Popen
 
 
 def test_student_solution(code, exec_time, test_filename):
-    tests = json.load(open(test_filename))
+    tests = json.load(open(test_filename.path))
     temporary_filename = 'test_solution.py'
     with open(temporary_filename, 'w') as temporary_file:
         temporary_file.write(code)

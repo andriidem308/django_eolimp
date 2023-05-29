@@ -88,7 +88,7 @@ def take_problem(request, pk):
                 test_score_percentage = test_student_solution(
                     code=solution_code,
                     exec_time=max_execution_time,
-                    test_file=test_file,
+                    test_filename=test_file,
                 )
 
                 score = round(test_score_percentage * problem.problem_value, 1)
