@@ -97,7 +97,6 @@ class Lecture(models.Model):
         return self.title
 
 
-
 class Test(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -106,12 +105,14 @@ class Test(models.Model):
     def __str__(self):
         return self.title
 
+
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    text = models.TextField()
+    text = models.CharField(max_length=255)
 
     def __str__(self):
         return self.text
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

@@ -10,7 +10,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
-    UpdateLectureForm, SolutionViewForm, TestCreateForm
+    UpdateLectureForm, SolutionViewForm, TestCreateForm, QuestionFormSet, AnswerFormSet
 from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Question, Answer, Test
 from testing.notifications import lecture_added_notify, problem_added_notify
 
@@ -322,56 +322,84 @@ class TestsListView(ListView):
         return tests
 
 
-
 @login_required
 @teacher_required
 def test_add(request):
     teacher = Teacher.objects.get(user=request.user)
 
     if request.method == 'POST':
-        form = TestCreateForm(teacher, request.POST)
-        print('::before::')
-        print(
-            form.fields,
-        )
-        del form.fields['questions']
-        del form.fields['answers']
-        del form.fields['correct_answers']
+        test_form = TestCreateForm(teacher, request.POST)
+        question_formset = QuestionFormSet(request.POST, prefix='questions')
+        answer_formset = AnswerFormSet(request.POST, prefix='answers')
+        # print('aaa')
+        print(test_form.is_valid())
+        print(question_formset.is_valid())
+        print(answer_formset.is_valid())
 
-        if form.is_valid():
-            print('::after::')
-            test = form.save(user=request.user, commit=False)
+        print(answer_formset.forms)
+
+        if test_form.is_valid() and question_formset.is_valid() and answer_formset.is_valid():
+            test = test_form.save(user=request.user, commit=False)
             test.save()
-            # test_added_notify(test)
+            questions = question_formset.save(commit=False)
+            for question in questions:
+                question.test = test
+                question.save()
 
-            questions = []
-            answers = []
-            correct_answers = []
-
-            for key, value in request.POST.items():
-                if key.startswith('question'):
-                    questions.append(value)
-                elif key.startswith('answer'):
-                    answers.append(value)
-                elif key.startswith('correct'):
-                    correct_answers.append(value)
-
-            for i, question_text in enumerate(questions):
-                question = Question.objects.create(test=test, text=question_text)
-
-                start_index = i * 4
-                answer_texts = answers[start_index:start_index + 4]
-
-                for j, answer_text in enumerate(answer_texts):
-                    is_correct = correct_answers[start_index + j] == str(j + 1)
-                    Answer.objects.create(question=question, text=answer_text, is_correct=is_correct)
-
-            return HttpResponseRedirect('../')
+                answers = answer_formset.save(commit=False)
+                for answer in answers:
+                    answer.question = question
+                    answer.save()
+            return redirect('teachers:test_change_list')
+        else:
+            return redirect('teachers:test_add')
     else:
-        form = TestCreateForm(teacher)
+        test_form = TestCreateForm(teacher)
+        question_formset = QuestionFormSet(prefix='questions')
+        answer_formset = AnswerFormSet(prefix='answers')
+        print()
 
-    return render(request, 'teachers/test_add.html', {'form': form})
+    context = {
+        'test_form': test_form,
+        'question_formset': question_formset,
+        'answer_formset': answer_formset,
+    }
 
+    return render(request, 'teachers/test_add.html', context)
+
+    # if form.is_valid():
+    #     print('::after::')
+    #     test = form.save(user=request.user, commit=False)
+    #     test.save()
+    # test_added_notify(test)
+
+    # questions = []
+    # answers = []
+    # correct_answers = []
+    #
+    # for key, value in request.POST.items():
+    #     if key.startswith('question'):
+    #         questions.append(value)
+    #     elif key.startswith('answer'):
+    #         answers.append(value)
+    #     elif key.startswith('correct'):
+    #         correct_answers.append(value)
+    #
+    # for i, question_text in enumerate(questions):
+    #     question = Question.objects.create(test=test, text=question_text)
+    #
+    #     start_index = i * 4
+    #     answer_texts = answers[start_index:start_index + 4]
+    #
+    #     for j, answer_text in enumerate(answer_texts):
+    #         is_correct = correct_answers[start_index + j] == str(j + 1)
+    #         Answer.objects.create(question=question, text=answer_text, is_correct=is_correct)
+
+    #         return HttpResponseRedirect('../')
+    # else:
+    #     form = TestCreateForm(teacher)
+    #
+    # return render(request, 'teachers/test_add.html', {'form': form})
 
 # @login_required
 # @teacher_required

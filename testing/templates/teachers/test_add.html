@@ -3,89 +3,84 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<head>
-    <title>Add test </title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var questionCount = 1;
+    <head>
+        <title>Add test </title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var questionCount = 1;
 
-            $('#add-question').click(function() {
-                questionCount++;
+                $('#add-question').click(function () {
+                    questionCount++;
 
-                var questionHtml = '<div id="question-' + questionCount + '">' +
-                    '<label for="question' + questionCount + '">Question ' + questionCount + ':</label>' +
-                    '<input type="text" name="question' + questionCount + '" required><br>' +
-                    '<label for="answer' + questionCount + '_1">Answer 1:</label>' +
-                    '<input type="text" name="answer' + questionCount + '_1" required>' +
-                    '<input type="radio" name="correct' + questionCount + '" value="1" required>' +
-                    '<label for="answer' + questionCount + '_2">Answer 2:</label>' +
-                    '<input type="text" name="answer' + questionCount + '_2" required>' +
-                    '<input type="radio" name="correct' + questionCount + '" value="2" required>' +
-                    '<label for="answer' + questionCount + '_3">Answer 3:</label>' +
-                    '<input type="text" name="answer' + questionCount + '_3" required>' +
-                    '<input type="radio" name="correct' + questionCount + '" value="3" required>' +
-                    '<label for="answer' + questionCount + '_4">Answer 4:</label>' +
-                    '<input type="text" name="answer' + questionCount + '_4" required>' +
-                    '<input type="radio" name="correct' + questionCount + '" value="4" required>' +
-                    '<br><br></div>';
 
-                $('#questions-container').append(questionHtml);
+                    var questionHtml = '<div id="question-' + questionCount + '">' +
+                        '<label for="question' + questionCount + '">Question ' + questionCount + ':</label>' +
+                        '<input type="text" name="question' + questionCount + '" required><br>' +
+                        '<label for="answer' + questionCount + '_1">Answer 1:</label>' +
+                        '<input type="text" name="answer' + questionCount + '_1" required>' +
+                        '<input type="radio" name="correct' + questionCount + '" value="1" required>' +
+                        '<label for="answer' + questionCount + '_2">Answer 2:</label>' +
+                        '<input type="text" name="answer' + questionCount + '_2" required>' +
+                        '<input type="radio" name="correct' + questionCount + '" value="2" required>' +
+                        '<label for="answer' + questionCount + '_3">Answer 3:</label>' +
+                        '<input type="text" name="answer' + questionCount + '_3" required>' +
+                        '<input type="radio" name="correct' + questionCount + '" value="3" required>' +
+                        '<label for="answer' + questionCount + '_4">Answer 4:</label>' +
+                        '<input type="text" name="answer' + questionCount + '_4" required>' +
+                        '<input type="radio" name="correct' + questionCount + '" value="4" required>' +
+                        '<br><br></div>';
+
+                    $('#questions-container').append(questionHtml);
+                });
             });
-        });
-    </script>
-</head>
-<body>
+        </script>
+    </head>
+    <body>
     <h1>Add Test</h1>
+
     <form method="post" class="form">
         {% csrf_token %}
         <div class="form-group row">
-            <label for="{{ form.group.id_for_label }}" class="col-sm-3 col-form-label">Group:</label>
+            <label for="{{ test_form.group.id_for_label }}" class="col-sm-3 col-form-label">Group:</label>
             <div class="col-sm-9">
-                {{ form.group|as_crispy_field }}
+                {{ test_form.group|as_crispy_field }}
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" name="title" required class="form-control">
+        <div class="form-group row">
+            <label for="{{ test_form.title.id_for_label }}" class="col-sm-3 col-form-label">Title:</label>
+            <div class="col-sm-9">
+                {{ test_form.title|as_crispy_field }}
+            </div>
+            {#            <label for="title">Title:</label>#}
+            {#            <input type="text" name="title" required class="form-control">#}
         </div>
 
         <div id="questions-container">
-            <div id="question-1">
-                <div class="form-group">
-                    <label for="question1">Question 1:</label>
-                    <input type="text" name="question1" required class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="answer1_1">Answer 1:</label>
-                    <input type="text" name="answer1_1" required class="form-control">
-                    <input type="radio" name="correct1" value="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="answer1_2">Answer 2:</label>
-                    <input type="text" name="answer1_2" required class="form-control">
-                    <input type="radio" name="correct1" value="2" required>
-                </div>
-                <div class="form-group">
-                    <label for="answer1_3">Answer 3:</label>
-                    <input type="text" name="answer1_3" required class="form-control">
-                    <input type="radio" name="correct1" value="3" required>
-                </div>
-                <div class="form-group">
-                    <label for="answer1_4">Answer 4:</label>
-                    <input type="text" name="answer1_4" required class="form-control">
-                    <input type="radio" name="correct1" value="4" required>
-                </div>
-                <br><br>
+            {{ question_formset.management_form }}
+
+            <div class="form-group row">
+                {% for form in question_formset %}
+                    <label for="{{ form.text.id_for_label }}" class="col-sm-3 col-form-label">Question:</label>
+                    {{ form.text | as_crispy_field }}
+
+                    {{ answer_formset.management_form }}
+                    {% for answer_form in answer_formset %}
+                        <label for="{{ answer_form.text.id_for_label }}" class="col-sm-3 col-form-label">Answer {{ forloop.counter }}:</label>
+                        {{ answer_form.text | as_crispy_field }}
+                        <input type="radio" name="is_correct_{{ forloop.parentloop.counter }}" id="{{ answer_form.is_correct.id_for_label }}" value="{{ answer_form.is_correct.choice_value }}">
+                        <label for="{{ answer_form.is_correct.id_for_label }}">{{ answer_form.is_correct.choice_label }}</label>
+                    {% endfor %}
+                {% endfor %}
             </div>
-        </div>
 
         <button type="button" id="add-question" class="btn btn-primary">Add question</button>
         <br><br>
 
         <input type="submit" value="Save" class="btn btn-success">
+        </div>
     </form>
-</body>
+    </body>
 {% endblock %}
 

@@ -7,8 +7,8 @@
                                        href="{% if user.is_student %}{% url 'students:problem_list' %}
                 {% else %}{% url 'teachers:problem_change_list' %}{% endif %}">Problems</a></li>
         <li class="navigation-item"><a class="navigation-link"
-                                href="{% if user.is_student %}{% url 'students:test_list' %}
-                {% else %}{% url 'teachers:test_list' %}{% endif %}">Tests</a></li>
+                                href="{% if user.is_student %}{% url 'students:test_change_list' %}
+                {% else %}{% url 'teachers:test_change_list' %}{% endif %}">Tests</a></li>
         {% if user.is_teacher %}
             <li class="navigation-item">
                 <a class="navigation-link" href="{% url 'teachers:groups_list' %}">Groups</a>
