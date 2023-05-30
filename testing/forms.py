@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, User
 from django.db import transaction
 
 from django_eolimp.settings import SECRET_KEY_TEACHER
-from testing.models import Student, Teacher, Group, Solution, Lecture, Problem
+from testing.models import Student, Teacher, Group, Solution, Lecture, Problem, Test
 from testing.widget import BootstrapDateTimePickerInput
 
 User = get_user_model()
@@ -196,38 +196,28 @@ class SolutionViewForm(forms.ModelForm):
         model = Solution
         fields = ['score']
 
-# class CreateTestForm(forms.ModelForm):
-#     # title = forms.CharField(max_length=255, widget=forms.TextInput())
-#     # description = forms.Textarea()
-#     # problem_value = forms.FloatField(widget=forms.NumberInput(attrs={'min': 0}))
-#     # max_execution_time = forms.FloatField(widget=forms.NumberInput(attrs={'min': 0, 'step': 100}))
-#     # deadline = forms.DateTimeField(
-#     #     input_formats=['%Y-%m-%d %H:00:00'],
-#     #     widget=BootstrapDateTimePickerInput(attrs={'autocomplete': 'off'})
-#     # )
-#     # input_data = forms.FileField()
-#     # output_data = forms.FileField()
-#
-#     def __init__(self, teacher, *args, **kwargs):
-#         super(CreateTestForm, self).__init__(*args, **kwargs)
-#         # self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
-#         # self.fields['group'].label = ''
-#         # self.fields['group'].empty_label = 'Оберіть групу'
-#         # self.fields['title'].label = 'Назва задачі'
-#         # self.fields['description'].label = 'Умова задачі'
-#         # self.fields['problem_value'].label = 'Бал за задачу'
-#         # self.fields['max_execution_time'].label = 'Максимальний час (у мс)'
-#         # self.fields['deadline'].label = 'Дедлайн'
-#         # self.fields['input_data'].label = 'Вхідні тести'
-#         # self.fields['output_data'].label = 'Вихідні тести'
-#
-#     class Meta:
-#         model = Test
-#         fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
-#
-#     def save(self, **kwargs):
-#         user = kwargs.pop('user')
-#         instance = super(CreateTestForm, self).save(**kwargs)
-#         instance.teacher = Teacher.objects.get(user=user)
-#         instance.save()
-#         return instance
+class TestCreateForm(forms.ModelForm):
+    questions = forms.CharField(widget=forms.Textarea)
+    answers = forms.CharField(widget=forms.Textarea)
+    correct_answers = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, teacher, *args, **kwargs):
+        super(TestCreateForm, self).__init__(*args, **kwargs)
+        self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
+        for field in self.fields.values():
+            field.label = ''
+
+    def save(self, **kwargs):
+        user = kwargs.pop('user')
+        instance = super(TestCreateForm, self).save(**kwargs)
+        instance.teacher = Teacher.objects.get(user=user)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Test
+        fields = ['group', 'title']
+
+
+
+
