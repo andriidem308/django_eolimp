@@ -1,0 +1,509 @@
+[
+  {
+    "title": "Strings 1",
+    "condition": "Create a script which will take 3 string variables x, y and z and will return a string containing '{x} {y}{z}'",
+    "tests": [
+      {
+        "inputs": ["Hello", "World", "!"],
+        "outputs": ["Hello World!"]
+      },
+      {
+        "inputs": ["A", "B", "C"],
+        "outputs": ["A BC"]
+      },
+      {
+        "inputs": ["1 +", "5 =", " 6"],
+        "outputs": ["1 + 5 = 6"]
+      },
+      {
+        "inputs": ["firstWord", "secondWordLeft", "secondWordRight"],
+        "outputs": ["firstWord secondWordLeftsecondWordRight"]
+      },
+      {
+        "inputs": ["Lorem", "ipsum", "dolor"],
+        "outputs": ["Lorem ipsumdolor"]
+      },
+      {
+        "inputs": ["OpenAI", "is", "revolutionizing"],
+        "outputs": ["OpenAI isrevolutionizing"]
+      },
+      {
+        "inputs": ["Today", "is", "a"],
+        "outputs": ["Today isa"]
+      },
+      {
+        "test_number": 8,
+        "inputs": ["Random", "are", "fun"],
+        "outputs": ["Random arefun"]
+      },
+      {
+        "inputs": ["Programming", "is", "exciting"],
+        "outputs": ["Programming isexciting"]
+      },
+      {
+        "inputs": ["Coffee", "is", "life"],
+        "outputs": ["Coffee islife"]
+      },
+      {
+        "inputs": ["Banana", "split", "sundae"],
+        "outputs": ["Banana splitsundae"]
+      },
+      {
+        "inputs": ["Summer", "vacation", "time"],
+        "outputs": ["Summer vacationtime"]
+      },
+      {
+        "inputs": ["Rainy", "day", "blues"],
+        "outputs": ["Rainy dayblues"]
+      },
+      {
+        "inputs": ["Pizza", "toppings", "galore"],
+        "outputs": ["Pizza toppingsgalore"]
+      },
+      {
+        "inputs": ["Cup", "of", "tea"],
+        "outputs": ["Cup oftea"]
+      },
+      {
+        "inputs": ["Sunset", "beach", "waves"],
+        "outputs": ["Sunset beachwaves"]
+      },
+      {
+        "inputs": ["Laughter", "joy", "happiness"],
+        "outputs": ["Laughter joyhappiness"]
+      },
+      {
+        "inputs": ["Mountain", "peak", "adventure"],
+        "outputs": ["Mountain peakadventure"]
+      },
+      {
+        "inputs": ["Family", "love", "together"],
+        "outputs": ["Family lovetogether"]
+      },
+      {
+        "inputs": ["Chocolate", "chip", "cookies"],
+        "outputs": ["Chocolate chipcookies"]
+      }
+    ]
+  },
+  {
+    "title": "Strings 2",
+    "condition": "Create a script which will take 3 string variables x, y and z and will return them reversed in separate lines",
+    "tests": [
+      {
+        "inputs": ["Hello", "World", "!"],
+        "outputs": ["!", "World", "Hello"]
+      },
+      {
+        "inputs": ["A", "B", "C"],
+        "outputs": ["C", "B", "A"]
+      },
+      {
+        "inputs": ["1 +", "5 =", " 6"],
+        "outputs": [" 6", "5 =", "1 +"]
+      },
+      {
+        "inputs": ["firstWord", "secondWordLeft", "secondWordRight"],
+        "outputs": ["secondWordRight", "secondWordLeft", "firstWord"]
+      },
+      {
+        "inputs": ["!", "World", "Hello"],
+        "outputs": ["Hello", "World", "!"]
+      },
+      {
+        "inputs": ["C", "B", "A"],
+        "outputs": ["A", "B", "C"]
+      },
+      {
+        "inputs": [" 6", "5 =", "1 +"],
+        "outputs": ["1 +", "5 =", " 6"]
+      },
+      {
+        "inputs": ["secondWordRight", "secondWordLeft", "firstWord"],
+        "outputs": ["firstWord", "secondWordLeft", "secondWordRight"]
+      },
+      {
+        "inputs": ["Lorem", "ipsum", "dolor"],
+        "outputs": ["dolor", "ipsum", "Lorem"]
+      },
+      {
+        "inputs": ["OpenAI", "is", "revolutionizing"],
+        "outputs": ["revolutionizing", "is", "OpenAI"]
+      },
+      {
+        "inputs": ["Today", "is", "a"],
+        "outputs": ["a", "is", "Today"]
+      },
+      {
+        "inputs": ["Random", "tests", "are", "fun"],
+        "outputs": ["are", "tests", "Random"]
+      },
+      {
+        "inputs": ["Banana", "split", "sundae"],
+        "outputs": ["sundae", "split", "Banana"]
+      },
+      {
+        "inputs": ["Summer", "vacation", "time"],
+        "outputs": ["time", "vacation", "Summer"]
+      },
+      {
+        "inputs": ["Rainy", "day", "blues"],
+        "outputs": ["blues", "day", "Rainy"]
+      },
+      {
+        "inputs": ["Pizza", "toppings", "galore"],
+        "outputs": ["galore", "toppings", "Pizza"]
+      },
+      {
+        "inputs": ["Cup", "of", "tea"],
+        "outputs": ["tea", "of", "Cup"]
+      }
+    ]
+  },
+  {
+    "title": "Sum of numbers",
+    "condition": "Create a program which takes x and y and returns a sum of them",
+    "tests": [
+      {
+        "inputs": ["1", "4"],
+        "outputs": ["5"]
+      },
+      {
+        "inputs": ["3", "6"],
+        "outputs": ["9"]
+      },
+      {
+        "inputs": ["2", "8"],
+        "outputs": ["10"]
+      },
+      {
+        "inputs": ["9", "2"],
+        "outputs": ["11"]
+      },
+      {
+        "inputs": ["5", "3"],
+        "outputs": ["8"]
+      },
+      {
+        "inputs": ["7", "1"],
+        "outputs": ["8"]
+      },
+      {
+        "inputs": ["6", "2"],
+        "outputs": ["8"]
+      },
+      {
+        "inputs": ["4", "9"],
+        "outputs": ["13"]
+      },
+      {
+        "inputs": ["8", "5"],
+        "outputs": ["13"]
+      },
+      {
+        "inputs": ["2", "7"],
+        "outputs": ["9"]
+      },
+      {
+        "inputs": ["1", "9"],
+        "outputs": ["10"]
+      },
+      {
+        "inputs": ["3", "8"],
+        "outputs": ["11"]
+      },
+      {
+        "inputs": ["5", "6"],
+        "outputs": ["11"]
+      },
+      {
+        "inputs": ["4", "7"],
+        "outputs": ["11"]
+      },
+      {
+        "inputs": ["6", "9"],
+        "outputs": ["15"]
+      },
+      {
+        "inputs": ["8", "4"],
+        "outputs": ["12"]
+      },
+      {
+        "inputs": ["9", "3"],
+        "outputs": ["12"]
+      },
+      {
+        "inputs": ["7", "2"],
+        "outputs": ["9"]
+      },
+      {
+        "inputs": ["2", "5"],
+        "outputs": ["7"]
+      },
+      {
+        "inputs": ["1", "6"],
+        "outputs": ["7"]
+      }
+    ]
+  },
+  {
+    "title": "Difference of numbers",
+    "condition": "Create a program which takes x and y and returns a difference of them",
+    "tests": [
+      {
+        "inputs": ["18", "4"],
+        "outputs": ["14"]
+      },
+      {
+        "inputs": ["20", "8"],
+        "outputs": ["12"]
+      },
+      {
+        "inputs": ["14", "6"],
+        "outputs": ["8"]
+      },
+      {
+        "inputs": ["25", "3"],
+        "outputs": ["22"]
+      },
+      {
+        "inputs": ["10", "2"],
+        "outputs": ["8"]
+      },
+      {
+        "inputs": ["22", "16"],
+        "outputs": ["6"]
+      },
+      {
+        "inputs": ["30", "5"],
+        "outputs": ["25"]
+      },
+      {
+        "inputs": ["12", "9"],
+        "outputs": ["3"]
+      },
+      {
+        "inputs": ["16", "1"],
+        "outputs": ["15"]
+      },
+      {
+        "inputs": ["19", "11"],
+        "outputs": ["8"]
+      },
+      {
+        "inputs": ["23", "7"],
+        "outputs": ["16"]
+      },
+      {
+        "inputs": ["17", "13"],
+        "outputs": ["4"]
+      },
+      {
+        "inputs": ["28", "2"],
+        "outputs": ["26"]
+      },
+      {
+        "inputs": ["15", "6"],
+        "outputs": ["9"]
+      },
+      {
+        "inputs": ["21", "10"],
+        "outputs": ["11"]
+      },
+      {
+        "inputs": ["27", "14"],
+        "outputs": ["13"]
+      },
+      {
+        "inputs": ["9", "4"],
+        "outputs": ["5"]
+      },
+      {
+        "inputs": ["13", "2"],
+        "outputs": ["11"]
+      },
+      {
+        "inputs": ["24", "20"],
+        "outputs": ["4"]
+      },
+      {
+        "inputs": ["26", "7"],
+        "outputs": ["19"]
+      }
+    ]
+
+  },
+  {
+    "title": "Multiplication of numbers",
+    "condition": "Create a program which takes x and y and returns a multiplication of them",
+    "tests": [
+      {
+        "inputs": ["3", "6"],
+        "outputs": ["18"]
+      },
+      {
+        "inputs": ["8", "4"],
+        "outputs": ["32"]
+      },
+      {
+        "inputs": ["2", "9"],
+        "outputs": ["18"]
+      },
+      {
+        "inputs": ["7", "5"],
+        "outputs": ["35"]
+      },
+      {
+        "inputs": ["6", "3"],
+        "outputs": ["18"]
+      },
+      {
+        "inputs": ["4", "2"],
+        "outputs": ["8"]
+      },
+      {
+        "inputs": ["9", "8"],
+        "outputs": ["72"]
+      },
+      {
+        "inputs": ["5", "7"],
+        "outputs": ["35"]
+      },
+      {
+        "inputs": ["1", "9"],
+        "outputs": ["9"]
+      },
+      {
+        "inputs": ["6", "7"],
+        "outputs": ["42"]
+      },
+      {
+        "inputs": ["8", "3"],
+        "outputs": ["24"]
+      },
+      {
+        "inputs": ["4", "6"],
+        "outputs": ["24"]
+      },
+      {
+        "inputs": ["9", "2"],
+        "outputs": ["18"]
+      },
+      {
+        "inputs": ["7", "4"],
+        "outputs": ["28"]
+      },
+      {
+        "inputs": ["2", "5"],
+        "outputs": ["10"]
+      },
+      {
+        "inputs": ["1", "7"],
+        "outputs": ["7"]
+      },
+      {
+        "inputs": ["5", "9"],
+        "outputs": ["45"]
+      },
+      {
+        "inputs": ["3", "4"],
+        "outputs": ["12"]
+      },
+      {
+        "inputs": ["6", "1"],
+        "outputs": ["6"]
+      },
+      {
+        "inputs": ["9", "7"],
+        "outputs": ["63"]
+      }
+    ]
+
+  },
+  {
+    "title": "Powered number",
+    "condition": "Create a program which takes x and y and returns x powered by y",
+    "tests": [
+      {
+        "inputs": ["3", "2"],
+        "outputs": ["9"]
+      },
+      {
+        "inputs": ["4", "3"],
+        "outputs": ["64"]
+      },
+      {
+        "inputs": ["2", "4"],
+        "outputs": ["16"]
+      },
+      {
+        "inputs": ["5", "2"],
+        "outputs": ["25"]
+      },
+      {
+        "inputs": ["2", "5"],
+        "outputs": ["32"]
+      },
+      {
+        "inputs": ["6", "3"],
+        "outputs": ["216"]
+      },
+      {
+        "inputs": ["3", "4"],
+        "outputs": ["81"]
+      },
+      {
+        "inputs": ["7", "2"],
+        "outputs": ["49"]
+      },
+      {
+        "inputs": ["2", "3"],
+        "outputs": ["8"]
+      },
+      {
+        "inputs": ["4", "2"],
+        "outputs": ["16"]
+      },
+      {
+        "inputs": ["2", "6"],
+        "outputs": ["64"]
+      },
+      {
+        "inputs": ["5", "3"],
+        "outputs": ["125"]
+      },
+      {
+        "inputs": ["8", "2"],
+        "outputs": ["64"]
+      },
+      {
+        "inputs": ["3", "5"],
+        "outputs": ["243"]
+      },
+      {
+        "inputs": ["6", "2"],
+        "outputs": ["36"]
+      },
+      {
+        "inputs": ["2", "7"],
+        "outputs": ["128"]
+      },
+      {
+        "inputs": ["4", "4"],
+        "outputs": ["256"]
+      },
+      {
+        "inputs": ["9", "2"],
+        "outputs": ["81"]
+      },
+      {
+        "inputs": ["7", "3"],
+        "outputs": ["343"]
+      },
+      {
+        "inputs": ["2", "8"],
+        "outputs": ["256"]
+      }
+    ]
+  }
+]

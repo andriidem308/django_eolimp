@@ -1,19 +1,22 @@
+import json
 import random
 
 import yaml
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UsernameField
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from faker import Faker
 
-from testing.models import User, Teacher, Student, Group
-from testing.services.logging_service import log_user
+from django.utils import timezone
+from datetime import timedelta
 
+from testing.models import User, Teacher, Student, Group, Problem
+from testing.services.logging_service import log_user
 
 User = get_user_model()
 
@@ -127,5 +130,47 @@ def create_students(request):
                     log_user(student, password)
 
                     response_log.append(f'Created student: {student} in group {group}')
+
+    return JsonResponse(response_log, safe=False)
+
+
+def create_problems(request):
+    response_log = []
+
+    problems_data = json.load(open('problems_generator.json'))
+
+    teachers = Teacher.objects.all()
+    for teacher in teachers:
+        groups = Group.objects.filter(teacher=teacher)
+        for group in groups:
+            for problem_data in problems_data:
+                title = problem_data.get('title')
+                condition = problem_data.get('condition')
+                problem_value = random.randint(1, 10)
+                max_exec_time = random.randrange(500, 5000, 500)
+                time_now = timezone.now()
+                random_days = timedelta(days=random.randint(0, 30))
+                random_date = (time_now + random_days).replace(hour=0, minute=0, second=0, microsecond=0)
+
+                test_filename = f'files_uploaded/test_files/{title}_{group}_{teacher}.json'
+
+                with open(test_filename, 'w') as tmp_test_file:
+                    tmp_test_file.write(json.dumps(problem_data.get('tests')))
+
+                if not Problem.objects.filter(test_file=test_filename).exists():
+                    Problem.objects.create(
+                        teacher=teacher,
+                        group=group,
+                        title=title,
+                        description=condition,
+                        problem_value=problem_value,
+                        max_execution_time=max_exec_time,
+                        deadline=random_date,
+                        date_created=time_now,
+                        date_updated=time_now,
+                        test_file=test_filename
+                    )
+
+                    response_log.append(f'Created problem: {title} in group {group} by teacher {teacher}')
 
     return JsonResponse(response_log, safe=False)

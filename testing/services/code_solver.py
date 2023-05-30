@@ -5,7 +5,11 @@ from subprocess import PIPE, Popen
 
 
 def test_student_solution(code, exec_time, test_filename):
-    tests = json.load(open(test_filename))
+    tests = []
+    print(test_filename.path)
+    with open(test_filename.path) as tests_file:
+        tests = json.load(tests_file)
+
     temporary_filename = 'test_solution.py'
     with open(temporary_filename, 'w') as temporary_file:
         temporary_file.write(code)
@@ -13,6 +17,7 @@ def test_student_solution(code, exec_time, test_filename):
     successful_tests = 0
     total_tests = len(tests)
 
+    i = 0
     for test in tests:
         test_inputs = test.get('inputs', [])
         test_outputs = test.get('outputs', [])
@@ -28,6 +33,7 @@ def test_student_solution(code, exec_time, test_filename):
 
         if (end_time - start_time) * 1000 <= exec_time:
             result_outputs = buffer.rstrip().decode('utf-8').split('\n')
+            i += 1
             if result_outputs == test_outputs:
                 successful_tests += 1
 

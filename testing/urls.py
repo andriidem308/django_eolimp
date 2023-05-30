@@ -8,18 +8,21 @@ urlpatterns = [
     path('create_teachers/', testing.create_teachers, name='create_teachers_bot'),
     path('create_groups/', testing.create_groups, name='create_groups_bot'),
     path('create_students/', testing.create_students, name='create_students_bot'),
+    path('create_problems/', testing.create_problems, name='create_problems_bot'),
 
     path('students/', include(([
-        path('', lambda request: redirect('my_account', permanent=True)),
-        path('problems/', students.ProblemListView.as_view(), name='problem_list'),
-        path('problems/<int:pk>/', students.take_problem, name='take_problem'),
-        path('solutions/', students.SolutionListView.as_view(), name='solution_list'),
-        path('lectures/', students.LectureListView.as_view(), name='lecture_list'),
-        path('lectures/<int:pk>/', students.lecture_view, name='lecture_view'),
-        path('lectures/<int:pk>/download_attachment/', students.attachment_download, name='attachment_download'),
-    ], 'testing'), namespace='students')),
+                                   path('', lambda request: redirect('my_account', permanent=True)),
+                                   path('problems/', students.ProblemListView.as_view(), name='problem_list'),
+                                   path('problems/<int:pk>/', students.take_problem, name='take_problem'),
+                                   path('solutions/', students.SolutionListView.as_view(), name='solution_list'),
+                                   path('lectures/', students.LectureListView.as_view(), name='lecture_list'),
+                                   path('lectures/<int:pk>/', students.lecture_view, name='lecture_view'),
+                                   path('lectures/<int:pk>/download_attachment/', students.attachment_download,
+                                        name='attachment_download'),
+                               ], 'testing'), namespace='students')),
 
     path('teachers/', include(([
+
         path('', lambda request: redirect('my_account', permanent=True)),
         path('problems/', teachers.ProblemsListView.as_view(), name='problem_change_list'),
         path('problems/add/', teachers.problem_add, name='problem_add'),
@@ -36,10 +39,10 @@ urlpatterns = [
         path('tests/', teachers.TestsListView.as_view(), name='test_list'),
         path('tests/add/', teachers.test_add, name='test_add'),
 
-        # path('tests/', teachers.TestsListView.as_view(), name='test_change_list'),
-        # path('tests/add/', teachers.test_add, name='add_form'),
-        # path('tests/<int:pk>/', teachers.TestUpdateView.as_view(), name='form_add'),
+        path('tests/', teachers.TestsListView.as_view(), name='test_change_list'),
+        path('tests/add/', teachers.test_add, name='add_form'),
+        path('tests/<int:pk>/', teachers.TestUpdateView.as_view(), name='form_add'),
     ], 'testing'), namespace='teachers')),
 
-]
 
+]

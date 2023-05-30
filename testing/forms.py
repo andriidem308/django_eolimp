@@ -9,7 +9,6 @@ from django_eolimp.settings import SECRET_KEY_TEACHER
 from testing.models import Student, Teacher, Group, Solution, Lecture, Problem, Test
 from testing.widget import BootstrapDateTimePickerInput
 
-
 User = get_user_model()
 
 
@@ -33,7 +32,7 @@ class TeacherSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'email') + UserCreationForm.Meta.fields + ('secret_key', )
+        fields = ('first_name', 'last_name', 'email') + UserCreationForm.Meta.fields + ('secret_key',)
 
     @transaction.atomic
     def save(self):
@@ -60,18 +59,20 @@ class StudentSignUpForm(UserCreationForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Surname'}),
                                 max_length=32, label='')
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
-                                max_length=32, label='')
+                               max_length=32, label='')
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'E-mail'}),
                              max_length=64, label='')
 
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}), label='')
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password confirmation'}), label='')
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+                                label='')
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password confirmation'}), label='')
 
     group = forms.ModelChoiceField(queryset=Group.objects.all(), label='', empty_label='Select Group')
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'email') + UserCreationForm.Meta.fields + ('group', )
+        fields = ('first_name', 'last_name', 'email') + UserCreationForm.Meta.fields + ('group',)
 
     @transaction.atomic
     def save(self):
@@ -121,10 +122,9 @@ class CreateProblemForm(forms.ModelForm):
     )
     test_file = forms.FileField()
 
-
     def __init__(self, teacher, *args, **kwargs):
         super(CreateProblemForm, self).__init__(*args, **kwargs)
-        #fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
+        # fields = ['group', 'title', 'description', 'problem_value', 'max_execution_time', 'deadline', 'input_data', 'output_data']
         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
         for field in self.fields.values():
             field.label = ''

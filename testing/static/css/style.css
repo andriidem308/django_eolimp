@@ -88,7 +88,7 @@ p {
 }
 
 .navigation-link:hover,
-.icon-link i:hover{
+.icon-link i:hover {
     color: #dedede;
 }
 
@@ -257,16 +257,19 @@ div.buttons-row {
     justify-content: space-between;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+table, .table  {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 80px;
+    background-color: transparent;
 }
 
 table th,
 table td {
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
 table td a {
@@ -275,7 +278,7 @@ table td a {
 
 
 table tr:hover {
-  background-color: #e6e6e6;
+    background-color: #e6e6e6;
 }
 
 .title-div {
@@ -284,11 +287,11 @@ table tr:hover {
 }
 
 .list-container {
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f7f7f7;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .table-link {
@@ -318,6 +321,8 @@ table tr:hover {
     /*margin: 25px;*/
     display: flex;
     justify-content: center;
+
+    color: #3c3c3c;
 }
 
 
@@ -346,6 +351,8 @@ table tr:hover {
     align-items: center;
     width: 100%;
     height: 100%;
+
+    color: #3c3c3c;
 }
 
 .panel-rows div:hover {
@@ -353,7 +360,6 @@ table tr:hover {
 }
 
 .panel-bottom {
-    text-align: center;
     position: absolute;
     width: 100%;
     height: 8%;

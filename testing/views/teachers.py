@@ -1,12 +1,8 @@
-import json
 import os
-import random
-import string
 
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
-from django.http import HttpResponseRedirect, FileResponse, JsonResponse
+from django.http import HttpResponseRedirect, FileResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -313,6 +309,7 @@ def solution_download(request, pk):
 
     return FileResponse(file_response)
 
+
 @method_decorator([login_required, teacher_required], name='dispatch')
 class TestsListView(ListView):
     model = Test
@@ -324,18 +321,6 @@ class TestsListView(ListView):
         tests = Test.objects.filter(teacher=teacher)
         return tests
 
-# teacher = Teacher.objects.get(user=request.user)
-#
-#     if request.method == 'POST':
-#         form = CreateProblemForm(teacher, request.POST, request.FILES)
-#         if form.is_valid():
-#             problem = form.save(user=request.user, commit=False)
-#             problem.save()
-#             problem_added_notify(problem)
-#             return HttpResponseRedirect('../')
-#     else:
-#         form = CreateProblemForm(teacher)
-#     return render(request, 'teachers/problem_add_form.html', {'form': form})
 
 
 @login_required
@@ -386,37 +371,6 @@ def test_add(request):
         form = TestCreateForm(teacher)
 
     return render(request, 'teachers/test_add.html', {'form': form})
-
-
-    #     title = request.POST['title']
-    #
-    #
-    #     questions = []
-    #     answers = []
-    #     correct_answers = []
-    #
-    #     for key, value in request.POST.items():
-    #         if key.startswith('question'):
-    #             questions.append(value)
-    #         elif key.startswith('answer'):
-    #             answers.append(value)
-    #         elif key.startswith('correct'):
-    #             correct_answers.append(value)
-    #
-    #     for i, question_text in enumerate(questions):
-    #         question = Question.objects.create(test=test, text=question_text)
-    #
-    #         start_index = i * 4
-    #         answer_texts = answers[start_index:start_index + 4]
-    #
-    #         for j, answer_text in enumerate(answer_texts):
-    #             is_correct = correct_answers[start_index + j] == str(j + 1)
-    #             Answer.objects.create(question=question, text=answer_text, is_correct=is_correct)
-    #
-    #     return redirect('test-list')
-    #
-    # return render(request, 'teachers/test_add.html')
-
 
 
 # @login_required
