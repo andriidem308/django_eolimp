@@ -10,7 +10,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
-    UpdateLectureForm, SolutionViewForm, TestCreateForm, QuestionFormSet, AnswersCreateForm
+    UpdateLectureForm, SolutionViewForm, TestCreateForm, QuestionFormSet, AnswersCreateForm, AnswersFormSet
 from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Question, Answers, Test
 from testing.notifications import lecture_added_notify, problem_added_notify
 
@@ -330,20 +330,27 @@ def test_add(request):
     if request.method == 'POST':
         test_form = TestCreateForm(teacher, request.POST)
         question_formset = QuestionFormSet(request.POST, prefix='questions')
-        answers_form = AnswersCreateForm(request.POST)
-        print(answers_form)
-        print(answers_form.is_valid())
+        # answer_formset = AnswersFormSet(request.POST)
+        answer_formset = AnswersFormSet(request.POST, initial=[{'question': question for question in question_formset}], prefix='answers')
 
-        if test_form.is_valid() and question_formset.is_valid() and answers_form.is_valid():
+        if test_form.is_valid() and question_formset.is_valid() and answer_formset.is_valid():
             test = test_form.save(user=request.user, commit=False)
             test.save()
+
             questions = question_formset.save(commit=False)
-            for question in questions:
+            answers = answer_formset.save(commit=False)
+
+            for question, answers_group in zip(questions, answers):
                 question.test = test
                 question.save()
 
-                answers = Answers.objects.create(question=question)
-                answers.save()
+                answers_group.question = question
+                answers_group.save()
+
+                # answers = answer_formset.save(commit=False)
+                # for answer in answers:
+                #     answer.question = question
+                #     answer.save()
 
             return redirect('teachers:test_change_list')
         else:
@@ -351,12 +358,13 @@ def test_add(request):
     else:
         test_form = TestCreateForm(teacher)
         question_formset = QuestionFormSet(prefix='questions')
-        answers_form = AnswersCreateForm()
+        answer_formset = AnswersFormSet(initial=[{'question': question for question in question_formset}], prefix='answers')
 
     context = {
         'test_form': test_form,
+        # 'question_answer_formset': zip(question_formset, answer_formset),
         'question_formset': question_formset,
-        'answer_form': answers_form,
+        'answer_formset': answer_formset,
     }
 
     return render(request, 'teachers/test_add.html', context)

@@ -29,23 +29,32 @@
         <div id="questions-container">
             {{ question_formset.management_form }}
 
-            <div class="form-group row">
-                {% for form in question_formset %}
-                    <label for="{{ form.text.id_for_label }}" class="col-sm-3 col-form-label">Question:</label>
-                    {{ form.text | as_crispy_field }}
 
-                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 1:</label>
-                    {{ answer_form.answer_1_text | as_crispy_field }}
-                    {{ answer_form.answer_1_correct | as_crispy_field }}
-                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 2:</label>
-                    {{ answer_form.answer_2_text | as_crispy_field }}
-                    {{ answer_form.answer_2_correct | as_crispy_field }}
-                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 3:</label>
-                    {{ answer_form.answer_3_text | as_crispy_field }}
-                    {{ answer_form.answer_3_correct | as_crispy_field }}
-                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 4:</label>
-                    {{ answer_form.answer_4_text | as_crispy_field }}
-                    {{ answer_form.answer_4_correct | as_crispy_field }}
+            <div class="form-group row">
+                {% for question_form in question_formset %}
+                    {{ question_form }}
+                    {{ answer_formset.management_form }}
+                    {% for answer_form in answer_formset %}
+                    {{ answer_form }}
+                        {% endfor %}
+
+{#                    {{ form.text.id_for_label }}#}
+{#                    <label for="{{ form.text.id_for_label }}" class="col-sm-3 col-form-label">Question:</label>#}
+{#                    {{ form.text | as_crispy_field }}#}
+{##}
+{#                    {{ answer_form.answer_1_text.id_for_label }}#}
+{#                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 1:</label>#}
+{#                    {{ answer_form.answer_1_text | as_crispy_field }}#}
+{#                    {{ answer_form.answer_1_correct | as_crispy_field }}#}
+{#                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 2:</label>#}
+{#                    {{ answer_form.answer_2_text | as_crispy_field }}#}
+{#                    {{ answer_form.answer_2_correct | as_crispy_field }}#}
+{#                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 3:</label>#}
+{#                    {{ answer_form.answer_3_text | as_crispy_field }}#}
+{#                    {{ answer_form.answer_3_correct | as_crispy_field }}#}
+{#                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 4:</label>#}
+{#                    {{ answer_form.answer_4_text | as_crispy_field }}#}
+{#                    {{ answer_form.answer_4_correct | as_crispy_field }}#}
 
                 {% endfor %}
             </div>

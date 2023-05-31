@@ -233,17 +233,13 @@ class AnswersCreateForm(forms.ModelForm):
     class Meta:
         model = Answers
         fields = ['question', 'answer_1_text', 'answer_2_text', 'answer_3_text', 'answer_4_text', 'answer_1_correct', 'answer_2_correct', 'answer_3_correct', 'answer_4_correct', ]
-        widgets = {
-            'answer_1_correct': forms.CheckboxInput,
-            'answer_2_correct': forms.CheckboxInput,
-            'answer_3_correct': forms.CheckboxInput,
-            'answer_4_correct': forms.CheckboxInput,
-        }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, question, *args, **kwargs):
         super(AnswersCreateForm, self).__init__(*args, **kwargs)
+        self.fields['question'] = question
         for field in self.fields.values():
             field.label = ''
 
 
 QuestionFormSet = inlineformset_factory(Test, Question, form=QuestionCreateForm, extra=1, can_delete=True)
+AnswersFormSet = inlineformset_factory(Question, Answers, form=AnswersCreateForm, extra=4, can_delete=False)
