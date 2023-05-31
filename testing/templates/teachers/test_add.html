@@ -6,35 +6,6 @@
     <head>
         <title>Add test </title>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                var questionCount = 1;
-
-                $('#add-question').click(function () {
-                    questionCount++;
-
-
-                    var questionHtml = '<div id="question-' + questionCount + '">' +
-                        '<label for="question' + questionCount + '">Question ' + questionCount + ':</label>' +
-                        '<input type="text" name="question' + questionCount + '" required><br>' +
-                        '<label for="answer' + questionCount + '_1">Answer 1:</label>' +
-                        '<input type="text" name="answer' + questionCount + '_1" required>' +
-                        '<input type="radio" name="correct' + questionCount + '" value="1" required>' +
-                        '<label for="answer' + questionCount + '_2">Answer 2:</label>' +
-                        '<input type="text" name="answer' + questionCount + '_2" required>' +
-                        '<input type="radio" name="correct' + questionCount + '" value="2" required>' +
-                        '<label for="answer' + questionCount + '_3">Answer 3:</label>' +
-                        '<input type="text" name="answer' + questionCount + '_3" required>' +
-                        '<input type="radio" name="correct' + questionCount + '" value="3" required>' +
-                        '<label for="answer' + questionCount + '_4">Answer 4:</label>' +
-                        '<input type="text" name="answer' + questionCount + '_4" required>' +
-                        '<input type="radio" name="correct' + questionCount + '" value="4" required>' +
-                        '<br><br></div>';
-
-                    $('#questions-container').append(questionHtml);
-                });
-            });
-        </script>
     </head>
     <body>
     <h1>Add Test</h1>
@@ -53,8 +24,6 @@
             <div class="col-sm-9">
                 {{ test_form.title|as_crispy_field }}
             </div>
-            {#            <label for="title">Title:</label>#}
-            {#            <input type="text" name="title" required class="form-control">#}
         </div>
 
         <div id="questions-container">
@@ -65,20 +34,26 @@
                     <label for="{{ form.text.id_for_label }}" class="col-sm-3 col-form-label">Question:</label>
                     {{ form.text | as_crispy_field }}
 
-                    {{ answer_formset.management_form }}
-                    {% for answer_form in answer_formset %}
-                        <label for="{{ answer_form.text.id_for_label }}" class="col-sm-3 col-form-label">Answer {{ forloop.counter }}:</label>
-                        {{ answer_form.text | as_crispy_field }}
-                        <input type="radio" name="is_correct_{{ forloop.parentloop.counter }}" id="{{ answer_form.is_correct.id_for_label }}" value="{{ answer_form.is_correct.choice_value }}">
-                        <label for="{{ answer_form.is_correct.id_for_label }}">{{ answer_form.is_correct.choice_label }}</label>
-                    {% endfor %}
+                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 1:</label>
+                    {{ answer_form.answer_1_text | as_crispy_field }}
+                    {{ answer_form.answer_1_correct | as_crispy_field }}
+                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 2:</label>
+                    {{ answer_form.answer_2_text | as_crispy_field }}
+                    {{ answer_form.answer_2_correct | as_crispy_field }}
+                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 3:</label>
+                    {{ answer_form.answer_3_text | as_crispy_field }}
+                    {{ answer_form.answer_3_correct | as_crispy_field }}
+                    <label for="{{ answer_form.answer_1_text.id_for_label }}" class="col-sm-3 col-form-label">Answer 4:</label>
+                    {{ answer_form.answer_4_text | as_crispy_field }}
+                    {{ answer_form.answer_4_correct | as_crispy_field }}
+
                 {% endfor %}
             </div>
 
-        <button type="button" id="add-question" class="btn btn-primary">Add question</button>
-        <br><br>
+            <button type="button" id="add-question" class="btn btn-primary">Add question</button>
+            <br><br>
 
-        <input type="submit" value="Save" class="btn btn-success">
+            <input type="submit" value="Save" class="btn btn-success">
         </div>
     </form>
     </body>

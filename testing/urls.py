@@ -41,7 +41,7 @@ urlpatterns = [
 
         path('tests/', teachers.TestsListView.as_view(), name='test_change_list'),
         path('tests/add/', teachers.test_add, name='test_add'),
-        # path('tests/<int:pk>/', teachers.TestUpdateView.as_view(), name='form_add'),
+        path('tests/<int:pk>/', teachers.TestUpdateView.as_view(), name='test_change'),
     ], 'testing'), namespace='teachers')),
 
 

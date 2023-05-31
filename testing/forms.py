@@ -7,7 +7,7 @@ from django.db import transaction
 from django.forms.models import formset_factory, inlineformset_factory
 
 from django_eolimp.settings import SECRET_KEY_TEACHER
-from testing.models import Student, Teacher, Group, Solution, Lecture, Problem, Test, Question, Answer
+from testing.models import Student, Teacher, Group, Solution, Lecture, Problem, Test, Question, Answers
 from testing.widget import BootstrapDateTimePickerInput
 
 User = get_user_model()
@@ -229,67 +229,21 @@ class QuestionCreateForm(forms.ModelForm):
             field.label = ''
 
 
-# class AnswerCreateForm(forms.ModelForm):
-#     class Meta:
-#         model = Answer
-#         fields = ['text', 'is_correct']
-#
-#     def __init__(self, *args, **kwargs):
-#         super(AnswerCreateForm, self).__init__(*args, **kwargs)
-#         for field in self.fields.values():
-#             field.label = ''
-
-
-class CustomRadioSelect(forms.RadioSelect):
-    def value_from_datadict(self, data, files, name):
-        value = data.get(name)
-        return value == 'True' if value else False
-
-    def get_context(self, name, value, attrs):
-        context = super().get_context(name, value, attrs)
-        context['widget']['value'] = str(value).lower()
-        return context
-
-
-class AnswerCreateForm(forms.ModelForm):
-    is_correct = forms.BooleanField(widget=CustomRadioSelect)
-
+class AnswersCreateForm(forms.ModelForm):
     class Meta:
-        model = Answer
-        fields = ['text', 'is_correct']
+        model = Answers
+        fields = ['question', 'answer_1_text', 'answer_2_text', 'answer_3_text', 'answer_4_text', 'answer_1_correct', 'answer_2_correct', 'answer_3_correct', 'answer_4_correct', ]
+        widgets = {
+            'answer_1_correct': forms.CheckboxInput,
+            'answer_2_correct': forms.CheckboxInput,
+            'answer_3_correct': forms.CheckboxInput,
+            'answer_4_correct': forms.CheckboxInput,
+        }
 
     def __init__(self, *args, **kwargs):
-        super(AnswerCreateForm, self).__init__(*args, **kwargs)
+        super(AnswersCreateForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.label = ''
 
 
 QuestionFormSet = inlineformset_factory(Test, Question, form=QuestionCreateForm, extra=1, can_delete=True)
-AnswerFormSet = inlineformset_factory(Question, Answer, form=AnswerCreateForm, extra=4, can_delete=False)
-
-
-# class TestCreateForm(forms.ModelForm):
-#     questions = forms.CharField(widget=forms.Textarea)
-#     answers = forms.CharField(widget=forms.Textarea)
-#     correct_answers = forms.CharField(widget=forms.Textarea)
-#
-#     def __init__(self, teacher, *args, **kwargs):
-#         super(TestCreateForm, self).__init__(*args, **kwargs)
-#         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
-#         for field in self.fields.values():
-#             field.label = ''
-#
-#     def save(self, **kwargs):
-#         user = kwargs.pop('user')
-#         instance = super(TestCreateForm, self).save(**kwargs)
-#         instance.teacher = Teacher.objects.get(user=user)
-#         instance.save()
-#         return instance
-#
-#     class Meta:
-#         model = Test
-#         fields = ['group', 'title']
-
-
-
-
