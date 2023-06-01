@@ -3,18 +3,21 @@
 {% block content %}
     <h2 class="page-title">Groups</h2>
     <a href="{% url 'teachers:group_add' %}" class="btn btn-primary mb-3" role="button">New group</a>
-    <table class="table">
-        <tbody>
-        {% for group in groups %}
-            <tr>
-                <td class="align-middle"><a class="table-link"
-                                            href="{% url 'teachers:group' group.pk %}">{{ group.group_name }}</a></td>
-            </tr>
-        {% empty %}
-            <tr>
-                <td class="bg-light text-center font-italic" colspan="5">You haven't added any group yet</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div>
+        <table class="table">
+            <tbody>
+            {% for group in groups %}
+                <tr>
+                    <td class="align-middle"><a class="table-link"
+                                                href="{% url 'teachers:group' group.pk %}">{{ group.group_name }}</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td class="bg-light text-center font-italic" colspan="5">You haven't added any group yet</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

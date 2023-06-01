@@ -15,7 +15,7 @@ from faker import Faker
 from django.utils import timezone
 from datetime import timedelta
 
-from testing.models import User, Teacher, Student, Group, Problem
+from testing.models import User, Teacher, Student, Group, Problem, Lecture
 from testing.services.logging_service import log_user
 
 User = get_user_model()
@@ -172,5 +172,36 @@ def create_problems(request):
                     )
 
                     response_log.append(f'Created problem: {title} in group {group} by teacher {teacher}')
+
+    return JsonResponse(response_log, safe=False)
+
+
+def create_lectures(request):
+    response_log = []
+
+    lectures_data = json.load(open('lectures_generator.json'))
+
+    teachers = Teacher.objects.all()
+    for teacher in teachers:
+        groups = Group.objects.filter(teacher=teacher)
+        for group in groups:
+            for lecture_data in lectures_data:
+                title = lecture_data.get('title')
+                content = lecture_data.get('content')
+                attachment = lecture_data.get("attachment")
+
+                if not Lecture.objects.filter(
+                        attachment=attachment).filter(title=title).filter(description=content).exists():
+                    lecture = Lecture.objects.create(
+                        teacher=teacher,
+                        group=group,
+                        title=title,
+                        description=content,
+                    )
+                    if attachment:
+                        lecture.attachment = f'files_uploaded/attachments_files/{attachment}'
+                    lecture.save()
+
+                    response_log.append(f'Created lecture: {title} in group {group} by teacher {teacher}')
 
     return JsonResponse(response_log, safe=False)

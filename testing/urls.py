@@ -9,6 +9,7 @@ urlpatterns = [
     path('create_groups/', testing.create_groups, name='create_groups_bot'),
     path('create_students/', testing.create_students, name='create_students_bot'),
     path('create_problems/', testing.create_problems, name='create_problems_bot'),
+    path('create_lectures/', testing.create_lectures, name='create_lectures_bot'),
 
     path('students/', include(([
                                    path('', lambda request: redirect('my_account', permanent=True)),
@@ -19,6 +20,8 @@ urlpatterns = [
                                    path('lectures/<int:pk>/', students.lecture_view, name='lecture_view'),
                                    path('lectures/<int:pk>/download_attachment/', students.attachment_download,
                                         name='attachment_download'),
+                                   path('tests/', lambda request: redirect('my_account', permanent=True), name='test_list'),
+                                   # path('tests/<int:pk>/', teachers.TestUpdateView.as_view(), name='test_solve'),
                                ], 'testing'), namespace='students')),
 
     path('teachers/', include(([
