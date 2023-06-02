@@ -10,9 +10,9 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
-    UpdateLectureForm, SolutionViewForm, TestCreateForm, QuestionFormSet, AnswersCreateForm, AnswersFormSet
-from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Question, Answers, Test
-from testing.notifications import lecture_added_notify, problem_added_notify
+    UpdateLectureForm, SolutionViewForm, TestCreateForm, QuestionFormSet, AnswersFormSet
+from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Test
+from testing.services.notifications import lecture_added_notify, problem_added_notify
 
 
 class TeacherSignUpView(CreateView):
