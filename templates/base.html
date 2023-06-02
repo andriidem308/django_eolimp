@@ -27,13 +27,18 @@
     {% elif user.is_student %}
         {% include 'panel.html' with problems=student_problems %}
     {% endif %}
+
+    <div class="container-center-left">
+
+{% else %}
+    <div class="container-center">
 {% endif %}
-<div class="container-center">
 
-    {% block content %}
+{% block content %}
 
-    {% endblock %}
+{% endblock %}
 </div>
+
 <script>
     var some_input = document.getElementsByTagName('input');
 

@@ -4,21 +4,34 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="auth-form">
-        <h2>Log in</h2>
-        <br>
-        <form method="post" novalidate>
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ next }}">
-            {{ form | crispy }}
-            <div class="buttons-row">
-                <button type="submit" class="btn">Log in</button>
-                <a href="{% url 'home' %}">
-                    <button class="btn" type="button">Homepage</button>
-                </a>
-            </div>
-        </form>
+    <div class="auth-container">
+        <div class="auth-form login">
+            <h2>Log in</h2>
+            <br>
+            <form method="post" novalidate>
+                {% csrf_token %}
+{#                <input type="hidden" name="next" value="{{ next }}">#}
+                <div class="authfield-row row">
+                    <label class="authfield-label" for="{{ form.username.id_for_label }}">Username:</label>
+                    <div class="authfield-input">{{ form.username | as_crispy_field }}</div>
+                </div>
+                <div class="authfield-row row">
+                    <label class="authfield-label" for="{{ form.username.id_for_label }}">Password:</label>
+                    <div class="authfield-input">{{ form.password | as_crispy_field }}</div>
+                </div>
+
+
+                <div class="buttons-row">
+                    <button type="submit" class="btn">Log in</button>
+                    <a href="{% url 'home' %}">
+                        <button class="btn" type="button">Homepage</button>
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
+
+
 {% endblock %}
 
 

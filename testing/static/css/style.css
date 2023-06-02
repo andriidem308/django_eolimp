@@ -6,18 +6,22 @@ body {
     font-family: "Alatsi", serif;
 }
 
-.container-center {
+.container-center-left {
     word-wrap: break-word;
     position: absolute;
-    top: 10%;
-    left: 25%;
-    right: 25%;
+    top: 15%;
+    left: 30%;
+    right: 15%;
     bottom: 10%;
 }
 
-.container-center div {
-    padding: 15px;
-    /*margin-bottom: 10px;*/
+.container-center {
+    word-wrap: break-word;
+    position: absolute;
+    top: 15%;
+    left: 27%;
+    right: 23%;
+    bottom: 10%;
 }
 
 .greeting-container {
@@ -47,9 +51,9 @@ p {
 
 .navigation {
     position: fixed;
-    background-color: #3270ff;
+    background-color: #2379ad;
     height: 50px;
-    width: 200vh;
+    width: 100%;
     z-index: 100000;
 }
 
@@ -203,14 +207,18 @@ a:hover {
 }
 
 .auth-form {
-    top: 20%;
-    bottom: 20%;
     width: 500px;
-    margin: 15% auto;
     /*margin-top: ;*/
-    padding: 20px;
+    padding: 25px;
     background-color: #ffffff;
 
+}
+
+.auth-form.login {
+    margin: 15% auto;
+}
+.auth-form.signup {
+    margin: 10% auto;
 }
 
 .auth-form h2 {
@@ -256,9 +264,20 @@ button[type="submit"]:hover {
     border: 1px solid black;
 }
 
+.authfield-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.authfield-input {
+    width: 80%;
+}
+
 div.buttons-row {
     display: flex;
     justify-content: space-between;
+    margin: 25px 0;
 }
 
 table, .table  {
