@@ -2,6 +2,7 @@ import json
 import random
 
 import yaml
+from crispy_forms.helper import FormHelper
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -48,10 +49,17 @@ def home(request):
     return render(request, 'home.html')
 
 
+class CustomAuthenticationForm(AuthenticationForm):
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(request=None, *args, **kwargs)
+        self.fields['username'].label = 'a cool label'
+        self.fields['password'].label = 'another cool label'
+
+
 class UserLoginView(LoginView):
     model = User
-    form_class = AuthenticationForm
-    template_name = 'registration/login.html'
+    form_class = CustomAuthenticationForm
+    template_name = 'login.html'
 
 
 def create_teachers(request):

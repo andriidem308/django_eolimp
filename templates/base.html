@@ -2,24 +2,32 @@
 <!doctype html>
 <html lang="en">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Testing Service{% endblock %}</title>
     <link rel="icon" href="{% static 'img/favicon.ico' %}">
-    <link href="https://fonts.googleapis.com/css?family=Alatsi" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    {# ****************************** FONTS ****************************** #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alatsi&family=Roboto+Mono:wght@100;400&family=Source+Code+Pro&display=swap" rel="stylesheet">
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+
+    {# ****************************** CDN STYLES ****************************** #}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
+    {# ****************************** CUSTOM STYLES ****************************** #}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{#    <link rel="stylesheet" href="{% static 'css/old-style.css' %}">#}
 </head>
 <body>
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% if user.is_authenticated %}
     {% include '_navigation.html' with user=user %}
     {% if user.is_teacher %}
@@ -34,10 +42,42 @@
     <div class="container-center">
 {% endif %}
 
+<button id="darkbutton" class="darkmode">Turn on dark mode</button>
 {% block content %}
 
 {% endblock %}
 </div>
+
+<script>
+    var themeChanger = document.getElementById("themeChanger");
+    themeChanger.onclick = function (){
+        document.body.classList.toggle("dark-theme")
+    }
+</script>
+<script>
+
+    const body = document.querySelector('body');
+    const button = document.querySelector('#darkbutton');
+    function toggleDark() {
+        if (body.classList.contains('dark-theme')) {
+            body.classList.remove('dark-theme');
+            localStorage.setItem("theme", "light");
+            button.innerHTML = "Turn on dark mode";
+        } else {
+            body.classList.add('dark-theme');
+            localStorage.setItem("theme", "dark");
+            button.innerHTML = "Turn off dark mode";
+        }
+    }
+
+    if (localStorage.getItem("theme") === "dark") {
+        body.classList.add('dark-theme');
+        button.innerHTML = "Turn off dark mode";
+    }
+
+    document.querySelector('#darkbutton').addEventListener('click', toggleDark);
+</script>
+
 
 <script>
     var some_input = document.getElementsByTagName('input');

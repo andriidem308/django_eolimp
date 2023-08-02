@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2 class="page-title">{{ lecture.title }}</h2>
-    <p class="lead">{{ lecture.description }}</p>
+    <h3>{{ lecture.description }}</p>
     <div class="buttons-row">
     <a href="{% url 'students:lecture_list' %}">
         <button class="btn" type="button">Return to lectures</button>
