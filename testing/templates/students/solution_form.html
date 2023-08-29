@@ -4,9 +4,10 @@
 
 {% block content %}
     <h2 class="page-title">{{ problem.title }}</h2>
-    <p class="lead">{{ problem.description }}</p>
-    <p class="lead">Max score {{ problem.problem_value }}</p>
-    <p class="lead">Deadline: {{ problem.deadline }}</p>
+    <h3>{{ problem.description }}</h3>
+    <h3>Max score: {{ problem.problem_value }} points</h3>
+    <h3>Deadline: {{ problem.deadline }}</h3>
+    <h3>Solution: </h3>
     <form method="post" novalidate>
         {% csrf_token %}
         {{ form | crispy }}

@@ -1,5 +1,6 @@
 <div class="navigation">
     <ul class="navigation-list">
+        {% if user.is_authenticated %}
         <li class="navigation-item"><a class="navigation-link"
                                        href="{% if user.is_student %}{% url 'students:lecture_list' %}
                 {% else %}{% url 'teachers:lecture_change_list' %}{% endif %}">Lectures</a></li>
@@ -29,6 +30,13 @@
                     <i class="navigation-icon fa-brands fa-github"></i>
                 </a>
             </div>
+        </li>
+        {% endif %}
+        <li class="navigation-item">
+            <label id="darkbutton" class="darkmode">
+                <input id="darkbutton-checkbox" type="checkbox">
+                <span class="slider"></span>
+            </label>
         </li>
     </ul>
 </div>

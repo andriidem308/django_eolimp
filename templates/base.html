@@ -2,26 +2,34 @@
 <!doctype html>
 <html lang="en">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Testing Service{% endblock %}</title>
     <link rel="icon" href="{% static 'img/favicon.ico' %}">
-    <link href="https://fonts.googleapis.com/css?family=Alatsi" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    {# ****************************** FONTS ****************************** #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alatsi&family=Roboto+Mono:wght@100;400&family=Source+Code+Pro&display=swap" rel="stylesheet">
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+
+    {# ****************************** CDN STYLES ****************************** #}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+
+    {# ****************************** CUSTOM STYLES ****************************** #}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% include '_navigation.html' with user=user %}
 {% if user.is_authenticated %}
-    {% include '_navigation.html' with user=user %}
+
     {% if user.is_teacher %}
         {% include 'panel.html' with solutions=teacher_solutions %}
     {% elif user.is_student %}
@@ -38,6 +46,28 @@
 
 {% endblock %}
 </div>
+<script>
+
+    const body = document.querySelector('body');
+    const button = document.querySelector('#darkbutton');
+    function toggleDark() {
+        if (body.classList.contains('dark-theme')) {
+            body.classList.remove('dark-theme');
+            localStorage.setItem("theme", "light");
+        } else {
+            body.classList.add('dark-theme');
+            localStorage.setItem("theme", "dark");
+        }
+    }
+
+    if (localStorage.getItem("theme") === "dark") {
+        document.getElementById("darkbutton-checkbox").checked = true;
+        body.classList.add('dark-theme');
+    }
+
+    document.querySelector('#darkbutton').addEventListener('change', toggleDark);
+</script>
+
 
 <script>
     var some_input = document.getElementsByTagName('input');
