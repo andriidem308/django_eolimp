@@ -1,4 +1,5 @@
 import json
+import os
 import random
 
 import yaml
@@ -147,6 +148,12 @@ def create_problems(request):
 
     problems_data = json.load(open('problems_generator.json'))
 
+    if not os.path.exists('files_uploaded'):
+        os.mkdir('files_uploaded')
+
+    if not os.path.exists('files_uploaded/test_files'):
+        os.mkdir('files_uploaded/test_files')
+
     teachers = Teacher.objects.all()
     for teacher in teachers:
         groups = Group.objects.filter(teacher=teacher)
@@ -188,6 +195,12 @@ def create_lectures(request):
     response_log = []
 
     lectures_data = json.load(open('lectures_generator.json'))
+
+    if not os.path.exists('files_uploaded'):
+        os.mkdir('files_uploaded')
+
+    if not os.path.exists('files_uploaded/attachments_files'):
+        os.mkdir('files_uploaded/attachments_files')
 
     teachers = Teacher.objects.all()
     for teacher in teachers:
