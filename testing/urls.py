@@ -40,7 +40,7 @@ urlpatterns = [
         path('solutions/<int:pk>/', teachers.SolutionUpdateView.as_view(), name='solution_change'),
         path('solutions/<int:pk>/download/', teachers.solution_download, name='solution_download'),
         path('tests/', teachers.TestsListView.as_view(), name='test_change_list'),
-        path('tests/add', lambda request: redirect('my_account', permanent=True), name='test_add'),
+        # path('tests/add', lambda request: redirect('my_account', permanent=True), name='test_add'),
     ], 'testing'), namespace='teachers')),
 
 
