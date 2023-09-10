@@ -2,7 +2,8 @@
 
 {% block content %}
     <h2 class="page-title">Tests</h2>
-    <a href="{% url 'teachers:test_add' %}" class="btn btn-primary mb-3" role="button">New test</a>
+{#    <a href="{% url 'teachers:test_add' %}" class="btn btn-primary mb-3" role="button">New test</a>#}
+    <a href="#" class="btn btn-primary mb-3" role="button">New test</a>
     <table class="table mb-0">
         <tbody>
             {% for test in tests %}
@@ -11,7 +12,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td class="bg-light text-center font-italic" colspan="5">You haven't added any test yet</td>
+                <td class="text-center font-italic" colspan="5">You haven't added any test yet</td>
             </tr>
             {% endfor %}
         </tbody>
