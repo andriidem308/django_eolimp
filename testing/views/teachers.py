@@ -18,7 +18,7 @@ from testing.services.notifications import lecture_added_notify, problem_added_n
 class TeacherSignUpView(CreateView):
     model = User
     form_class = TeacherSignUpForm
-    template_name = 'registration/signup_form.html'
+    template_name = 'accounts/signup_form.html'
 
     def get_context_data(self, **kwargs):
         kwargs['user_type'] = 'teacher'

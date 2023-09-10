@@ -16,7 +16,7 @@ from testing.services.code_solver import test_student_solution
 class StudentSignUpView(CreateView):
     model = User
     form_class = StudentSignUpForm
-    template_name = 'registration/signup_form.html'
+    template_name = 'accounts/signup_form.html'
 
     def get_context_data(self, **kwargs):
         kwargs['user_type'] = 'student'
