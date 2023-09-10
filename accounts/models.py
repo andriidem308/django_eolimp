@@ -13,6 +13,8 @@ class UserManager(BaseUserManager):
         user.set_first_name(first_name)
         user.set_last_name(last_name)
 
+        user.is_active = True
+
         user.save(using=self._db)
 
         return user

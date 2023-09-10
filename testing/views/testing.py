@@ -1,21 +1,22 @@
 import json
 import os
 import random
+from datetime import timedelta
 
 import yaml
-from crispy_forms.helper import FormHelper
-from django.contrib.auth import get_user_model
+from django import forms
+from django.contrib.auth import authenticate, get_user_model, login, password_validation
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm as BaseAuthenticationForm, \
+    PasswordChangeForm as BasePasswordChangeForm
+from django.contrib.auth.views import LoginView as BaseLoginView, PasswordChangeView as BasePasswordChangeView
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from faker import Faker
-
-from django.utils import timezone
-from datetime import timedelta
 
 from testing.models import User, Teacher, Student, Group, Problem, Lecture
 from testing.services.logging_service import log_user
@@ -24,14 +25,14 @@ User = get_user_model()
 
 
 class SignUpView(TemplateView):
-    template_name = 'registration/signup_form.html'
+    template_name = 'accounts/signup_form.html'
 
 
 @method_decorator([login_required], name='dispatch')
 class AccountView(TemplateView):
     model = User
     context_object_name = 'user'
-    template_name = 'registration/my_account.html'
+    template_name = 'accounts/my_account.html'
 
     def get_context_data(self, **kwargs):
         context = super(AccountView, self).get_context_data(**kwargs)
@@ -50,17 +51,53 @@ def home(request):
     return render(request, 'home.html')
 
 
-class CustomAuthenticationForm(AuthenticationForm):
+class AuthenticationForm(BaseAuthenticationForm):
     def __init__(self, request=None, *args, **kwargs):
         super().__init__(request=None, *args, **kwargs)
-        self.fields['username'].label = 'a cool label'
-        self.fields['password'].label = 'another cool label'
+        self.fields['username'].label = 'Username'
+        self.fields['password'].label = 'Password'
 
 
-class UserLoginView(LoginView):
+class PasswordChangeForm(BasePasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].label = 'Old Password'
+        self.fields['new_password1'].label = 'New Password'
+        self.fields['new_password2'].label = 'Password Confirmation'
+
+
+class LoginView(BaseLoginView):
     model = User
-    form_class = CustomAuthenticationForm
-    template_name = 'login.html'
+    form_class = AuthenticationForm
+    template_name = 'accounts/login.html'
+
+
+@method_decorator([login_required], name='dispatch')
+class PasswordChangeView(BasePasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('my_account')
+    template_name = 'accounts/password_change.html'
+
+    old_password = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'current-password', 'autofocus': True, 'class': 'form-control',
+                   'placeholder': 'Old Password'}),
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'new-password', 'class': 'form-control', 'placeholder': 'New Password'}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'new-password', 'class': 'form-control', 'placeholder': 'Confirm password'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(PasswordChangeView, self).__init__(*args, **kwargs)
 
 
 def create_teachers(request):
