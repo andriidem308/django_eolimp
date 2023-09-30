@@ -97,6 +97,14 @@ class Lecture(models.Model):
         return self.title
 
 
+class EmailConfirmation(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    passcode = models.CharField(max_length=6)
+    is_confirmed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
 class Test(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -124,3 +132,4 @@ class Answers(models.Model):
     answer_2_correct = models.BooleanField(default=False, blank=True)
     answer_3_correct = models.BooleanField(default=False, blank=True)
     answer_4_correct = models.BooleanField(default=False, blank=True)
+
