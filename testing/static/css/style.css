@@ -366,7 +366,7 @@ button[type="submit"]:hover {
 }
 
 .authfield-input {
-    width: 80%;
+    /*width: 80%;*/
 }
 
 .authfield-input input {
