@@ -52,6 +52,13 @@ def home(request):
 
 
 class AuthenticationForm(BaseAuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'autocomplete': 'off'
+    }))
+    password = forms.CharField(widget=forms.TextInput(attrs={
+        'autocomplete': 'off'
+    }))
+
     def __init__(self, request=None, *args, **kwargs):
         super().__init__(request=None, *args, **kwargs)
         self.fields['username'].label = 'Username'
@@ -59,6 +66,16 @@ class AuthenticationForm(BaseAuthenticationForm):
 
 
 class PasswordChangeForm(BasePasswordChangeForm):
+    old_password = forms.CharField(widget=forms.TextInput(attrs={
+        'autocomplete': 'off'
+    }))
+    new_password1 = forms.CharField(widget=forms.TextInput(attrs={
+        'autocomplete': 'off'
+    }))
+    new_password2 = forms.CharField(widget=forms.TextInput(attrs={
+        'autocomplete': 'off'
+    }))
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['old_password'].label = 'Old Password'

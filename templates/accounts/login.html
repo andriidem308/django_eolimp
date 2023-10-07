@@ -7,16 +7,20 @@
     <div class="auth-container">
         <div class="auth-form login">
             <h2>Log in</h2>
-            <br>
+
             <form method="post" novalidate>
                 {% csrf_token %}
 {#                <input type="hidden" name="next" value="{{ next }}">#}
                 <div class="authfield-row row">
-                    <label class="authfield-label" for="{{ form.username.id_for_label }}">Username:</label>
+                    <div class="authfield-label">
+                        <label for="{{ form.username.id_for_label }}">Username:</label>
+                    </div>
                     <div class="authfield-input">{{ form.username }}</div>
                 </div>
                 <div class="authfield-row row">
-                    <label class="authfield-label" for="{{ form.password.id_for_label }}">Password:</label>
+                    <div class="authfield-label">
+                        <label for="{{ form.password.id_for_label }}">Password:</label>
+                    </div>
                     <div class="authfield-input">{{ form.password }}</div>
                 </div>
 

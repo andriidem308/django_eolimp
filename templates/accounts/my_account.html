@@ -6,7 +6,7 @@
 {% block content %}
     <div class="text-center">
         <h2>My account</h2>
-        <br>
+
         <form class="account-form" method="post" novalidate>
             {% csrf_token %}
             <p><b>Name:</b>&ensp;{{ user.first_name }}</p>
