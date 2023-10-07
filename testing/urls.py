@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('students/', include(([
                                    path('', lambda request: redirect('my_account', permanent=True)),
+                                   path('verify-email/', students.verify_email, name='verify_email'),
                                    path('problems/', students.ProblemListView.as_view(), name='problem_list'),
                                    path('problems/<int:pk>/', students.take_problem, name='take_problem'),
                                    path('solutions/', students.SolutionListView.as_view(), name='solution_list'),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('teachers/', include(([
 
         path('', lambda request: redirect('my_account', permanent=True)),
+        path('verify-email/', teachers.verify_email, name='verify_email'),
         path('problems/', teachers.ProblemsListView.as_view(), name='problem_change_list'),
         path('problems/add/', teachers.problem_add, name='problem_add'),
         path('problems/<int:pk>/', teachers.ProblemUpdateView.as_view(), name='problem_change'),

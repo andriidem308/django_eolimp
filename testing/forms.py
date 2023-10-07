@@ -198,48 +198,52 @@ class SolutionViewForm(forms.ModelForm):
         fields = ['score']
 
 
-class TestCreateForm(forms.ModelForm):
-    class Meta:
-        model = Test
-        fields = ['group', 'title']
-
-    def __init__(self, teacher, *args, **kwargs):
-        super(TestCreateForm, self).__init__(*args, **kwargs)
-        self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
-        for field in self.fields.values():
-            field.label = ''
-
-    def save(self, **kwargs):
-        user = kwargs.pop('user')
-        instance = super(TestCreateForm, self).save(**kwargs)
-        instance.teacher = Teacher.objects.get(user=user)
-        instance.save()
-        return instance
+class EmailConfirmationForm(forms.Form):
+    passcode = forms.CharField(max_length=6, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 
-class QuestionCreateForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = ['text']
-        widgets = {'text': forms.TextInput(attrs={'size': 80})}
-
-    def __init__(self, *args, **kwargs):
-        super(QuestionCreateForm, self).__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.label = ''
-
-
-class AnswersCreateForm(forms.ModelForm):
-    class Meta:
-        model = Answers
-        fields = ['question', 'answer_1_text', 'answer_2_text', 'answer_3_text', 'answer_4_text', 'answer_1_correct', 'answer_2_correct', 'answer_3_correct', 'answer_4_correct', ]
-
-    def __init__(self, question, *args, **kwargs):
-        super(AnswersCreateForm, self).__init__(*args, **kwargs)
-        self.fields['question'] = question
-        for field in self.fields.values():
-            field.label = ''
-
-
-QuestionFormSet = inlineformset_factory(Test, Question, form=QuestionCreateForm, extra=1, can_delete=True)
-AnswersFormSet = inlineformset_factory(Question, Answers, form=AnswersCreateForm, extra=4, can_delete=False)
+# class TestCreateForm(forms.ModelForm):
+#     class Meta:
+#         model = Test
+#         fields = ['group', 'title']
+#
+#     def __init__(self, teacher, *args, **kwargs):
+#         super(TestCreateForm, self).__init__(*args, **kwargs)
+#         self.fields['group'] = forms.ModelChoiceField(queryset=Group.objects.filter(teacher=teacher))
+#         for field in self.fields.values():
+#             field.label = ''
+#
+#     def save(self, **kwargs):
+#         user = kwargs.pop('user')
+#         instance = super(TestCreateForm, self).save(**kwargs)
+#         instance.teacher = Teacher.objects.get(user=user)
+#         instance.save()
+#         return instance
+#
+#
+# class QuestionCreateForm(forms.ModelForm):
+#     class Meta:
+#         model = Question
+#         fields = ['text']
+#         widgets = {'text': forms.TextInput(attrs={'size': 80})}
+#
+#     def __init__(self, *args, **kwargs):
+#         super(QuestionCreateForm, self).__init__(*args, **kwargs)
+#         for field in self.fields.values():
+#             field.label = ''
+#
+#
+# class AnswersCreateForm(forms.ModelForm):
+#     class Meta:
+#         model = Answers
+#         fields = ['question', 'answer_1_text', 'answer_2_text', 'answer_3_text', 'answer_4_text', 'answer_1_correct', 'answer_2_correct', 'answer_3_correct', 'answer_4_correct', ]
+#
+#     def __init__(self, question, *args, **kwargs):
+#         super(AnswersCreateForm, self).__init__(*args, **kwargs)
+#         self.fields['question'] = question
+#         for field in self.fields.values():
+#             field.label = ''
+#
+#
+# QuestionFormSet = inlineformset_factory(Test, Question, form=QuestionCreateForm, extra=1, can_delete=True)
+# AnswersFormSet = inlineformset_factory(Question, Answers, form=AnswersCreateForm, extra=4, can_delete=False)
