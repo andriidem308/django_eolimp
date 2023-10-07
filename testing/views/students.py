@@ -1,5 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.core.checks import messages
+from django.core.mail import send_mail
 from django.db import transaction
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -7,10 +9,13 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView
 
+
+from django_eolimp.settings import EMAIL_HOST_USER
 from testing.decorators import student_required
-from testing.forms import StudentSignUpForm, CreateSolutionForm
-from testing.models import Problem, User, Solution, Lecture, Student
+from testing.forms import StudentSignUpForm, CreateSolutionForm, EmailConfirmationForm
+from testing.models import Problem, User, Solution, Lecture, Student, EmailConfirmation
 from testing.services.code_solver import test_student_solution
+from testing.services.verification import generate_passcode, send_verification_passcode
 
 
 class StudentSignUpView(CreateView):
@@ -24,8 +29,33 @@ class StudentSignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
+        passcode = send_verification_passcode(user.email)
+        EmailConfirmation.objects.create(user=user, passcode=passcode)
         login(self.request, user)
+        return redirect('students:verify_email')
+
+
+@login_required
+def verify_email(request):
+    email_confirmation = EmailConfirmation.objects.get(user=request.user)
+
+    if email_confirmation.is_confirmed:
         return redirect('students:problem_list')
+
+    if request.method == 'POST':
+        form = EmailConfirmationForm(request.POST)
+        if form.is_valid():
+            passcode = form.cleaned_data['passcode']
+
+            if email_confirmation.passcode == passcode:
+                email_confirmation.is_confirmed = True
+                email_confirmation.save()
+                return redirect('students:problem_list')
+
+    else:
+        form = EmailConfirmationForm()
+
+    return render(request, 'students/verify_email.html', {'form': form})
 
 
 @method_decorator([login_required, student_required], name='dispatch')

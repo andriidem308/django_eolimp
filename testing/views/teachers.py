@@ -10,9 +10,10 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from testing.decorators import teacher_required
 from testing.forms import TeacherSignUpForm, CreateProblemForm, CreateGroupForm, LectureCreateForm, UpdateProblemForm, \
-    UpdateLectureForm, SolutionViewForm, TestCreateForm, QuestionFormSet, AnswersFormSet
-from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Test
+    UpdateLectureForm, SolutionViewForm, EmailConfirmationForm
+from testing.models import Problem, User, Lecture, Student, Solution, Group, Teacher, Test, EmailConfirmation
 from testing.services.notifications import lecture_added_notify, problem_added_notify
+from testing.services.verification import send_verification_passcode
 
 
 class TeacherSignUpView(CreateView):
@@ -26,8 +27,37 @@ class TeacherSignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        login(self.request, user)
+        passcode = send_verification_passcode(user.email)
+
+        EmailConfirmation.objects.create(user=user, passcode=passcode)
+
+        return redirect('teachers:verify_email')
+
+
+def verify_email(request):
+    email_confirmation = EmailConfirmation.objects.get(user=request.user)
+
+    if email_confirmation.is_confirmed:
         return redirect('teachers:problem_change_list')
+
+    if request.method == 'POST':
+        form = EmailConfirmationForm(request.POST)
+        if form.is_valid():
+            passcode = form.cleaned_data['passcode']
+
+            if email_confirmation.passcode == passcode:
+                email_confirmation.is_confirmed = True
+                email_confirmation.save()
+
+                print(f'is user authenticated before login: {request.user.is_authenticated}')
+                login(request, request.user)
+                print(f'is user authenticated after login: {request.user.is_authenticated}')
+
+                return redirect('teachers:problem_change_list')
+    else:
+        form = EmailConfirmationForm()
+
+    return render(request, 'teachers/verify_email.html', {'form': form})
 
 
 @login_required
