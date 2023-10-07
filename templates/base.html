@@ -29,23 +29,18 @@
 <body>
 {% include '_navigation.html' with user=user %}
 {% if user.is_authenticated %}
-
     {% if user.is_teacher %}
         {% include 'panel.html' with solutions=teacher_solutions %}
     {% elif user.is_student %}
         {% include 'panel.html' with problems=student_problems %}
     {% endif %}
-
-    <div class="container-center-left">
-
-{% else %}
-    <div class="container-center">
 {% endif %}
 
+<div class="container-center">
 {% block content %}
-
 {% endblock %}
 </div>
+
 <script>
 
     const body = document.querySelector('body');
