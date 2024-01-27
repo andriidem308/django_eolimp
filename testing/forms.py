@@ -21,8 +21,6 @@ class TeacherSignUpForm(UserCreationForm):
 
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'E-mail'}),
                              max_length=64, label='')
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
-                               max_length=32, label='')
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
                                 label='')
     password2 = forms.CharField(
@@ -33,7 +31,9 @@ class TeacherSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'email') + UserCreationForm.Meta.fields + ('secret_key',)
+        print("FIELDS:::::::::")
+        print(UserCreationForm.Meta.fields)
+        fields = ('first_name', 'last_name', 'email', 'secret_key',)
 
     @transaction.atomic
     def save(self):
@@ -59,8 +59,6 @@ class StudentSignUpForm(UserCreationForm):
                                  max_length=32, label='')
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Surname'}),
                                 max_length=32, label='')
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
-                               max_length=32, label='')
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'E-mail'}),
                              max_length=64, label='')
 
@@ -73,7 +71,7 @@ class StudentSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('first_name', 'last_name', 'email') + UserCreationForm.Meta.fields + ('group',)
+        fields = ('first_name', 'last_name', 'email', 'group',)
 
     @transaction.atomic
     def save(self):
