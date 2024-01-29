@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.urls import include, path
 
 from .views import testing, students, teachers
+from .views.students import verify_email
 
 urlpatterns = [
     path('', testing.home, name='home'),
@@ -13,6 +14,7 @@ urlpatterns = [
 
     path('students/', include(([
                                    path('', lambda request: redirect('my_account', permanent=True)),
+                                   path('verify-email/', verify_email, name='verify_email'),
                                    path('problems/', students.ProblemListView.as_view(), name='problem_list'),
                                    path('problems/<int:pk>/', students.take_problem, name='take_problem'),
                                    path('solutions/', students.SolutionListView.as_view(), name='solution_list'),
@@ -27,6 +29,7 @@ urlpatterns = [
     path('teachers/', include(([
 
         path('', lambda request: redirect('my_account', permanent=True)),
+        path('verify-email/', verify_email, name='verify_email'),
         path('problems/', teachers.ProblemsListView.as_view(), name='problem_change_list'),
         path('problems/add/', teachers.problem_add, name='problem_add'),
         path('problems/<int:pk>/', teachers.ProblemUpdateView.as_view(), name='problem_change'),

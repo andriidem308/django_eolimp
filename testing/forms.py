@@ -196,6 +196,9 @@ class SolutionViewForm(forms.ModelForm):
         fields = ['score']
 
 
+class EmailConfirmationForm(forms.Form):
+    passcode = forms.CharField(max_length=6, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
 class TestCreateForm(forms.ModelForm):
     class Meta:
         model = Test
